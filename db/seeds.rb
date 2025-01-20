@@ -37,11 +37,11 @@ HTTP_REQUEST.use_ssl = true
 # IGDB seems to only allow 50 limit
 LIMIT = 50
 
-def get_query(offset, fields_array, category_optional)
+def get_query(offset, fields_array, additional_game_parameters = "")
   # category_optional is there for when importing games only. Otherwise should be empty string ""
   return <<~QUERY
       fields #{fields_array.join(", ")};
-      #{category_optional}
+      #{additional_game_parameters}
       limit #{LIMIT};
       offset #{offset};
       QUERY
@@ -50,14 +50,15 @@ end
 # The import order of tables should always be platforms > games > covers
 
 
-# The reason why platform is not linked to games is because games do not have a singular platform id. Each has an array of ids instead, which will be stored in the db as a json object rather than a singular id, which most games do not have. Even ones who do will still be in an array anyway
+#### Testing seed methods
+
 def get_platforms
   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/platforms'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
   0.upto(Float::INFINITY) do |i|
     puts i
     offset = (i + 1) * LIMIT
-    request.body = get_query(offset, ["name", "slug", "id"], "")
+    request.body = get_query(offset, ["name", "slug", "id"])
     platforms_data = JSON.parse(HTTP_REQUEST.request(request).body)
     break if platforms_data.empty?
 
@@ -73,15 +74,15 @@ def get_platforms
   puts "Platforms import complete"
 end
 
-# get_platforms
+get_platforms
 
 def get_games
   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/games'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
-  0.upto(Float::INFINITY) do |i|
+  30 times do |i|
     puts i
     offset = (i + 1) * LIMIT
-    request.body = get_query(offset, ["name", "platforms", "slug", "summary", "url", "cover", "id"], "where category = 0;")
+    request.body = get_query(offset, ["name", "platforms", "slug", "summary", "url", "cover", "id"], "where category = 0 & platforms = [73];")
     games_data = JSON.parse(http.request(request).body)
     break if games_data.empty?
 
@@ -105,15 +106,17 @@ def get_games
   puts "Games import complete"
 end
 
-# get_games
+get_games
 
 def get_covers
   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/covers'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
-  0.upto(Float::INFINITY) do |i|
+  Game.all.each do |game|
     puts i
+
+    id = game.igdb_id
     offset = (i + 1) * LIMIT
-    request.body = get_query(offset, ["url", "id", "game"], "")
+    request.body = get_query(offset, ["url", "id", "game"], "where id = #{id};")
     covers_data = JSON.parse(HTTP_REQUEST.request(request).body)
     break if covers_data.empty?
 
@@ -135,3 +138,94 @@ def get_covers
 end
 
 get_covers
+
+
+
+
+#### Production seed methods
+
+# The reason why platform is not linked to games is because games do not have a singular platform id. Each has an array of ids instead, which will be stored in the db as a json object rather than a singular id, which most games do not have. Even ones who do will still be in an array anyway
+# def get_platforms
+#   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/platforms'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
+
+#   0.upto(Float::INFINITY) do |i|
+#     puts i
+#     offset = (i + 1) * LIMIT
+#     request.body = get_query(offset, ["name", "slug", "id"])
+#     platforms_data = JSON.parse(HTTP_REQUEST.request(request).body)
+#     break if platforms_data.empty?
+
+#     platforms_data.each do |platform|
+#       platform_id = platform["id"]
+#       next if Platform.find_by(platform_id: platform_id)
+
+#       name = platform["name"]
+#       slug = platform["slug"]
+#       Platform.create!(platform_id:, name:, slug:)
+#     end
+#   end
+#   puts "Platforms import complete"
+# end
+
+# # get_platforms
+
+# def get_games
+#   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/games'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
+
+#   0.upto(Float::INFINITY) do |i|
+#     puts i
+#     offset = (i + 1) * LIMIT
+#     request.body = get_query(offset, ["name", "platforms", "slug", "summary", "url", "cover", "id"], "where category = 0;")
+#     games_data = JSON.parse(http.request(request).body)
+#     break if games_data.empty?
+
+#     games_data.each do |game|
+#       igdb_id = game["id"]
+#       next if Game.find_by(igdb_id: igdb_id)
+
+#       name = game["name"]
+#       platforms = JSON.generate(game["platforms"])
+#       slug = game["slug"]
+#       summary = game["summary"]
+#       url = game["url"]
+#       cover_id = game["cover"]
+#       Game.create!(igdb_id:, name:, platforms:, slug:, summary:, url:, cover_id:)
+#       puts Game.count
+#     end
+#   end
+#   # query notes
+#   # category 0 is a main game (i.e. not dlc, addon, mod etc)
+#   # status 0 is a released game
+#   puts "Games import complete"
+# end
+
+# # get_games
+
+# def get_covers
+#   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/covers'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
+
+#   0.upto(Float::INFINITY) do |i|
+#     puts i
+#     offset = (i + 1) * LIMIT
+#     request.body = get_query(offset, ["url", "id", "game"])
+#     covers_data = JSON.parse(HTTP_REQUEST.request(request).body)
+#     break if covers_data.empty?
+
+#     covers_data.each do |cover|
+#       cover_id = cover["id"]
+#       next if Cover.find_by(cover_id: cover_id)
+
+#       url = cover["url"]
+#       cover = Cover.new(cover_id:, url:)
+
+#       game_id = cover["game"]
+#       game = Game.find_by(igdb_id: game_id)
+#       cover.game = game
+
+#       cover.save
+#     end
+#   end
+#   puts "Covers import complete"
+# end
+
+# get_covers
