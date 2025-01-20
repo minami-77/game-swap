@@ -37,11 +37,12 @@ HTTP_REQUEST.use_ssl = true
 # IGDB seems to only allow 50 limit
 LIMIT = 50
 
-def get_query(offset, fields_array, additional_game_parameters = "")
+def get_query(offset, fields_array, additional_game_parameters = "", order_by_clause = "")
   # category_optional is there for when importing games only. Otherwise should be empty string ""
   return <<~QUERY
       fields #{fields_array.join(", ")};
       #{additional_game_parameters}
+      #{order_by_clause}
       limit #{LIMIT};
       offset #{offset};
       QUERY
@@ -56,8 +57,7 @@ def get_platforms
   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/platforms'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
   0.upto(Float::INFINITY) do |i|
-    puts i
-    offset = (i + 1) * LIMIT
+    offset = i * LIMIT
     request.body = get_query(offset, ["name", "slug", "id"])
     platforms_data = JSON.parse(HTTP_REQUEST.request(request).body)
     break if platforms_data.empty?
@@ -79,11 +79,11 @@ get_platforms
 def get_games
   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/games'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
-  30 times do |i|
-    puts i
-    offset = (i + 1) * LIMIT
-    request.body = get_query(offset, ["name", "platforms", "slug", "summary", "url", "cover", "id"], "where category = 0 & platforms = [73];")
-    games_data = JSON.parse(http.request(request).body)
+  1.times do |i|
+    offset = i * LIMIT
+    request.body = get_query(offset, ["name", "platforms", "slug", "summary", "url", "cover", "id"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
+    puts request.body
+    games_data = JSON.parse(HTTP_REQUEST.request(request).body)
     break if games_data.empty?
 
     games_data.each do |game|
@@ -97,7 +97,6 @@ def get_games
       url = game["url"]
       cover_id = game["cover"]
       Game.create!(igdb_id:, name:, platforms:, slug:, summary:, url:, cover_id:)
-      puts Game.count
     end
   end
   # query notes
@@ -111,35 +110,34 @@ get_games
 def get_covers
   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/covers'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
-  Game.all.each do |game|
-    puts i
-
+  Game.all.each_with_index do |game, index|
     id = game.igdb_id
-    offset = (i + 1) * LIMIT
-    request.body = get_query(offset, ["url", "id", "game"], "where id = #{id};")
+    offset = 0
+    request.body = get_query(offset, ["url", "id", "game"], "where game = #{id};")
     covers_data = JSON.parse(HTTP_REQUEST.request(request).body)
-    break if covers_data.empty?
+    next if covers_data.empty?
 
+    #### THE OFFSET IS THE ISSUE
     covers_data.each do |cover|
       cover_id = cover["id"]
       next if Cover.find_by(cover_id: cover_id)
 
       url = cover["url"]
-      cover = Cover.new(cover_id:, url:)
+      url = url.gsub("t_thumb", "t_original")
+      new_cover = Cover.new(cover_id:, url:)
 
       game_id = cover["game"]
       game = Game.find_by(igdb_id: game_id)
-      cover.game = game
-
-      cover.save
+      new_cover.game = game
+      if !new_cover.save
+        puts new_cover.errors.full_messages
+      end
     end
   end
   puts "Covers import complete"
 end
 
 get_covers
-
-
 
 
 #### Production seed methods
@@ -150,7 +148,7 @@ get_covers
 
 #   0.upto(Float::INFINITY) do |i|
 #     puts i
-#     offset = (i + 1) * LIMIT
+#     offset = i * LIMIT
 #     request.body = get_query(offset, ["name", "slug", "id"])
 #     platforms_data = JSON.parse(HTTP_REQUEST.request(request).body)
 #     break if platforms_data.empty?
@@ -174,9 +172,9 @@ get_covers
 
 #   0.upto(Float::INFINITY) do |i|
 #     puts i
-#     offset = (i + 1) * LIMIT
+#     offset = i * LIMIT
 #     request.body = get_query(offset, ["name", "platforms", "slug", "summary", "url", "cover", "id"], "where category = 0;")
-#     games_data = JSON.parse(http.request(request).body)
+#     games_data = JSON.parse(HTTP_REQUEST.request(request).body)
 #     break if games_data.empty?
 
 #     games_data.each do |game|
@@ -206,7 +204,7 @@ get_covers
 
 #   0.upto(Float::INFINITY) do |i|
 #     puts i
-#     offset = (i + 1) * LIMIT
+#     offset = i * LIMIT
 #     request.body = get_query(offset, ["url", "id", "game"])
 #     covers_data = JSON.parse(HTTP_REQUEST.request(request).body)
 #     break if covers_data.empty?
@@ -216,13 +214,14 @@ get_covers
 #       next if Cover.find_by(cover_id: cover_id)
 
 #       url = cover["url"]
-#       cover = Cover.new(cover_id:, url:)
+#       new_cover = Cover.new(cover_id:, url:)
 
 #       game_id = cover["game"]
 #       game = Game.find_by(igdb_id: game_id)
-#       cover.game = game
-
-#       cover.save
+#       new_cover.game = game
+#       if new_cover.save
+#         puts new_cover.errors.full_messages
+#       end
 #     end
 #   end
 #   puts "Covers import complete"

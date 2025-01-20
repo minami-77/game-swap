@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  has_many :covers
+  has_one :cover
   has_many :listings
 
   validates :igdb_id, presence: true, uniqueness: true
