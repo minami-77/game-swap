@@ -64,50 +64,17 @@
 <part>id</part>
 </key>
 </table>
-<table x="556" y="342" name="Listings">
+<table x="380" y="460" name="Offers">
 <row name="id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="Title" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<row name="image_url" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<row name="Price" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
-<default>NULL</default></row>
-<row name="description" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<row name="max" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="id_users" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Users" row="id" />
 </row>
-<row name="Type" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<row name="Game_info" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<key type="PRIMARY" name="">
-<part>id</part>
-</key>
-</table>
-<table x="323" y="127" name="Offers">
-<row name="id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
 <row name="id_Listings" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Listings" row="id" />
-</row>
-<row name="id_users" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Users" row="id" />
 </row>
 <row name="Comments" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
@@ -128,7 +95,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="843" y="327" name="Games">
+<table x="836" y="350" name="Games">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -154,25 +121,25 @@
 <part>id</part>
 </key>
 </table>
-<table x="1127" y="372" name="Covers">
+<table x="981" y="355" name="Covers">
 <row name="id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="url" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<row name="cover_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="id_Games" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Games" row="id" />
 </row>
+<row name="url" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="cover_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="1013" y="120" name="Platforms">
+<table x="826" y="177" name="Platforms">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -189,17 +156,17 @@
 <part>id</part>
 </key>
 </table>
-<table x="861" y="644" name="Listings (new)">
+<table x="658" y="356" name="Listings">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="id_Games" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Games" row="id" />
-</row>
 <row name="id_users" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Users" row="id" />
+</row>
+<row name="id_Games" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Games" row="id" />
 </row>
 <row name="price" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>

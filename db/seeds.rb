@@ -34,7 +34,7 @@ BEARER_TOKEN = token_json["access_token"]
 HTTP_REQUEST = Net::HTTP.new('api.igdb.com',443)
 HTTP_REQUEST.use_ssl = true
 
-# IGDB seems to only allow 50 limit
+# IGDB seems to only allow 50 limit per request, so pagination with offset is the key
 LIMIT = 50
 
 def get_query(offset, fields_array, additional_game_parameters = "", order_by_clause = "")
@@ -52,6 +52,11 @@ end
 
 
 #### Testing seed methods
+
+Platform.destroy_all
+# Cover destroy has to be before game because of dependencies
+Cover.destroy_all
+Game.destroy_all
 
 def get_platforms
   request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/platforms'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
@@ -82,7 +87,6 @@ def get_games
   1.times do |i|
     offset = i * LIMIT
     request.body = get_query(offset, ["name", "platforms", "slug", "summary", "url", "cover", "id"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
-    puts request.body
     games_data = JSON.parse(HTTP_REQUEST.request(request).body)
     break if games_data.empty?
 
