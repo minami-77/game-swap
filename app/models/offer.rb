@@ -8,5 +8,5 @@ class Offer < ApplicationRecord
   # ----- TODO: DISCUSS VALIDATIONS -----
   # validates :price, presence: true
   # validates :price, numericality: { greater_than: 0 }
-  # validates :comments, length: { maximum: 255 }
+  validates :comments, length: { maximum: 255 }
 end
