@@ -1,1 +1,54 @@
-// Specific CSS for your home-page
+.banner {
+  position: relative;
+  width: 100%;
+  height: auto; // Adjust the height as needed
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Ensures the image covers the banner area
+  }
+
+  .search-bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6); // Darker background for better contrast
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .form-inline {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .form-control {
+        border-radius: 5px;
+        padding: 10px;
+        border: none;
+        width: 300px;
+        margin-right: 10px;
+      }
+
+      .btn-primary {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+}
