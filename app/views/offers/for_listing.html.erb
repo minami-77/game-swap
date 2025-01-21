@@ -1,0 +1,18 @@
+<div class="contianer mt-3">
+  <div class="row">
+    <div class="col-6">
+      <h1><%= @listing.game.name %></h1>
+      <% @offers.each do |offer| %>
+        <div class="card-product">
+          <p><%= @offer.start_date %></p>
+          <p><%= @offer.price %></p>
+          <p><%= @offer.comments %><p>
+          <p>From <%= @offer.user.email %></p>
+          <%# Add link_to later when created %>
+          <button class="btn btn-primary">Accept</button>
+          <%= link_to "Reject", offer_path(offer), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
