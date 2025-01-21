@@ -16,6 +16,6 @@ class ListingsController < ApplicationController
 
   private
 
-  def listing_params()
+  def listing_params
   end
 end

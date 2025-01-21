@@ -1,7 +1,4 @@
 class OffersController < ApplicationController
-  def index
-  end
-
   def create
   end
 
@@ -13,6 +10,6 @@ class OffersController < ApplicationController
 
   private
 
-  def offer_params()
+  def offer_params
   end
 end
