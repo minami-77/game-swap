@@ -1,0 +1,12 @@
+<div class="dashboard-body d-flex flex-column align-items-center w-100 d-none" data-display="offers">
+  <h2>My offers</h2>
+  <div class="dashboard-offers-container row d-flex justify-content-center w-100">
+    <% @offers.each do |offer| %>
+      <%= link_to listing_path(offer.listing), class: "dashboard-listing card text-decoration-none col-3 m-2 p-1" do %>
+        <img src="<%= offer.listing.game.cover.url %>" alt="<%= offer.listing.game.name %> cover art">
+        <h4><%= offer.listing.game.name %></h4>
+        <p><strong>Offers: </strong><%= offer.listing.offers.count %></p>
+      <% end %>
+    <% end %>
+  </div>
+</div>

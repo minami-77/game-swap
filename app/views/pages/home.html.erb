@@ -1,2 +1,41 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<!-- BANNER -->
+<div class="banner">
+  <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-responsive' %>
+  <div class="search-bar">
+    <%= simple_form_for :search, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
+      <%= f.input :query, label: false, placeholder: "Search for listings...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
+      <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <% if user_signed_in? %>
+        <%= link_to "Create a Listing", new_listing_path, class: "btn btn-primary" %>
+      <% else %>
+        <%= link_to "Sign up to Create a Listing", new_user_registration_path, class: "btn btn-primary" %>
+      <% end %>
+
+      <% if @query.present? %>
+        <h2>Search Results for "<%= @query %>":</h2>
+
+        <% if @listings.any? %>
+          <ul>
+            <% @listings.each do |listing| %>
+              <li>
+                <%= listing.name %>
+                <% if listing.game %>
+                  - <%= listing.game.name %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p>No listings found.</p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

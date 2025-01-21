@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   # root "posts#index"
   # get "dashboard/listing/:id/offers", to: "offers#index", as: :dashboard_listing_offers
   get "dashboard/listing/:id/offers", to: "offers#index", as: :dashboard_listing_offers
+  get "/dashboard", to: "dashboard#index", as: :dashboard
 end
