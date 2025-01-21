@@ -232,3 +232,9 @@ get_covers
 # end
 
 # get_covers
+
+Listing.create!(price: 1000, description: "something something", max: 10, user: User.all[0], game: Game.all[0])
+Listing.create!(price: 900, description: "something something", max: 10, user: User.all[0], game: Game.all[1])
+Listing.create!(price: 800, description: "something something", max: 10, user: User.all[0], game: Game.all[2])
+Listing.create!(price: 700, description: "something something", max: 10, user: User.all[0], game: Game.all[3])
+Listing.create!(price: 600, description: "something something", max: 10, user: User.all[0], game: Game.all[4])

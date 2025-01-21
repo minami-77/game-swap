@@ -3,6 +3,8 @@ class ListingsController < ApplicationController
   end
 
   def show
+    @game = Game.find(params[:id])
+    @listing = Listing.find(params[:id])
   end
 
   def create
