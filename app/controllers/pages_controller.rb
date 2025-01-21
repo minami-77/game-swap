@@ -3,6 +3,7 @@ class PagesController < ApplicationController
 
   def home
     @query = params[:query]
+    puts query
     if @query.present?
       @listings = Listing.where('name LIKE ?', "%#{query}%")
     else
