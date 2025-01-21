@@ -28,6 +28,8 @@ gem "jbuilder"
 
 gem "devise"
 
+gem 'ostruct', '~> 0.1.0'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

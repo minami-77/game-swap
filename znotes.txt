@@ -1,0 +1,3 @@
+- Added schema file containing XML of schema from Kitt
+- Added client/secret keys in env file
+- Added games table
