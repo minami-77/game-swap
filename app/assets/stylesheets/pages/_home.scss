@@ -11,6 +11,14 @@
     object-fit: cover; // Ensures the image covers the banner area
   }
 
+  .search-bar-container {
+    position: absolute;
+    bottom: 30px; // Adjust the distance from the bottom as needed
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+
   .search-bar {
     position: absolute;
     top: 50%;
@@ -51,4 +59,5 @@
       }
     }
   }
+}
 }

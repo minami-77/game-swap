@@ -1,11 +1,13 @@
 <!-- BANNER -->
 <div class="banner">
   <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-responsive' %>
-  <div class="search-bar">
-    <%= simple_form_for :search, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
-      <%= f.input :query, label: false, placeholder: "Search for listings...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
-      <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
-    <% end %>
+  <div class="search-bar-container">
+    <div class="search-bar">
+      <%= simple_form_for :search, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
+        <%= f.input :query, label: false, placeholder: "Search for listings...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
+        <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
+      <% end %>
+    </div>
   </div>
 </div>
 
