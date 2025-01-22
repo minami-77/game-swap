@@ -1,11 +1,13 @@
 <!-- BANNER -->
 <div class="banner">
   <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-responsive' %>
-  <div class="search-bar">
-    <%= simple_form_for :search, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
-      <%= f.input :query, label: false, placeholder: "Search for listings...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
-      <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
-    <% end %>
+  <div class="search-bar-container">
+    <div class="search-bar">
+      <%= simple_form_for :search, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
+        <%= f.input :query, label: false, placeholder: "Search for listings...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
+        <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
+      <% end %>
+    </div>
   </div>
 </div>
 
@@ -22,16 +24,25 @@
         <h2>Search Results for "<%= @query %>":</h2>
 
         <% if @listings.any? %>
-          <ul>
+          <div class="row">
             <% @listings.each do |listing| %>
-              <li>
-                <%= listing.name %>
-                <% if listing.game %>
-                  - <%= listing.game.name %>
-                <% end %>
-              </li>
+              <div class="col-md-4">
+                <div class="card mb-4">
+                  <% if listing.game.cover.present? %>
+                    <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
+                  <% end %>
+                  <div class="card-body">
+                    <h5 class="card-title"><%= listing.game.name %></h5>
+                    <% if listing.game %>
+                      <p class="card-text">Game: <%= listing.game.name %></p>
+                    <% end %>
+                    <p class="card-text">Price: <%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
+                    <%= link_to 'View Listing', listing_path(listing), class: 'btn btn-primary' %>
+                  </div>
+                </div>
+              </div>
             <% end %>
-          </ul>
+          </div>
         <% else %>
           <p>No listings found.</p>
         <% end %>
