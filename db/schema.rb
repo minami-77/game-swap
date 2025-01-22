@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_21_111147) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_21_160138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,13 +26,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_21_111147) do
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.string "platforms"
-    t.string "slug"
     t.text "summary"
     t.string "url"
     t.integer "cover_id"
     t.integer "igdb_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "search_name"
   end
 
   create_table "listings", force: :cascade do |t|
