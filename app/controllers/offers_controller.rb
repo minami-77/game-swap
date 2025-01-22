@@ -1,7 +1,7 @@
 class OffersController < ApplicationController
   def for_listing
-    @listing = Listing.find(params[:listing_id])
-    @offers = listing.offers
+    @listing = Listing.find(params[:id])
+    @offers = @listing.offers
   end
 
   def create
