@@ -234,8 +234,43 @@ seed_dev
 
 # get_covers
 
+# Clear existing data
+Listing.destroy_all
+
 Listing.create!(price: 1000, description: "something something", max: 10, user: User.all[0], game: Game.all[0])
 Listing.create!(price: 900, description: "something something", max: 10, user: User.all[0], game: Game.all[1])
 Listing.create!(price: 800, description: "something something", max: 10, user: User.all[0], game: Game.all[2])
 Listing.create!(price: 700, description: "something something", max: 10, user: User.all[0], game: Game.all[3])
 Listing.create!(price: 600, description: "something something", max: 10, user: User.all[0], game: Game.all[4])
+puts "Listings import complete"
+
+# Clear existing data
+Offer.destroy_all
+
+# Create sample users and listings if they don't exist
+user = User.first || User.create!(email: 'user@example.com', password: 'password')
+listing = Listing.first || Listing.create!(name: 'Sample Listing', game_id: Game.first.id)
+
+# Seed offers
+Offer.create!(
+  comments: 'This is a sample offer comment.',
+  start_date: Date.today,
+  price: 100.0,
+  period: 30,
+  listing_id: listing.id,
+  user_id: user.id,
+  created_at: Time.now,
+  updated_at: Time.now
+)
+
+Offer.create!(
+  comments: 'Another sample offer comment.',
+  start_date: Date.today + 1,
+  price: 150.0,
+  period: 60,
+  listing_id: listing.id,
+  user_id: user.id,
+  created_at: Time.now,
+  updated_at: Time.now
+)
+puts "Offers import complete"
