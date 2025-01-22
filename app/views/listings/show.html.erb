@@ -1,16 +1,25 @@
-<h1>This is listings show page</h1>
+<h1 class="text-center m-5"><%= @listing.game.name %></h1>
+<div class="d-flex justify-content-center">
+  <div class="card m-1" style="max-width: 1200px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="<%=@listing.game.cover.url %>" class="img-fluid rounded-start" alt="game-cover-img">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body d-flex flex-column">
+          <div class="my-5 mx-3">
+            <p class="card-text">Game Title: <%= @listing.game.name %></p>
+            <p class="card-text">Description: <%= @listing.description %></p>
+            <p class="card-text">Rental Price: $ <%= @listing.price %></p>
+            <p class="card-text">Maximum Rental Period: <%= @listing.max %> days</p>
+          </div>
+          <hr class="mx-3 my-3">
+          <div class = "my-5 mx-3">
+            <p class="card-text">Game Owner: <%= @listing.user.username %></p>
+          </div>
+          <%= link_to "Rent this game", "#", class:"btn btn-primary mt-auto" %>
 
-<div class="card mb-3" style="max-width: 540px;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="<%=@listing.game.cover.url %>" class="img-fluid rounded-start" alt="game-cover-img">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title"><%= @listing.game.name %></h5>
-        <p class="card-text"><%= @listing.description %></p>
-        <p class="card-text">Rental Price: $<%= @listing.price %></p>
-        <p class="card-text"><small class="text-muted">Maximum Rental Period: <%= @listing.max %> days</small></p>
+        </div>
       </div>
     </div>
   </div>
