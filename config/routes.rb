@@ -9,5 +9,8 @@ Rails.application.routes.draw do
   get "listings/:id", to: "listings#show", as: :listing
   # Defines the root path route ("/")
   # root "posts#index"
+  # get "dashboard/listing/:id/offers", to: "offers#index", as: :dashboard_listing_offers
+  resources :offers, only: %i[update, destroy, create]
+  get "dashboard/listings/:id/offers", to: "offers#for_listing", as: :dashboard_listing_offers
   get "/dashboard", to: "dashboard#index", as: :dashboard
 end
