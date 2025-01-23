@@ -238,11 +238,18 @@ seed_dev
 # Clear existing data
 User.destroy_all
 # Seed Users
-User.create!(
+first_user = User.create!(
   first_name: "Bob",
   last_name: "Tanaka",
   email: "bob@email.com",
   username: "Bob",
+  password: "123456"
+)
+second_user = User.create!(
+  first_name: "Hana",
+  last_name: "Smith",
+  email: "hana@email.com",
+  username: "Hana",
   password: "123456"
 )
 puts "User import complete"
@@ -255,7 +262,7 @@ Listing.destroy_all
     price: rand(50..200),
     description: "This is a sample listing description.",
     max: rand(5..30),
-    user: User.first,
+    user: first_user,
     game: Game.all[i]
   )
 end
@@ -271,7 +278,7 @@ Offer.destroy_all
     price: rand(50..200),
     period: rand(5..30),
     listing: Listing.all[i],
-    user: User.first
+    user: second_user
   )
 end
 puts "Offers import complete"
