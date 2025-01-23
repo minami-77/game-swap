@@ -1,6 +1,18 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
+  background-color: #343a40; // Dark background color for navbar
+  .nav-link {
+    color: #ffffff; // White text color for navbar links
+    &:hover {
+      color: #dcdcdc; // Light gray color on hover
+    }
+  }
+  .navbar-brand {
+    color: #ffffff; // White text color for brand
+    &:hover {
+      color: #dcdcdc; // Light gray color on hover
+    }
+  }
 }
 
 .navbar-lewagon .navbar-collapse {
