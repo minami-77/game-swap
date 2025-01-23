@@ -11,6 +11,7 @@
 require 'net/https'
 require 'open-uri'
 require 'json'
+require 'faker'
 
 ### Gets the bearer token needed. May be inefficient since we need to get a new one every time we seed (which would be done all in one go anyway, but still)
 
@@ -235,42 +236,44 @@ seed_dev
 # get_covers
 
 # Clear existing data
-Listing.destroy_all
+User.destroy_all
+# Seed Users
+50.times do |i|
+  User.create!(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    username: Faker::Internet.username,
+    password: Faker::Internet.password(min_length: 6)
+  )
+end
+puts "Users import complete"
 
-Listing.create!(price: 1000, description: "something something", max: 10, user: User.all[0], game: Game.all[0])
-Listing.create!(price: 900, description: "something something", max: 10, user: User.all[0], game: Game.all[1])
-Listing.create!(price: 800, description: "something something", max: 10, user: User.all[0], game: Game.all[2])
-Listing.create!(price: 700, description: "something something", max: 10, user: User.all[0], game: Game.all[3])
-Listing.create!(price: 600, description: "something something", max: 10, user: User.all[0], game: Game.all[4])
+# Clear existing data
+Listing.destroy_all
+# Seed Listings
+50.times do |i|
+  Listing.create!(
+    price: rand(50..200),
+    description: "This is a sample listing description.",
+    max: rand(5..30),
+    user: User.all[0 + i],
+    game: Game.all[0 + i]
+  )
+end
 puts "Listings import complete"
 
 # Clear existing data
 Offer.destroy_all
-
-# Create sample users and listings if they don't exist
-user = User.first || User.create!(email: 'user@example.com', password: 'password')
-listing = Listing.first || Listing.create!(name: 'Sample Listing', game_id: Game.first.id)
-
 # Seed offers
-Offer.create!(
-  comments: 'This is a sample offer comment.',
-  start_date: Date.today,
-  price: 100.0,
-  period: 30,
-  listing_id: listing.id,
-  user_id: user.id,
-  created_at: Time.now,
-  updated_at: Time.now
-)
-
-Offer.create!(
-  comments: 'Another sample offer comment.',
-  start_date: Date.today + 1,
-  price: 150.0,
-  period: 60,
-  listing_id: listing.id,
-  user_id: user.id,
-  created_at: Time.now,
-  updated_at: Time.now
-)
+50.times do |i|
+  Offer.create!(
+    comments: 'This is a sample offer comment.',
+    start_date: Date.today + i,
+    price: rand(50..200),
+    period: rand(5..30),
+    listing: Listing.all[0 + i],
+    user: User.all[0 + i]
+  )
+end
 puts "Offers import complete"
