@@ -89,7 +89,7 @@ def seed_dev
 
         name = game["name"]
         platforms = JSON.generate(game["platforms"])
-        search_name = name.gsub(/[^a-zA-Z0-9]/, '').downcase
+        search_name = name.gsub(/[^a-z0-9]/i, '').downcase
         summary = game["summary"]
         url = game["url"]
         cover_id = game["cover"]

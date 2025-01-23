@@ -4,7 +4,7 @@ class PagesController < ApplicationController
   def home
     @query = params.dig(:search, :query)
     if @query.present?
-      @listings = Listing.joins(:game).where('games.name LIKE ?', "%#{@query}%")
+      @listings = Listing.joins(:game).where('games.search_name LIKE ?', "%#{@query}%")
     else
       @listings = Listing.all
     end
