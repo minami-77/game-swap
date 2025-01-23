@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   resources :offers, only: %i[update, destroy, create]
   get "dashboard/listings/:id/offers", to: "offers#for_listing", as: :dashboard_listing_offers
   get "/dashboard", to: "dashboard#index", as: :dashboard
+  post "/listings", to: "listings#create"
 end

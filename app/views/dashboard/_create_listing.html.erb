@@ -1,0 +1,9 @@
+<div data-create-listing-target="createListingForm" class="create-listing-form d-none">
+  <%= simple_form_for :new_listing, url: "listings" do |f| %>
+    <%= f.input :game_name, label: "Add the name of the game you wish to make a listing for" %>
+    <%= f.input :description, label: "Describe the game/condition of the game" %>
+    <%= f.input :price, label: "How much would you like to rent it out for?" %>
+    <%= f.input :max, label: "How long would you like to rent it out for?" %>
+    <%= f.submit %>
+  <% end %>
+</div>
