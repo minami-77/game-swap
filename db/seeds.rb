@@ -11,6 +11,7 @@
 require 'net/https'
 require 'open-uri'
 require 'json'
+require 'faker'
 
 ### Gets the bearer token needed. May be inefficient since we need to get a new one every time we seed (which would be done all in one go anyway, but still)
 
@@ -234,8 +235,50 @@ seed_dev
 
 # get_covers
 
-Listing.create!(price: 1000, description: "something something", max: 10, user: User.all[0], game: Game.all[0])
-Listing.create!(price: 900, description: "something something", max: 10, user: User.all[0], game: Game.all[1])
-Listing.create!(price: 800, description: "something something", max: 10, user: User.all[0], game: Game.all[2])
-Listing.create!(price: 700, description: "something something", max: 10, user: User.all[0], game: Game.all[3])
-Listing.create!(price: 600, description: "something something", max: 10, user: User.all[0], game: Game.all[4])
+# Clear existing data
+User.destroy_all
+# Seed Users
+first_user = User.create!(
+  first_name: "Bob",
+  last_name: "Tanaka",
+  email: "bob@email.com",
+  username: "Bob",
+  password: "123456"
+)
+second_user = User.create!(
+  first_name: "Hana",
+  last_name: "Smith",
+  email: "hana@email.com",
+  username: "Hana",
+  password: "123456"
+)
+puts "User import complete"
+
+# Clear existing data
+Listing.destroy_all
+# Seed Listings
+50.times do |i|
+  Listing.create!(
+    price: rand(50..200),
+    description: "This is a sample listing description.",
+    max: rand(5..30),
+    user: first_user,
+    game: Game.all[i]
+  )
+end
+puts "Listings import complete"
+
+# Clear existing data
+Offer.destroy_all
+# Seed offers
+50.times do |i|
+  Offer.create!(
+    comments: 'This is a sample offer comment.',
+    start_date: Date.today + i,
+    price: rand(50..200),
+    period: rand(5..30),
+    listing: Listing.all[i],
+    user: second_user
+  )
+end
+puts "Offers import complete"
