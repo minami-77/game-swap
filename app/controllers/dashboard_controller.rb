@@ -5,4 +5,5 @@ class DashboardController < ApplicationController
 
     @listing = Listing.new
   end
+
 end
