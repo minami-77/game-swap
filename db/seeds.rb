@@ -238,16 +238,14 @@ seed_dev
 # Clear existing data
 User.destroy_all
 # Seed Users
-50.times do |i|
-  User.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    email: Faker::Internet.email,
-    username: Faker::Internet.username,
-    password: Faker::Internet.password(min_length: 6)
-  )
-end
-puts "Users import complete"
+User.create!(
+  first_name: "Bob",
+  last_name: "Tanaka",
+  email: "bob@email.com",
+  username: "Bob",
+  password: "123456"
+)
+puts "User import complete"
 
 # Clear existing data
 Listing.destroy_all
@@ -257,8 +255,8 @@ Listing.destroy_all
     price: rand(50..200),
     description: "This is a sample listing description.",
     max: rand(5..30),
-    user: User.all[0 + i],
-    game: Game.all[0 + i]
+    user: User.first,
+    game: Game.all[i]
   )
 end
 puts "Listings import complete"
@@ -272,8 +270,8 @@ Offer.destroy_all
     start_date: Date.today + i,
     price: rand(50..200),
     period: rand(5..30),
-    listing: Listing.all[0 + i],
-    user: User.all[0 + i]
+    listing: Listing.all[i],
+    user: User.first
   )
 end
 puts "Offers import complete"
