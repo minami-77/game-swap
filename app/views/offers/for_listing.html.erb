@@ -9,10 +9,22 @@
             <p>Offer: <%= offer.price %></p>
             <p>Comments: <%= offer.comments %><p>
             <p>From <%= offer.user.email %></p>
-            <%# Add link_to later when created %>
-            <button class="btn btn-primary">Accept</button>
-            <%# <%= link_to "Reject", offer_path(offer), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
-            <button class="btn btn-danger">Reject</button>
+            <% if offer.pending? %>
+              <div class="d-flex">
+                <%= simple_form_for offer do |f| %>
+                  <%= f.input :status, as: :hidden, input_html: { value: "accepted" } %>
+                  <%= f.submit "Accept", class: "btn btn-primary" %>
+                <% end %>
+                <%= simple_form_for offer do |f| %>
+                  <%= f.input :status, as: :hidden, input_html: { value: "rejected" } %>
+                  <%= f.submit "Reject", class: "btn btn-danger mx-3" %>
+                <% end %>
+              <% else %>
+                <strong>
+                  <p>Offer status: <%= offer.status.capitalize %></p>
+                </strong>
+              <% end %>
+              </div>
           </div>
           <% end %>
         <% else %>

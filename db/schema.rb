@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_21_160138) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_24_140743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,13 +26,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_21_160138) do
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.string "platforms"
-    t.string "slug"
     t.text "summary"
     t.string "url"
     t.integer "cover_id"
     t.integer "igdb_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "search_name"
   end
 
   create_table "listings", force: :cascade do |t|
@@ -42,6 +42,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_21_160138) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "game_id"
+    t.index ["game_id"], name: "index_listings_on_game_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
@@ -54,6 +56,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_21_160138) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
     t.index ["listing_id"], name: "index_offers_on_listing_id"
     t.index ["user_id"], name: "index_offers_on_user_id"
   end
@@ -82,6 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_21_160138) do
   end
 
   add_foreign_key "covers", "games"
+  add_foreign_key "listings", "games"
   add_foreign_key "listings", "users"
   add_foreign_key "offers", "listings"
   add_foreign_key "offers", "users"
