@@ -20,9 +20,7 @@
                   <%= f.submit "Reject", class: "btn btn-danger mx-3" %>
                 <% end %>
               <% else %>
-                <strong>
-                  <p>Offer status: <%= offer.status.capitalize %></p>
-                </strong>
+                  <p>Offer status: <strong><%= offer.status.capitalize %></strong></p>
               <% end %>
               </div>
           </div>
