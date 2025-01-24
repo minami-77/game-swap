@@ -1,9 +1,11 @@
-<div class="dashboard-tabs-container w-100 d-flex">
-  <button class="dashboard-tabs w-100 text-center">Listings</button>
-  <button class="dashboard-tabs w-100 text-center">Offers</button>
-</div>
+<div class="dashboard-full-body-container" data-controller="dashboard">
+  <div class="dashboard-tabs-container w-100 d-flex">
+    <button class="dashboard-tabs w-100 text-center" data-dashboard-target="dashboard-tabs" data-action="click->dashboard#tab">Listings</button>
+    <button class="dashboard-tabs w-100 text-center" data-dashboard-target="dashboard-tabs" data-action="click->dashboard#tab">Offers</button>
+  </div>
 
-<div class="dashboard-body-container w-100">
-  <%= render "dashboard_listings" %>
-  <%= render "dashboard_offers" %>
+  <div class="dashboard-body-container w-100">
+    <%= render "dashboard_listings" %>
+    <%= render "dashboard_offers" %>
+  </div>
 </div>

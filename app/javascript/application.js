@@ -4,4 +4,4 @@ import "controllers"
 import "@popperjs/core"
 import "bootstrap"
 
-import "./dashboard/dashboard_tabs";
+// import "./dashboard/dashboard_tabs";
