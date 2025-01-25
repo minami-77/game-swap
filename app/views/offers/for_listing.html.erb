@@ -6,6 +6,7 @@
         <% @offers.each do |offer| %>
           <div class="card-product mt-3">
             <p>Start Date: <%= offer.start_date %></p>
+            <p>End Date: <%= offer.start_date+offer.period %></p>
             <p>Offer: <%= offer.price %></p>
             <p>Comments: <%= offer.comments %><p>
             <p>From <%= offer.user.email %></p>
