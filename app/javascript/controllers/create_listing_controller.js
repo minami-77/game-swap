@@ -16,10 +16,11 @@ export default class extends Controller {
     if (query.length < 2) {
       return; // Don't fetch if the query is too short
     }
+    console.log(query);
 
     const response = await fetch(`/games/search?query=${query}`);
     const games = await response.json();
-
+    console.log(games)
     const datalist = document.getElementById('game-list');
     datalist.innerHTML = ''; // Clear existing options
 

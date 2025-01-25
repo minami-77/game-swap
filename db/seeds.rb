@@ -252,20 +252,33 @@ second_user = User.create!(
   username: "Hana",
   password: "123456"
 )
+third_user = User.create!(
+  first_name: "asdf",
+  last_name: "asdf",
+  email: "asdf@asdf.com",
+  username: "asdf",
+  password: "asdfasdf"
+)
 puts "User import complete"
 
 # Clear existing data
 Listing.destroy_all
+
+array_of_yen = [500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]
+
 # Seed Listings
-50.times do |i|
-  Listing.create!(
-    price: rand(50..200),
-    description: "This is a sample listing description.",
-    max: rand(5..30),
-    user: first_user,
-    game: Game.all[i]
-  )
+User.all.each do |user|
+  50.times do |_i|
+    Listing.create!(
+      price: array_of_yen[rand(array_of_yen.count)],
+      description: "This is a sample listing description.",
+      max: rand(5..30),
+      user: user,
+      game: Game.all[rand(Game.count)]
+    )
+  end
 end
+
 puts "Listings import complete"
 
 # Clear existing data
