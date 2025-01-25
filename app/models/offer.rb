@@ -5,6 +5,9 @@ class Offer < ApplicationRecord
   validates :listing, presence: true
   validates :user, presence: true
 
+  # Enum for status
+  enum status: { pending: 0, accepted: 1, rejected: 2 }
+
   # ----- TODO: DISCUSS VALIDATIONS -----
   # validates :price, presence: true
   # validates :price, numericality: { greater_than: 0 }
