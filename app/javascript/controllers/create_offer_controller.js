@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Connects to data-controller="create-offer"
 export default class extends Controller {
   static targets = ["createOfferForm"];
 
@@ -14,5 +15,23 @@ export default class extends Controller {
     } else {
       form.classList.add("d-none")
     }
+
   }
+
+  // fetch(listing_offers_path, {
+  //   method: "POST",
+  //   headers: {
+  //     "Accept": "application/json"
+
+  //   },
+  //   body: {
+
+  //   }
+  // })
+  // .then(response => response.json())
+  // .then(data => {
+  //   console.log(data);
+  // })
+
+
 }

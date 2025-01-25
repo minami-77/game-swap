@@ -1,5 +1,5 @@
 <div data-create-offer-target="createOfferForm" class="create-offer-form d-none m-3">
-  <%= simple_form_for :new_offer, url: "listing_offers_path(listing_id)" do |f| %>
+  <%= simple_form_for [@listing,@offer] do |f| %>
     <%= f.input :comments, label: "Write a comment to this game owner." %>
     <%= f.submit "Send a request", class:"btn btn-info"%>
   <% end %>

@@ -7,9 +7,9 @@ class OffersController < ApplicationController
   def create
     @listing = Listing.find(params[:listing_id])
     @offer = @listing.offers.new(offer_params)
-    @offer.user_id = current_user_id
+    @offer.user = current_user
     if @offer.save
-      redirect_to listing_path(@listing)
+      redirect_to dashboard_path
     else
       puts @offer.errors.full_messages
     end

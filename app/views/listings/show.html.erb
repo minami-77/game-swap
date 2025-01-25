@@ -17,7 +17,6 @@
           <div class = "m-3">
             <p class="card-text">Game Owner: <%= @listing.user.username %></p>
           </div>
-          <%# <%= link_to "Rent this game", "#", class:"btn btn-primary mt-auto" %>
           <div data-controller="create-offer">
             <button class="create-offer-button btn btn-primary m-3"
                     data-action="click->create-offer#renderForm">
