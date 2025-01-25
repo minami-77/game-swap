@@ -17,21 +17,4 @@ export default class extends Controller {
     }
 
   }
-
-  // fetch(listing_offers_path, {
-  //   method: "POST",
-  //   headers: {
-  //     "Accept": "application/json"
-
-  //   },
-  //   body: {
-
-  //   }
-  // })
-  // .then(response => response.json())
-  // .then(data => {
-  //   console.log(data);
-  // })
-
-
 }

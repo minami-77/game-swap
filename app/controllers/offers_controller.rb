@@ -24,6 +24,6 @@ class OffersController < ApplicationController
   private
 
   def offer_params
-    params.require(:offer).permit(:comments)
+    params.require(:offer).permit(:comments, :start_date)
   end
 end
