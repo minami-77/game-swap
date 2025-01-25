@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   resources :offers, only: [:update, :destroy]
-  get "dashboard/listings/:id/offers", to: "offers#for_listing", as: :dashboard_listing_offers
+  get "dashboard/listings/:id/offers", to: "offers#index", as: :offers
   get "/dashboard", to: "dashboard#index", as: :dashboard
 
   resources :listings, only: [:show] do
