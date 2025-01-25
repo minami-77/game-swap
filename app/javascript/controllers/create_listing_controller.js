@@ -6,6 +6,7 @@ export default class extends Controller {
 
   connect() {
     console.log("CreateListingController connected");
+    console.log(this.gameNameInputTarget)
     this.gameNameInputTarget.addEventListener('input', this.fetchOptions.bind(this));
     //this.gameNameInputTarget.addEventListener('input', this.filterOptions.bind(this));
   }
