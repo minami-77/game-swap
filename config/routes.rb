@@ -8,11 +8,16 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   # Defines the root path route ("/")
   # root "posts#index"
-  # get "dashboard/listing/:id/offers", to: "offers#index", as: :dashboard_listing_offers
-  resources :offers, only: %i[update, destroy, create]
+  resources :offers, only: [:update, :destroy]
   get "dashboard/listings/:id/offers", to: "offers#for_listing", as: :dashboard_listing_offers
   get "/dashboard", to: "dashboard#index", as: :dashboard
+
   resources :listings, only: [:show] do
     resources :offers, only: [:create]
   end
+
+  post "/listings", to: "listings#create"
+
+  get 'games/search', to: 'games#search'
+
 end

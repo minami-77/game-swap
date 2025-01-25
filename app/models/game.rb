@@ -10,6 +10,6 @@ class Game < ApplicationRecord
   private
 
   def set_search_name
-    self.set_search_name = name.gsub(/[^a-z0-9]/i, '').downcase
+    self.search_name = name.gsub(/[^a-z0-9]/i, '').downcase
   end
 end
