@@ -15,7 +15,7 @@
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-12 col-md-offset-3">
       <% if user_signed_in? %>
         <%=link_to "Create a Listing", class: "btn btn-primary" %>
       <% else %>
@@ -29,7 +29,7 @@
         <% if @listings.any? %>
           <div class="row">
             <% @listings.each do |listing| %>
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <div class="card mb-4">
                   <% if listing.game.cover.present? %>
                     <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
