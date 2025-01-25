@@ -8,7 +8,7 @@
   <div class="dashboard-listings-container row d-flex justify-content-center w-100">
     <% @listings.each do |listing| %>
     <%# dashboard_listing_offers_path(listing) %>
-      <%= link_to "", class: "dashboard-listing card text-decoration-none col-2 m-2 p-1" do %>
+      <%= link_to dashboard_listing_offers_path(listing), class: "dashboard-listing card text-decoration-none col-2 m-2 p-1" do %>
         <img src="<%= listing.game.cover.url %>" alt="<%= listing.game.name %> cover art">
         <h4><%= listing.game.name %></h4>
         <p><strong>Offers: </strong><%= listing.offers.count %></p>
