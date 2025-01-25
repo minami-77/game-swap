@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   get "dashboard/listings/:id/offers", to: "offers#for_listing", as: :dashboard_listing_offers
   get "/dashboard", to: "dashboard#index", as: :dashboard
   post "/listings", to: "listings#create"
+
+  get 'games/search', to: 'games#search'
 end
