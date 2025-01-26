@@ -4,8 +4,12 @@
   <div class="search-bar-container">
     <div class="search-bar">
       <%= simple_form_for :search, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
-        <%= f.input :query, label: false, placeholder: "Search for games...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
-        <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
+        <div class="input-group">
+          <%= f.input :query, label: false, placeholder: "Search for games...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
+          <div class="input-group-append">
+            <%= f.submit "Search", class: "btn btn-primary" %>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>
@@ -14,24 +18,24 @@
 <!-- CAROUSEL -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
-    <% @listings.each_slice(6).with_index do |group, index| %>
+    <% @carousel_groups.each_with_index do |group, index| %>
       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>" aria-current="<%= 'true' if index == 0 %>" aria-label="Slide <%= index + 1 %>"></button>
     <% end %>
   </div>
   <div class="carousel-inner">
-    <% @listings.each_slice(6).with_index do |group, index| %>
+    <% @carousel_groups.each_with_index do |group, index| %>
       <div class="carousel-item <%= 'active' if index == 0 %>">
         <div class="row">
           <% group.each do |listing| %>
-            <div class="col-md-2">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-2">
               <div class="card mb-4 shadow-sm">
                 <% if listing.game.cover.present? %>
                   <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
                 <% end %>
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title"><%= listing.game.name %></h5>
-                  <p class="card-text">Price: <%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
-                  <%= link_to 'Rent', listing_path(listing), class: 'btn btn-primary' %>
+                  <p class="card-text"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
+                  <%= link_to 'View the Game', listing_path(listing), class: 'btn btn-primary' %>
                 </div>
               </div>
             </div>
@@ -59,7 +63,7 @@
           <div class="row">
             <% @listings.each do |listing| %>
               <div class="col-md-4">
-                <div class="card mb-4">
+                <div class="card mb-4 shadow-sm">
                   <% if listing.game.cover.present? %>
                     <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
                   <% end %>
