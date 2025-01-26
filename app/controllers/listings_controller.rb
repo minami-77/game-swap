@@ -1,5 +1,25 @@
 class ListingsController < ApplicationController
   def index
+    @query = params.dig(:search, :query)
+    if @query.present?
+      normalized_query = @query.gsub(/[^a-z0-9]/i, '').downcase
+      @listings = Listing.joins(:game).where('games.search_name LIKE ?', "%#{normalized_query}%")
+    else
+      @listings = Listing.all
+    end
+
+    @sort_methods = [
+      "Price (low to high)",
+      "Price (high to low)",
+      # "Location",
+      "Maximum rental period",
+      # "Owner reviews",
+      # "Date posted (newest to oldest)",
+    ]
+
+    @filter_methods = [
+
+    ]
   end
 
   def show

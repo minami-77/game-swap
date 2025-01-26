@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get "dashboard/listings/:id/offers", to: "offers#index", as: :offers
   get "/dashboard", to: "dashboard#index", as: :dashboard
 
-  resources :listings, only: [:show] do
+  resources :listings, only: [:show, :index] do
     resources :offers, only: [:create]
   end
 

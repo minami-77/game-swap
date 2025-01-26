@@ -1,17 +1,8 @@
 <!-- BANNER -->
 <div class="banner">
   <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-responsive' %>
-  <div class="search-bar-container">
-    <div class="search-bar" data-controller="create-listing">
-      <%= simple_form_for :search, url: root_path, method: :get, html: { class: ' form-inline' } do |f| %>
-        <%= f.input :query, label: false, placeholder: "Search for listings...", input_html: { value: params[:query], class: 'form-control mr-sm-2', data: { "create-listing-target": "gameNameInput" }, list: "game-list"}  %>
-        <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0", data: { target: "create-listing.create-listing-button" } %>
-      <% end %>
-    </div>
-  </div>
+  <%= render "shared/search_input" %>
 </div>
-
-<datalist id="game-list"></datalist>
 
 <div class="container mt-5">
   <div class="row">
