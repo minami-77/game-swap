@@ -5,15 +5,10 @@ class ListingsController < ApplicationController
     if @query.present?
       search_name = @query.gsub(/[^a-z0-9]/i, '').downcase
       @listings = Listing.joins(:game).where('games.search_name LIKE ?', "%#{search_name}%")
-      unless params["platforms"].empty?
-        platforms = params["platforms"].split(",").map { |platform| platform.to_i }
-        @listings = @listings.joins(:platform).where(platforms: { platform_id: platforms })
-      end
     else
-      @listings = Listing.all
+      @listings = Listing.all.limit(30)
     end
-
-    puts @listings
+    filter_checks(params, @listings)
 
     @sort_methods = [
       "Price (low to high)",
@@ -29,6 +24,17 @@ class ListingsController < ApplicationController
     @filter_methods = [
 
     ]
+  end
+
+  def filter_checks(params, listings)
+    platform_check(params, @listings)
+  end
+
+  def platform_check(params, listings)
+    unless params["platforms"].empty?
+      platforms = params["platforms"].split(",").map { |platform| platform.to_i }
+      @listings = @listings.joins(:platform).where(platforms: { platform_id: platforms })
+    end
   end
 
   def show

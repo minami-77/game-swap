@@ -1,5 +1,5 @@
 <% if @listings.any? %>
-  <h2>Search Results for <%= @query.empty? ? "all games" : '"' + @query + '"'  %>:</h2>
+  <h2>Search Results for <%= @query.empty? ? "all listings" : '"' + @query + '"'  %>:</h2>
   <div class="row w-100" data-sort-listings-target="searchResultsContainer">
     <% @listings.each do |listing| %>
       <div class="search-card col-md-2" data-sort-listings-target="searchCard">
