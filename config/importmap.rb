@@ -10,3 +10,4 @@ pin "@popperjs/core", to: "popper.js", preload: true
 
 pin "dashboard_tabs", to: "dashboard/dashboard_tabs.js"
 pin "flatpickr" # @4.6.13
+pin "home_controller", to: "controllers/home_controller.js"
