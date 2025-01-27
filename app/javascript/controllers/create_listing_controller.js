@@ -6,6 +6,7 @@ export default class extends Controller {
 
   connect() {
     console.log("CreateListingController connected");
+    console.log(this.gameNameInputTarget)
     this.gameNameInputTarget.addEventListener('input', this.fetchOptions.bind(this));
     //this.gameNameInputTarget.addEventListener('input', this.filterOptions.bind(this));
   }
@@ -15,10 +16,11 @@ export default class extends Controller {
     if (query.length < 2) {
       return; // Don't fetch if the query is too short
     }
+    console.log(query);
 
     const response = await fetch(`/games/search?query=${query}`);
     const games = await response.json();
-
+    console.log(games)
     const datalist = document.getElementById('game-list');
     datalist.innerHTML = ''; // Clear existing options
 

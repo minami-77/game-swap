@@ -4,6 +4,11 @@ class OffersController < ApplicationController
     @offers = @listing.offers
   end
 
+  def index
+    @listing = Listing.find(params["id"])
+    @offers = @listing.offers
+  end
+
   def create
     @listing = Listing.find(params[:listing_id])
     @offer = @listing.offers.new(offer_params)
