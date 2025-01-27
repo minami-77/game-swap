@@ -1,5 +1,3 @@
-
-
 <div data-create-offer-target="createOfferForm" class="create-offer-form d-none m-3 d-flex">
   <%= simple_form_for [@listing, @offer], html: { class: "p-0 row" } do |f| %>
     <div class="col-md-6">
@@ -9,7 +7,7 @@
     </div>
     <div class="col-md-6">
         <%= f.input :comments, label: "Write a comment to this game owner." %>
-        <%= f.submit "Send a request", class:"btn btn-info"%>
     </div>
+    <%= f.submit "Send a request", class:"btn btn btn-gradient-oval"%>
   <% end %>
 </div>
