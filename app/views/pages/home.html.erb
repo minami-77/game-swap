@@ -3,11 +3,11 @@
   <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-responsive' %>
   <div class="search-bar-container">
     <div class="search-bar">
-      <%= simple_form_for :search, url: root_path, method: :get, html: { class: 'form-inline' } do |f| %>
+      <%= form_tag root_path, method: :get, class: 'form-inline' do %>
         <div class="input-group">
-          <%= f.input :query, label: false, placeholder: "Search for games...", input_html: { value: params[:query], class: 'form-control mr-sm-2' } %>
+          <%= text_field_tag :query, params[:query], placeholder: "Search for games...", class: 'form-control mr-sm-2' %>
           <div class="input-group-append">
-            <%= f.submit "Search", class: "btn btn-primary" %>
+            <%= submit_tag "Search", class: "btn btn-primary" %>
           </div>
         </div>
       <% end %>

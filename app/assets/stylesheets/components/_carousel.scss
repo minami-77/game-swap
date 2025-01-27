@@ -20,12 +20,13 @@
 
     &:hover {
       transform: scale(1.05);
+      background-color: #f7eafe;
     }
 
     .card-img-top {
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
-      height: 250px;
+      height: 300px;
       object-fit: cover;
       object-position: center;
     }

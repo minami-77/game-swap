@@ -11,7 +11,7 @@ class PagesController < ApplicationController
       end
     end
 
-    @query = params.dig(:search, :query)
+    @query = params[:query]
     if @query.present?
       normalized_query = @query.gsub(/[^a-z0-9]/i, '').downcase
       @listings = Listing.joins(:game).where('games.search_name LIKE ?', "%#{normalized_query}%")
