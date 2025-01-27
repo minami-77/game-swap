@@ -9,40 +9,12 @@
 </div>
 
 <div class="platform-checkboxes-container">
+  <% @platform_checkboxes.each do |checkbox| %>
   <div class="d-flex">
-    <input type="checkbox" id="playstation5" name="167" class="platform-checkboxes" data-platform-id="167">
-    <label for="playstation5">PS5</label>
+    <input type="checkbox" id=<%= checkbox[:id] %> name=<%= checkbox[:name] %> class="platform-checkboxes me-2" data-platform-id=<%= checkbox[:name] %>>
+    <label for=<%= checkbox[:id] %>><%= checkbox[:platform] %></label>
   </div>
-
-  <div class="d-flex">
-    <input type="checkbox" id="xboxseriesxs" name="169" class="platform-checkboxes" data-platform-id="169">
-    <label for="xboxseriesxs">Xbox Series X/S</label>
-  </div>
-
-
-  <div class="d-flex">
-    <input type="checkbox" id="nintendoswitch" name="130" class="platform-checkboxes" data-platform-id="130">
-    <label for="nintendoswitch">Nintendo Switch</label>
-  </div>
-
-
-  <div class="d-flex">
-    <input type="checkbox" id="pcmicrosoftwindows" name="6" class="platform-checkboxes" data-platform-id="6">
-    <label for="pcmicrosoftwindows">PC (Microsoft Windows)</label>
-  </div>
-
-
-  <div class="d-flex">
-    <input type="checkbox" id="playstation4" name="48" class="platform-checkboxes" data-platform-id="48">
-    <label for="playstation4">PS4</label>
-  </div>
-
-
-  <div class="d-flex">
-    <input type="checkbox" id="xboxone" name="49" class="platform-checkboxes" data-platform-id="49">
-    <label for="xboxone">Xbox One</label>
-  </div>
-
+  <% end %>
 </div>
 
 <div class="game-checkboxes-container">

@@ -5,17 +5,19 @@ export default class extends Controller {
   static targets = ["submitForm"]
 
   connect() {
+    // Selects the input field upon page load
+    // Has to be a query selector not a target because of the partial being rendered on 2 different pages and not the same controller
+    document.querySelector(".search-input").select();
     this.submitFormTarget.addEventListener("submit", (event) => this.#submitForm(event));
   }
 
   #submitForm(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const query = formData.get("search[query]");
+    const query = document.querySelector(".search-input").value;
 
     const filterParams = this.#getFilterParams();
     const params = new URLSearchParams({ name: query, ...filterParams }).toString();
-    window.location.href = `/listings?${params}`
+    window.location.href = `/listings?${params}`;
   }
 
   #getFilterParams() {

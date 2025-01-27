@@ -1,0 +1,24 @@
+  <div class="search-bar-container">
+    <div class="search-bar" data-controller="create-listing">
+      <%= simple_form_for :search, url: listings_path, method: :get, html: { class: 'form-inline', data: { "filter-listings-target" => "submitForm" } } do |f| %>
+        <%= f.input :query, label: false, placeholder: "Search for listings...", input_html: { value: params[:query], class: 'form-control mr-sm-2', data: { "create-listing-target": "gameNameInput" }, list: "game-list"}  %>
+        <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
+      <% end %>
+    </div>
+  </div>
+
+<datalist id="game-list"></datalist>
+
+
+  <div class="search-bar-container">
+    <div class="search-bar">
+      <%= form_tag listings_path, method: :get, class: 'form-inline' do %>
+        <div class="input-group">
+          <%= text_field_tag :name, params[:name], placeholder: "Search for games...", class: 'form-control mr-sm-2' %>
+          <div class="input-group-append">
+            <%= submit_tag "Search", class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
