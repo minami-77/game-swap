@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_27_072948) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_27_090528) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_27_072948) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "search_name"
+    t.integer "total_rating_count"
+    t.float "total_rating"
+  end
+
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+    t.integer "genre_id"
+    t.string "search_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "listings", force: :cascade do |t|
@@ -43,7 +53,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_27_072948) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "game_id"
+    t.bigint "platform_id"
     t.index ["game_id"], name: "index_listings_on_game_id"
+    t.index ["platform_id"], name: "index_listings_on_platform_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
@@ -86,6 +98,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_27_072948) do
 
   add_foreign_key "covers", "games"
   add_foreign_key "listings", "games"
+  add_foreign_key "listings", "platforms"
   add_foreign_key "listings", "users"
   add_foreign_key "offers", "listings"
   add_foreign_key "offers", "users"

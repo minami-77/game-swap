@@ -1,7 +1,7 @@
 class ListingsController < ApplicationController
   def index
     puts "*******"
-    puts params
+    p params["platforms"].split(",")
     @query = params.dig(:search, :query)
     if @query.present?
       normalized_query = @query.gsub(/[^a-z0-9]/i, '').downcase

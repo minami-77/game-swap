@@ -1,8 +1,19 @@
-- Added schema file containing XML of schema from Kitt
-- Added client/secret keys in env file
-- Added games table
+Filter options
+
+Sliders
+- Price
+- Location (distance from you)
 
 
+Checkboxes
+- Game genre
+- Platform
 
 
-- Delete the slug name and make a search name instead
+range?
+- Min rating
+- Min owner rating
+
+
+Create listing
+When you select the name of a valid game, the platform field is now open to select and the dropdown shows valid platforms
