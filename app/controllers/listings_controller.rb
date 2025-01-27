@@ -1,6 +1,7 @@
 class ListingsController < ApplicationController
   def index
     puts "*******"
+    # if platforms is empty, then search all games
     p params["platforms"].split(",")
     @query = params.dig(:search, :query)
     if @query.present?
