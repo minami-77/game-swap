@@ -15,14 +15,7 @@ export default class extends Controller {
 
     const filterParams = this.#getFilterParams();
     const params = new URLSearchParams({ name: query, ...filterParams }).toString();
-    console.log(params);
-
-    fetch(`/listings?${params}`, {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).catch(error => console.error('Error:', error));
+    window.location.href = `/listings?${params}`
   }
 
   #getFilterParams() {

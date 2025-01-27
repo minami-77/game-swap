@@ -35,7 +35,7 @@ export default class extends Controller {
         this.#priceSort("htl", listings);
         break;
       case "maximum rental period":
-        this.#rentalSort(listings);
+        this.#rentalPeriodSort(listings);
         break;
     }
     this.#updateListingsContainer(listings, this.searchResultsContainerTarget);
@@ -57,8 +57,8 @@ export default class extends Controller {
     });
   }
 
-  #rentalSort(listings) {
-    listings.sort((a, b) => {
+  #rentalPeriodSort(listings) {
+    listings.sort((b, a) => {
       const aMax = parseInt(a.querySelector(".rental-period").innerText);
       const bMax = parseInt(b.querySelector(".rental-period").innerText);
       console.log(aMax, bMax);

@@ -75,7 +75,7 @@ def seed_dev
         summary = game["summary"]
         url = game["url"]
         cover_id = game["cover"]
-        total_rating = game["total_rating"]
+        total_rating = game["total_rating"].round(1)
         total_rating_count = game["total_rating_count"]
         Game.create!(igdb_id:, name:, platforms:, search_name:, summary:, url:, cover_id:, total_rating:, total_rating_count:)
       end
