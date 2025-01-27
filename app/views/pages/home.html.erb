@@ -16,42 +16,49 @@
 </div>
 
 <!-- CAROUSEL -->
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <% @carousel_groups.each_with_index do |group, index| %>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>" aria-current="<%= 'true' if index == 0 %>" aria-label="Slide <%= index + 1 %>"></button>
-    <% end %>
-  </div>
-  <div class="carousel-inner">
-    <% @carousel_groups.each_with_index do |group, index| %>
-      <div class="carousel-item <%= 'active' if index == 0 %>">
-        <div class="row">
-          <% group.each do |listing| %>
-            <div class="col-12 col-sm-4 col-md-4 col-lg-2">
-              <div class="card mb-4 shadow-sm">
-                <% if listing.game.cover.present? %>
-                  <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
-                <% end %>
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title"><%= listing.game.name %></h5>
-                  <p class="card-text"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
-                  <%= link_to 'View the Game', listing_path(listing), class: 'btn btn-primary' %>
+<div id="carouselWrapper"
+  class="carousel-wrapper"
+  data-controller="home"
+  data-action="mouseenter->home#show mouseleave->home#hide">
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <% @carousel_groups.each_with_index do |group, index| %>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>" aria-current="<%= 'true' if index == 0 %>" aria-label="Slide <%= index + 1 %>"></button>
+      <% end %>
+    </div>
+    <div class="carousel-inner">
+      <% @carousel_groups.each_with_index do |group, index| %>
+        <div class="carousel-item <%= 'active' if index == 0 %>">
+          <div class="row">
+            <% group.each do |listing| %>
+              <div class="col-12 col-sm-4 col-md-4 col-lg-2">
+                <div class="card mb-4 shadow-sm">
+                  <% if listing.game.cover.present? %>
+                    <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
+                  <% end %>
+                  <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h5 class="card-title mb-0"><%= listing.game.name %></h5>
+                      <p class="card-text mb-0"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
+                    </div>
+                    <%= link_to 'View the Game', listing_path(listing), class: 'btn btn-primary' %>
+                  </div>
                 </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev carousel-control" data-home-target="controls" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next carousel-control" data-home-target="controls" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
 </div>
 
 <div class="container mt-5">
