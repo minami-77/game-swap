@@ -13,6 +13,8 @@ class OffersController < ApplicationController
     @listing = Listing.find(params[:listing_id])
     @offer = @listing.offers.new(offer_params)
     @offer.user = current_user
+    @offer.price = @offer.listing.price
+    @offer.period = @offer.listing.max
     if @offer.save
       redirect_to dashboard_path
     else
