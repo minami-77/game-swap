@@ -1,5 +1,7 @@
 class ListingsController < ApplicationController
   def index
+    puts "*******"
+    puts params
     @query = params.dig(:search, :query)
     if @query.present?
       normalized_query = @query.gsub(/[^a-z0-9]/i, '').downcase
@@ -15,6 +17,8 @@ class ListingsController < ApplicationController
       "Maximum rental period",
       # "Owner reviews",
       # "Date posted (newest to oldest)",
+      "Rating",
+      "Most popular"
     ]
 
     @filter_methods = [

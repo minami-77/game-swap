@@ -5,8 +5,6 @@ export default class extends Controller {
   static targets = ["searchCard", "searchResultsContainer", "sortDropdownInput", "sortDropdown"];
 
   connect() {
-    console.log("connected sort listings stimulus controller");
-    // console.log(this.searchCardTargets);
     document.addEventListener("click", this.closeInput);
   }
 

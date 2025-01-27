@@ -30,6 +30,8 @@ response = http.request(request)
 token_json = JSON.parse(response.body)
 BEARER_TOKEN = token_json["access_token"]
 
+puts BEARER_TOKEN
+
 ### Gets the list of games
 
 HTTP_REQUEST = Net::HTTP.new('api.igdb.com',443)
@@ -68,8 +70,8 @@ def seed_dev
         next if Platform.find_by(platform_id: platform_id)
 
         name = platform["name"]
-        slug = platform["slug"]
-        Platform.create!(platform_id:, name:, slug:)
+        search_name = name.gsub(/[^a-z0-9]/i, '').downcase
+        Platform.create!(platform_id:, name:, search_name:)
       end
     end
     puts "Platforms import complete"

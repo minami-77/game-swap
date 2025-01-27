@@ -1,16 +1,12 @@
 <div class="w-100 d-flex">
   <form class="filter-section d-flex flex-column">
-    <div class="slidecontainer d-flex align-items-center justify-content-evenly">
-      <label class="" for="price-range">Price range</label>
-      <input type="range" min="1" max="100" value="50" class="price-range-slider" id="price-range" name="price-range">
-    </div>
+    <%= render "filter_menus" %>
   </form>
 
-  <div class="search-results-section" data-controller="sort-listings" data-controller="filter-listings">
+  <div class="search-results-section" data-controller="sort-listings filter-listings">
     <div class="w-100 d-flex justify-content-evenly">
       <%= render "shared/search_input" %>
       <%= render "sort_menus" %>
-      <%= render "filter_menus" %>
     </div>
     <%= render "search_results" %>
   </div>
