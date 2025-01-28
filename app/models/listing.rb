@@ -1,4 +1,5 @@
 class Listing < ApplicationRecord
+  has_many_attached :photos
   belongs_to :user
   belongs_to :game
   has_many :offers, dependent: :destroy

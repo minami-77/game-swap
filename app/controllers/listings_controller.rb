@@ -30,6 +30,6 @@ class ListingsController < ApplicationController
   private
 
   def listing_params
-    params.require(:new_listing).permit(:description, :price, :max)
+    params.require(:new_listing).permit(:description, :price, :max, photos: [])
   end
 end
