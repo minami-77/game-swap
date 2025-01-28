@@ -61,7 +61,7 @@ def seed_dev
 
     1.times do |i|
       offset = i * LIMIT
-      request.body = get_query(offset, ["name", "platforms", "summary", "url", "cover", "id", "total_rating", "total_rating_count"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
+      request.body = get_query(offset, ["name", "platforms", "summary", "url", "cover", "id", "total_rating", "total_rating_count", "genres"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
       games_data = JSON.parse(HTTP_REQUEST.request(request).body)
       break if games_data.empty?
 
@@ -71,13 +71,14 @@ def seed_dev
 
         name = game["name"]
         platforms = JSON.generate(game["platforms"])
+        genres = JSON.generate(game["genres"])
         search_name = name.gsub(/[^a-z0-9]/i, '').downcase
         summary = game["summary"]
         url = game["url"]
         cover_id = game["cover"]
         total_rating = game["total_rating"].round(1)
         total_rating_count = game["total_rating_count"]
-        Game.create!(igdb_id:, name:, platforms:, search_name:, summary:, url:, cover_id:, total_rating:, total_rating_count:)
+        Game.create!(igdb_id:, name:, platforms:, search_name:, summary:, url:, cover_id:, total_rating:, total_rating_count:, genres:)
       end
     end
     # query notes
@@ -170,9 +171,6 @@ def seed_dev
   get_covers
 end
 
-seed_dev
-
-
 #### Production seed methods
 # **** Currently not complete, as seeding methods have slightly changed since the dev seeding was implemented. Covers will need to be done better prior to being able to do a full DB migration. Currently seeding covers through find_by to connect to a game is too slow
 
@@ -262,98 +260,104 @@ seed_dev
 # end
 
 # get_covers
+def seed_db_details
+  Location.destroy_all
 
-Location.destroy_all
+  Location.create(address: "Shibuya, Tokyo")
+  Location.create(address: "Shinjuku, Tokyo")
+  Location.create(address: "Harajuku, Tokyo")
+  Location.create(address: "Ueno, Tokyo")
+  Location.create(address: "Ginza, Tokyo")
+  Location.create(address: "Ikebukuro, Tokyo")
+  Location.create(address: "Tokyo Disneyland, Chiba")
+  Location.create(address: "Hachioji, Tokyo")
+  Location.create(address: "Akihabara, Tokyo")
+  Location.create(address: "Roppongi, Tokyo")
+  Location.create(address: "Tochigi, Tochigi")
+  Location.create(address: "Nishi-Kasai, Tokyo")
+  Location.create(address: "Shinagawa, Tokyo")
 
-Location.create(address: "Shibuya, Tokyo")
-Location.create(address: "Shinjuku, Tokyo")
-Location.create(address: "Harajuku, Tokyo")
-Location.create(address: "Ueno, Tokyo")
-Location.create(address: "Ginza, Tokyo")
-Location.create(address: "Ikebukuro, Tokyo")
-Location.create(address: "Tokyo Disneyland, Chiba")
-Location.create(address: "Hachioji, Tokyo")
-Location.create(address: "Akihabara, Tokyo")
-Location.create(address: "Roppongi, Tokyo")
-Location.create(address: "Tochigi, Tochigi")
-Location.create(address: "Nishi-Kasai, Tokyo")
-Location.create(address: "Shinagawa, Tokyo")
+  puts "Location seeding complete"
 
-puts "Location seeding complete"
-
-# Clear existing data
-User.destroy_all
-# Seed Users
-30.times do
-  User.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    email: Faker::Internet.email,
-    username: Faker::Name.name,
+  # Clear existing data
+  User.destroy_all
+  # Seed Users
+  30.times do
+    User.create!(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email: Faker::Internet.email,
+      username: Faker::Name.name,
+      password: "123456",
+      location_id: Location.all.sample.id
+    )
+  end
+  first_user = User.create!(
+    first_name: "Bob",
+    last_name: "Tanaka",
+    email: "bob@email.com",
+    username: "Bob",
     password: "123456",
     location_id: Location.all.sample.id
   )
-end
-first_user = User.create!(
-  first_name: "Bob",
-  last_name: "Tanaka",
-  email: "bob@email.com",
-  username: "Bob",
-  password: "123456",
-  location_id: Location.all.sample.id
-)
-second_user = User.create!(
-  first_name: "Hana",
-  last_name: "Smith",
-  email: "hana@email.com",
-  username: "Hana",
-  password: "123456",
-  location_id: Location.all.sample.id
-)
-third_user = User.create!(
-  first_name: "asdf",
-  last_name: "asdf",
-  email: "asdf@asdf.com",
-  username: "asdf",
-  password: "asdfasdf",
-  location_id: Location.all.sample.id
-)
-puts "User import complete"
+  second_user = User.create!(
+    first_name: "Hana",
+    last_name: "Smith",
+    email: "hana@email.com",
+    username: "Hana",
+    password: "123456",
+    location_id: Location.all.sample.id
+  )
+  third_user = User.create!(
+    first_name: "asdf",
+    last_name: "asdf",
+    email: "asdf@asdf.com",
+    username: "asdf",
+    password: "asdfasdf",
+    location_id: Location.all.sample.id
+  )
+  puts "User import complete"
 
-# Clear existing data
-Listing.destroy_all
+  # Clear existing data
+  Listing.destroy_all
 
-array_of_yen = [500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]
-array_of_platforms = [167, 169, 130, 6, 48, 49]
+  array_of_yen = [500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]
+  array_of_platforms = [167, 169, 130, 6, 48, 49]
 
-# Seed Listings
-User.all.each do |user|
-  3.times do |_i|
-    random_platform = Platform.find_by(platform_id: array_of_platforms.sample)
-    Listing.create!(
-      price: array_of_yen[rand(array_of_yen.count)],
-      description: "This is a sample listing description.",
-      max: rand(5..30),
-      user: user,
-      game: Game.all[rand(Game.count)],
-      platform: random_platform,
+  # Seed Listings
+  User.all.each do |user|
+    3.times do |_i|
+      random_platform = Platform.find_by(platform_id: array_of_platforms.sample)
+      Listing.create!(
+        price: array_of_yen[rand(array_of_yen.count)],
+        description: "This is a sample listing description.",
+        max: rand(5..30),
+        user: user,
+        game: Game.all[rand(Game.count)],
+        platform: random_platform,
+      )
+    end
+  end
+
+  puts "Listings import complete"
+
+  # Clear existing data
+  Offer.destroy_all
+  # Seed offers
+  150.times do |i|
+    Offer.create!(
+      comments: 'This is a sample offer comment.',
+      start_date: Date.today + i,
+      price: rand(50..200),
+      period: rand(5..30),
+      listing: Listing.all.sample,
+      user: User.all.sample
     )
   end
+  puts "Offers import complete"
 end
 
-puts "Listings import complete"
+seed_dev
+seed_db_details
 
-# Clear existing data
-Offer.destroy_all
-# Seed offers
-50.times do |i|
-  Offer.create!(
-    comments: 'This is a sample offer comment.',
-    start_date: Date.today + i,
-    price: rand(50..200),
-    period: rand(5..30),
-    listing: Listing.all[i],
-    user: second_user
-  )
-end
-puts "Offers import complete"
+# test_seed_methods
