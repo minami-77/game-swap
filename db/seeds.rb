@@ -263,29 +263,60 @@ seed_dev
 
 # get_covers
 
+Location.destroy_all
+
+Location.create(address: "Shibuya, Tokyo")
+Location.create(address: "Shinjuku, Tokyo")
+Location.create(address: "Harajuku, Tokyo")
+Location.create(address: "Ueno, Tokyo")
+Location.create(address: "Ginza, Tokyo")
+Location.create(address: "Ikebukuro, Tokyo")
+Location.create(address: "Tokyo Disneyland, Chiba")
+Location.create(address: "Hachioji, Tokyo")
+Location.create(address: "Akihabara, Tokyo")
+Location.create(address: "Roppongi, Tokyo")
+Location.create(address: "Tochigi, Tochigi")
+Location.create(address: "Nishi-Kasai, Tokyo")
+Location.create(address: "Shinagawa, Tokyo")
+
+puts "Location seeding complete"
+
 # Clear existing data
 User.destroy_all
 # Seed Users
+30.times do
+  User.create!(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    username: Faker::Name.name,
+    password: "123456",
+    location_id: Location.all.sample.id
+  )
+end
 first_user = User.create!(
   first_name: "Bob",
   last_name: "Tanaka",
   email: "bob@email.com",
   username: "Bob",
-  password: "123456"
+  password: "123456",
+  location_id: Location.all.sample.id
 )
 second_user = User.create!(
   first_name: "Hana",
   last_name: "Smith",
   email: "hana@email.com",
   username: "Hana",
-  password: "123456"
+  password: "123456",
+  location_id: Location.all.sample.id
 )
 third_user = User.create!(
   first_name: "asdf",
   last_name: "asdf",
   email: "asdf@asdf.com",
   username: "asdf",
-  password: "asdfasdf"
+  password: "asdfasdf",
+  location_id: Location.all.sample.id
 )
 puts "User import complete"
 
@@ -297,7 +328,7 @@ array_of_platforms = [167, 169, 130, 6, 48, 49]
 
 # Seed Listings
 User.all.each do |user|
-  50.times do |_i|
+  3.times do |_i|
     random_platform = Platform.find_by(platform_id: array_of_platforms.sample)
     Listing.create!(
       price: array_of_yen[rand(array_of_yen.count)],
