@@ -20,13 +20,13 @@
 }
 
 .form-control:focus {
-  border-color: #80bdff;
+  border-color: $primary-color;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .btn-primary {
-  background: linear-gradient(90deg, #3138cd, #7b14d5);
+  background: linear-gradient(90deg, $primary-color, $secondary-color);
   border: none;
   padding: 10px 20px;
   font-size: 1rem;
@@ -34,6 +34,6 @@
   transition: background 0.3s ease-in-out;
 
   &:hover {
-    background: linear-gradient(360deg, #020653, #020653);
+    background: linear-gradient(360deg, $hover-color, $hover-color);
   }
 }

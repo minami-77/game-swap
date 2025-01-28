@@ -1,21 +1,22 @@
 
 .dashboard-body {
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: $background-color;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .create-listing-button {
   border-radius: 50px;
   padding: 10px 20px;
   font-size: 1rem;
-  background: linear-gradient(90deg, #3138cd, #7b14d5);
+  background: linear-gradient(90deg, $primary-color, $secondary-color);
   color: #fff;
   transition: background 0.3s ease-in-out;
 
   &:hover {
-    background: linear-gradient(360deg, #020653, #020653);
+    background: linear-gradient(360deg, $hover-color, $hover-color);
   }
 }
 
