@@ -2,14 +2,15 @@
   <%= simple_form_for :new_listing, url: "listings" do |f| %>
     <div class="form-group">
       <%= f.label :game_name, "Add the name of the game you wish to make a listing for" %>
-      <%= f.text_field :game_name, class: "form-control", list: "game-list", data: { target: "create-listing.gameNameInput" } %>
+      <%= f.text_field :game_name, class: "form-control", list: "game-list", data: { "create-listing-target" => "gameNameInput" } %>
     </div>
     <%= f.input :description, label: "Describe the game/condition of the game" %>
     <%= f.input :price, label: "How much would you like to rent it out for?" %>
     <%= f.input :max, label: "How long would you like to rent it out for?" %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+    <%= f.input :platform, collection: [], input_html: { data: { "create-listing-target" => "platformInput" } } %>
+    <datalist id="game-list" data-create-listing-target="platformDropdown"></datalist>
+
     <%= f.submit %>
   <% end %>
 </div>
-
-<datalist id="game-list"></datalist>
