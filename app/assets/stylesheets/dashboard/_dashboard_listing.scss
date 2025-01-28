@@ -1,0 +1,66 @@
+
+.dashboard-body {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-listing-button {
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: linear-gradient(90deg, #3138cd, #7b14d5);
+  color: #fff;
+  transition: background 0.3s ease-in-out;
+
+  &:hover {
+    background: linear-gradient(360deg, #020653, #020653);
+  }
+}
+
+.dashboard-listings-container {
+  margin-top: 20px;
+}
+
+.dashboard-listing {
+  background: #fff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  text-align: center;
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: #f7eafe;
+  }
+
+  .card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 10px;
+
+    .card-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      color: #111;
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      margin-top: 10px;
+    }
+
+    .card-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 400;
+      color: #555;
+      margin-top: 5px;
+    }
+  }
+}
