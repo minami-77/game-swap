@@ -1,0 +1,14 @@
+<div class="sort-div d-flex">
+  <p class="sort-by-text me-2">Sort by:</p>
+  <div class="position-relative">
+    <p class="sort-dropdown-input" data-sort-listings-target="sortDropdownInput" data-action="click->sort-listings#openInput">Select your sort method</p>
+    <ul class="sort-dropdown position-absolute p-0 d-none" data-sort-listings-target="sortDropdown">
+      <% @sort_methods.each do |sort_option| %>
+        <li class="sort-option list-unstyled" data-action="click->sort-listings#sort"><%= sort_option %></li>
+      <% end %>
+    </ul>
+  </div>
+
+
+
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_24_140743) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_28_071417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_24_140743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "search_name"
+    t.integer "total_rating_count"
+    t.float "total_rating"
+    t.string "genres"
+  end
+
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+    t.integer "genre_id"
+    t.string "search_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "listings", force: :cascade do |t|
@@ -43,8 +54,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_24_140743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "game_id"
+    t.bigint "platform_id"
     t.index ["game_id"], name: "index_listings_on_game_id"
+    t.index ["platform_id"], name: "index_listings_on_platform_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.float "latitude"
+    t.float "longitude"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "offers", force: :cascade do |t|
@@ -64,9 +85,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_24_140743) do
   create_table "platforms", force: :cascade do |t|
     t.integer "platform_id"
     t.string "name"
-    t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "search_name"
   end
 
   create_table "users", force: :cascade do |t|
@@ -80,13 +101,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_24_140743) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+<<<<<<< HEAD
+    t.bigint "location_id"
+=======
+    t.float "latitude"
+    t.float "longitude"
+>>>>>>> master
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "covers", "games"
   add_foreign_key "listings", "games"
+  add_foreign_key "listings", "platforms"
   add_foreign_key "listings", "users"
   add_foreign_key "offers", "listings"
   add_foreign_key "offers", "users"
+  add_foreign_key "users", "locations"
 end

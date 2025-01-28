@@ -13,7 +13,7 @@
 
   .search-bar-container {
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -22,7 +22,7 @@
   .search-bar {
     display: inline-block;
     background: rgba(0, 0, 0, 0.6); // Darker background for better contrast
-    padding: 10px 20px;
+    padding: 10px 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -39,18 +39,18 @@
         margin-right: 10px;
       }
 
-      .btn-primary {
+      .btn {
         padding: 10px 20px;
         border-radius: 5px;
         border: none;
-        background-color: #007bff;
+        background: linear-gradient(to bottom, #761ec8, #0056b3);
         color: #fff;
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s;
 
         &:hover {
-          background-color: #0056b3;
+          background: linear-gradient(to bottom, #0056b3, #003f7f);
         }
       }
     }
