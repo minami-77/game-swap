@@ -7,8 +7,6 @@ export default class extends Controller {
   connect() {
     this.gameNameInputTarget.addEventListener('input', this.fetchOptions.bind(this));
     // this.gameNameInputTarget.addEventListener('input', this.fetchPlatforms.bind(this));
-    console.log(this.platformInputTarget);
-
   }
 
   async fetchOptions(event) {
@@ -27,7 +25,7 @@ export default class extends Controller {
       });
     }
 
-    const inDatalist = Array.from(this.platformDropdownTarget.options).some(option => option.value === query);
+    const inDatalist = Array.from(this.platformDropdownTarget.options).some(option => option.value.toLowerCase() === query.toLowerCase());
     if (inDatalist) {
       this.#retrievePlatforms(query);
     }
