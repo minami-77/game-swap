@@ -30,6 +30,8 @@ response = http.request(request)
 token_json = JSON.parse(response.body)
 BEARER_TOKEN = token_json["access_token"]
 
+puts BEARER_TOKEN
+
 ### Gets the list of games
 
 HTTP_REQUEST = Net::HTTP.new('api.igdb.com',443)
@@ -54,33 +56,12 @@ end
 
 #### Testing seed methods
 def seed_dev
-  def get_platforms
-    request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/platforms'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
-
-    0.upto(Float::INFINITY) do |i|
-      offset = i * LIMIT
-      request.body = get_query(offset, ["name", "slug", "id"])
-      platforms_data = JSON.parse(HTTP_REQUEST.request(request).body)
-      break if platforms_data.empty?
-
-      platforms_data.each do |platform|
-        platform_id = platform["id"]
-        next if Platform.find_by(platform_id: platform_id)
-
-        name = platform["name"]
-        slug = platform["slug"]
-        Platform.create!(platform_id:, name:, slug:)
-      end
-    end
-    puts "Platforms import complete"
-  end
-
   def get_games
     request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/games'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
     1.times do |i|
       offset = i * LIMIT
-      request.body = get_query(offset, ["name", "platforms", "summary", "url", "cover", "id"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
+      request.body = get_query(offset, ["name", "platforms", "summary", "url", "cover", "id", "total_rating", "total_rating_count"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
       games_data = JSON.parse(HTTP_REQUEST.request(request).body)
       break if games_data.empty?
 
@@ -94,7 +75,9 @@ def seed_dev
         summary = game["summary"]
         url = game["url"]
         cover_id = game["cover"]
-        Game.create!(igdb_id:, name:, platforms:, search_name:, summary:, url:, cover_id:)
+        total_rating = game["total_rating"].round(1)
+        total_rating_count = game["total_rating_count"]
+        Game.create!(igdb_id:, name:, platforms:, search_name:, summary:, url:, cover_id:, total_rating:, total_rating_count:)
       end
     end
     # query notes
@@ -133,11 +116,56 @@ def seed_dev
     puts "Covers import complete"
   end
 
+
+  def get_platforms
+    request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/platforms'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
+
+    0.upto(Float::INFINITY) do |i|
+      offset = i * LIMIT
+      request.body = get_query(offset, ["name", "id"])
+      platforms_data = JSON.parse(HTTP_REQUEST.request(request).body)
+      break if platforms_data.empty?
+
+      platforms_data.each do |platform|
+        platform_id = platform["id"]
+        next if Platform.find_by(platform_id: platform_id)
+
+        name = platform["name"]
+        search_name = name.gsub(/[^a-z0-9]/i, '').downcase
+        Platform.create!(platform_id:, name:, search_name:)
+      end
+    end
+    puts "Platforms import complete"
+  end
+
+  def get_genres
+    request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/genres'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
+
+    0.upto(Float::INFINITY) do |i|
+      offset = i * LIMIT
+      request.body = get_query(offset, ["name", "id"])
+      genres_data = JSON.parse(HTTP_REQUEST.request(request).body)
+      break if genres_data.empty?
+
+      genres_data.each do |genre|
+        genre_id = genre["id"]
+        next if Genre.find_by(genre_id: genre_id)
+
+        name = genre["name"]
+        search_name = name.gsub(/[^a-z0-9]/i, '').downcase
+        Genre.create!(genre_id:, name:, search_name:)
+      end
+    end
+    puts "Genres import complete"
+  end
+
   Platform.destroy_all
+  Genre.destroy_all
   # Cover destroy has to be before game because of dependencies
   Cover.destroy_all
   Game.destroy_all
   get_platforms
+  get_genres
   get_games
   get_covers
 end
@@ -265,16 +293,19 @@ puts "User import complete"
 Listing.destroy_all
 
 array_of_yen = [500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]
+array_of_platforms = [167, 169, 130, 6, 48, 49]
 
 # Seed Listings
 User.all.each do |user|
   50.times do |_i|
+    random_platform = Platform.find_by(platform_id: array_of_platforms.sample)
     Listing.create!(
       price: array_of_yen[rand(array_of_yen.count)],
       description: "This is a sample listing description.",
       max: rand(5..30),
       user: user,
-      game: Game.all[rand(Game.count)]
+      game: Game.all[rand(Game.count)],
+      platform: random_platform,
     )
   end
 end

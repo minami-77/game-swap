@@ -1,0 +1,13 @@
+<div class="w-100 d-flex">
+  <form class="filter-section d-flex flex-column p-2">
+    <%= render "filter_menus" %>
+  </form>
+
+  <div class="search-results-section" data-controller="sort-listings filter-listings">
+    <div class="w-100 d-flex justify-content-evenly">
+      <%= render "shared/search_input" %>
+      <%= render "sort_menus" %>
+    </div>
+    <%= render "search_results" %>
+  </div>
+</div>

@@ -1,18 +1,7 @@
 <!-- BANNER -->
 <div class="banner">
   <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-responsive' %>
-  <div class="search-bar-container">
-    <div class="search-bar">
-      <%= form_tag root_path, method: :get, class: 'form-inline' do %>
-        <div class="input-group">
-          <%= text_field_tag :query, params[:query], placeholder: "Search for games...", class: 'form-control mr-sm-2' %>
-          <div class="input-group-append">
-            <%= submit_tag "Search", class: "btn btn-primary" %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
+  <%= render "shared/search_input" %>
 </div>
 
 <!-- CAROUSEL -->

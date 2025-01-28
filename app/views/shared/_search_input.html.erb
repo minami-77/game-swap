@@ -1,0 +1,14 @@
+<div class="search-bar-container">
+  <div class="search-bar" data-controller="create-listing">
+    <%= form_tag listings_path, method: :get, class: "form-inline",  data: { "filter-listings-target" => "submitForm" } do %>
+      <div class="input-group">
+        <%= text_field_tag :name, params[:name], placeholder: "Search for games...", value: params[:name], class: 'search-input form-control mr-sm-2', data: { "create-listing-target": "gameNameInput" }, list: "game-list" %>
+        <div class="input-group-append">
+          <%= submit_tag "Search", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<datalist id="game-list"></datalist>
