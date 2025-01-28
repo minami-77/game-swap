@@ -1,3 +1,5 @@
+<%= tag.link rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=location_on" %>
+
 <% if @listings.any? %>
   <h2>Search Results for <%= @query ? "all listings" : '"' + @query + '"'  %>:</h2>
   <div class="row w-100" data-sort-listings-target="searchResultsContainer">
@@ -11,7 +13,11 @@
             <h5 class="card-title"><%= listing.game.name %></h5>
             <p class="listing-price card-text">Price: <%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
             <p class="card-text">Maximum Rental Period: <span class="rental-period"><%= listing.max %></span> days</p>
-            <p class="card-platform">Platform: <%= listing.platform.name %></p>
+            <p class="card-platform-text">Platform: <%= listing.platform.name %></p>
+            <p class="card-location-text">
+              <span class="material-symbols-outlined">location_on</span>
+              <%= listing.user.location.address %>
+            </p>
             <%= link_to 'View Listing', listing_path(listing), class: 'btn btn-primary' %>
           </div>
         </div>

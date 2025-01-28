@@ -17,12 +17,13 @@ export default class extends Controller {
 
     const filterParams = this.#getFilterParams();
     const params = new URLSearchParams({ name: query, ...filterParams }).toString();
+
     window.location.href = `/listings?${params}`;
   }
 
   #getFilterParams() {
     const filterObject = {};
-
+    filterObject.distance = document.querySelector(".distance-slider").value;
     this.#platformCheckboxes(filterObject);
     return filterObject;
   }
