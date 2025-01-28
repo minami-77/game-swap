@@ -17,14 +17,11 @@
           <div class = "m-3">
             <p class="card-text">Game Owner: <%= @listing.user.username %></p>
           </div>
-          <div class="d-flex" data-controller="create-offer">
+          <div data-controller="create-offer">
             <button class="create-offer-button btn btn-primary m-3"
                     data-action="click->create-offer#renderForm">
                     Rent this game
             </button>
-            <% @listing.photos.each do |photo| %>
-              <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
-            <% end %>
             <%= render "create_offer" %>
           </div>
         </div>
