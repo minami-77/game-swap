@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_28_051444) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_28_071417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_28_051444) do
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.float "latitude"
+    t.float "longitude"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "offers", force: :cascade do |t|
     t.text "comments"
     t.date "start_date"
@@ -121,10 +129,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_28_051444) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+<<<<<<< HEAD
+    t.bigint "location_id"
+=======
     t.float "latitude"
     t.float "longitude"
-    t.bigint "location_id"
+>>>>>>> master
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -136,4 +148,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_28_051444) do
   add_foreign_key "listings", "users"
   add_foreign_key "offers", "listings"
   add_foreign_key "offers", "users"
+  add_foreign_key "users", "locations"
 end
