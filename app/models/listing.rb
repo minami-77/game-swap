@@ -1,4 +1,5 @@
 class Listing < ApplicationRecord
+  has_many_attached :photos
   belongs_to :user
   belongs_to :game
   belongs_to :platform
