@@ -19,5 +19,4 @@ Rails.application.routes.draw do
   post "/listings", to: "listings#create"
 
   get 'games/search', to: 'games#search'
-
 end

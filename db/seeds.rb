@@ -260,31 +260,61 @@ end
 # end
 
 # get_covers
-
 def seed_db_details
+  Location.destroy_all
+
+  Location.create(address: "Shibuya, Tokyo")
+  Location.create(address: "Shinjuku, Tokyo")
+  Location.create(address: "Harajuku, Tokyo")
+  Location.create(address: "Ueno, Tokyo")
+  Location.create(address: "Ginza, Tokyo")
+  Location.create(address: "Ikebukuro, Tokyo")
+  Location.create(address: "Tokyo Disneyland, Chiba")
+  Location.create(address: "Hachioji, Tokyo")
+  Location.create(address: "Akihabara, Tokyo")
+  Location.create(address: "Roppongi, Tokyo")
+  Location.create(address: "Tochigi, Tochigi")
+  Location.create(address: "Nishi-Kasai, Tokyo")
+  Location.create(address: "Shinagawa, Tokyo")
+
+  puts "Location seeding complete"
+
   # Clear existing data
   User.destroy_all
   # Seed Users
+  30.times do
+    User.create!(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email: Faker::Internet.email,
+      username: Faker::Name.name,
+      password: "123456",
+      location_id: Location.all.sample.id
+    )
+  end
   first_user = User.create!(
     first_name: "Bob",
     last_name: "Tanaka",
     email: "bob@email.com",
     username: "Bob",
-    password: "123456"
+    password: "123456",
+    location_id: Location.all.sample.id
   )
   second_user = User.create!(
     first_name: "Hana",
     last_name: "Smith",
     email: "hana@email.com",
     username: "Hana",
-    password: "123456"
+    password: "123456",
+    location_id: Location.all.sample.id
   )
   third_user = User.create!(
     first_name: "asdf",
     last_name: "asdf",
     email: "asdf@asdf.com",
     username: "asdf",
-    password: "asdfasdf"
+    password: "asdfasdf",
+    location_id: Location.all.sample.id
   )
   puts "User import complete"
 
@@ -296,7 +326,7 @@ def seed_db_details
 
   # Seed Listings
   User.all.each do |user|
-    50.times do |_i|
+    3.times do |_i|
       random_platform = Platform.find_by(platform_id: array_of_platforms.sample)
       Listing.create!(
         price: array_of_yen[rand(array_of_yen.count)],
@@ -314,24 +344,20 @@ def seed_db_details
   # Clear existing data
   Offer.destroy_all
   # Seed offers
-  50.times do |i|
+  150.times do |i|
     Offer.create!(
       comments: 'This is a sample offer comment.',
       start_date: Date.today + i,
       price: rand(50..200),
       period: rand(5..30),
-      listing: Listing.all[i],
-      user: second_user
+      listing: Listing.all.sample,
+      user: User.all.sample
     )
   end
   puts "Offers import complete"
 end
 
-# seed_dev
-# seed_db_details
-
-def test_seed_methods
-  Platform.all.each { |platform| puts platform.name, platform.platform_id }
-end
+seed_dev
+seed_db_details
 
 # test_seed_methods
