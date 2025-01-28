@@ -19,4 +19,6 @@ Rails.application.routes.draw do
   post "/listings", to: "listings#create"
 
   get 'games/search', to: 'games#search'
+
+  get "get_platforms", to: "platforms#get_platforms"
 end

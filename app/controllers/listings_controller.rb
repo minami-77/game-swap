@@ -68,6 +68,10 @@ class ListingsController < ApplicationController
 
     listing = current_user.listings.new(listing_params)
     listing.game = game
+
+    platform = Platform.find_by(name: param["platform"])
+    listing.platform_id = platform.id
+
     if listing.save
       redirect_to dashboard_path
     else
