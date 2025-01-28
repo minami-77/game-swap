@@ -30,6 +30,8 @@ gem "devise"
 
 gem 'ostruct', '~> 0.1.0'
 
+gem 'geocoder'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
