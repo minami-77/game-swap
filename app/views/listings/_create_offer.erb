@@ -3,10 +3,16 @@
     <div class="col-md-6">
       <%= f.input :start_date,
                   as: :string,
-                  input_html: { data: { controller: "datepicker" } } %>
+                  input_html: { data: { controller: "datepicker" } },
+                  label: "Choose the rental start date:",
+                  label_html: { class: "card-text" }
+      %>
     </div>
     <div class="col-md-6">
-        <%= f.input :comments, label: "Write a comment to this game owner." %>
+      <%= f.input :comments,
+                  label: "Write a comment to this game owner:",
+                  label_html: { class:"card-text"}
+      %>
     </div>
     <%= f.submit "Send a request", class:"btn btn btn-gradient-oval"%>
   <% end %>

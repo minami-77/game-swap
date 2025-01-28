@@ -1,5 +1,6 @@
-<div class ="container">
-  <h1 class="text-center my-5 card-title"><%= @listing.game.name %></h1>
+<div class="d-flex justify-content-center align-items-center min-vh-100 my-2">
+<div class ="container-black">
+  <h1 class="text-center my-4"><%= @listing.game.name %></h1>
   <div class="d-flex justify-content-center">
     <div class="card-container m-1" style="max-width: 1000px;">
       <div class="row g-0">
@@ -9,48 +10,48 @@
         <div class="col-md-8">
           <div class="card-body d-flex flex-column">
             <div class="row m-3">
-              <div class="col-4 col-sm-4">
+              <div class="col-5 col-sm-4">
                 <p class="card-text bold">Game Title</p>
               </div>
-              <div class="col-8 col-sm-8">
+              <div class="col-7 col-sm-8">
                 <p class="card-text"><%= @listing.game.name %></p>
               </div>
             </div>
             <div class="row m-3">
-              <div class="col-4 col-sm-4">
+              <div class="col-5 col-sm-4">
                 <p class="card-text bold">Description</p>
               </div>
-              <div class="col-8 col-sm-8">
+              <div class="col-7 col-sm-8">
                 <p class="card-text"><%= @listing.description %></p>
               </div>
             </div>
             <div class="row m-3">
-              <div class="col-4 col-sm-4">
+              <div class="col-5 col-sm-4">
                 <p class="card-text bold">Rental Price</p>
               </div>
-              <div class="col-8 col-sm-8">
+              <div class="col-7 col-sm-8">
                 <p class="card-text bold"> $ <%= @listing.price %></p>
               </div>
             </div>
             <div class="row m-3">
-              <div class="col-4 col-sm-4">
+              <div class="col-5 col-sm-4">
                 <p class="card-text bold">Maximum Rental Period</p>
               </div>
-              <div class="col-8 col-sm-8">
+              <div class="col-7 col-sm-8">
                 <p class="card-text"> <%= @listing.max %> days</p>
               </div>
             </div>
             <hr>
             <div class="row m-3">
-              <div class="col-4 col-sm-4">
+              <div class="col-5 col-sm-4">
                 <p class="card-text bold">Game Owner</p>
               </div>
-              <div class="col-8 col-sm-8">
+              <div class="col-7 col-sm-8">
                 <p class="card-text"><%= @listing.user.username %></p>
               </div>
             </div>
-            <div data-controller="create-offer">
-              <button class="create-offer-button btn btn-gradient-oval m-3"
+            <div class="row m-3" data-controller="create-offer">
+              <button class="create-offer-button btn btn-gradient-oval m-3 flex-grow-1"
                       data-action="click->create-offer#renderForm">
                       Rent this game
               </button>
@@ -62,6 +63,7 @@
     </div>
   </div>
   <div class="m-5">
-    <%= link_to "Back", :back || "/", class:"btn btn-gradient-rectangle" %>
+    <%= link_to "Back", :back || "/", class:"btn btn-gradient-rectangle my-1" %>
   </div>
+</div>
 </div>
