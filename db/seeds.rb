@@ -289,6 +289,7 @@ def seed_db_details
       email: Faker::Internet.email,
       username: Faker::Name.name,
       password: "123456",
+      password_confirmation: "123456",
       location_id: Location.all.sample.id
     )
   end
@@ -298,6 +299,7 @@ def seed_db_details
     email: "bob@email.com",
     username: "Bob",
     password: "123456",
+    password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   second_user = User.create!(
@@ -306,6 +308,7 @@ def seed_db_details
     email: "hana@email.com",
     username: "Hana",
     password: "123456",
+    password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   third_user = User.create!(
@@ -314,6 +317,16 @@ def seed_db_details
     email: "asdf@asdf.com",
     username: "asdf",
     password: "asdfasdf",
+    password_confirmation: "asdfasdf",
+    location_id: Location.all.sample.id
+  )
+  fourth_user = User.create!(
+    first_name: "asdf",
+    last_name: "asdf",
+    email: "asdf1@asdf.com",
+    username: "asdf",
+    password: "asdfasdf",
+    password_confirmation: "asdfasdf",
     location_id: Location.all.sample.id
   )
   puts "User import complete"
@@ -357,7 +370,34 @@ def seed_db_details
   puts "Offers import complete"
 end
 
-seed_dev
-seed_db_details
+# seed_dev
+# seed_db_details
 
-# test_seed_methods
+
+def seed_messages_and_chats
+  Chat.destroy_all
+  Message.destroy_all
+
+  chat = Chat.create!(
+    first_user_id: User.last.id,
+    second_user_id: User.second_to_last.id
+  )
+  m1 = Message.create!(
+    message: "Hi",
+    chat: Chat.first,
+    user: User.last,
+  )
+  m2 = Message.create!(
+    message: "Hi",
+    chat: Chat.first,
+    user: User.last,
+  )
+  m3 = Message.create!(
+    message: "Hi",
+    chat: Chat.first,
+    user: User.last,
+  )
+  chat.update(last_message: m3.created_at)
+end
+
+seed_messages_and_chats
