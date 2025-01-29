@@ -24,4 +24,6 @@ Rails.application.routes.draw do
   get 'games/search', to: 'games#search'
 
   get "get_platforms", to: "platforms#get_platforms"
+
+  get "messages", to: "chats#index", as: :chats
 end
