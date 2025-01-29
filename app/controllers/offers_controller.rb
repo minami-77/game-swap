@@ -16,7 +16,7 @@ class OffersController < ApplicationController
     @offer.price = @offer.listing.price
     @offer.period = @offer.listing.max
     if @offer.save
-      redirect_to dashboard_path
+      redirect_to listing_path(@listing), notice: "Thank you for making an offer for this Listing! You can check the status on the Dashboard."
     else
       puts @offer.errors.full_messages
     end
