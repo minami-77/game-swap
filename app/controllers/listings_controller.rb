@@ -16,7 +16,6 @@ class ListingsController < ApplicationController
     @listings = @listings.limit(30)
 
     @platform_checkboxes = get_platform_checkboxes
-
     @sort_methods = [
       "Price (low to high)",
       "Price (high to low)",
@@ -40,7 +39,7 @@ class ListingsController < ApplicationController
   end
 
   def distance_check(params, listings)
-    locations = Location.near(current_user.location.address, params["distance"], order: false)
+    locations = Location.near(current_user.location.address, params["distance"] ? params["distance"] : 30, order: false)
     location_ids = locations.pluck(:id)
     listings = listings.joins(user: :location).where(users: { location_id: location_ids })
     return listings

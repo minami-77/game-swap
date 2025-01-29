@@ -5,14 +5,12 @@ export default class extends Controller {
   static targets = ["searchCard", "searchResultsContainer", "sortDropdownInput", "sortDropdown"];
 
   connect() {
-    document.addEventListener("click", this.closeInput);
+    document.addEventListener("click", this.closeInput.bind(this));
   }
 
   closeInput(event) {
-    const dropdownInput = document.querySelector(".sort-dropdown-input");
-    const dropdown = document.querySelector(".sort-dropdown");
-    if (event.target !== dropdown && event.target !== dropdownInput) {
-      dropdown.classList.add("d-none");
+    if (event.target !== this.sortDropdownTarget && event.target !== this.sortDropdownInputTarget) {
+      this.sortDropdownTarget.classList.add("d-none");
     }
   }
 
