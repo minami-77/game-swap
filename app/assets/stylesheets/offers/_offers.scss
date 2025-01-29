@@ -1,0 +1,29 @@
+.btn-accept {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background: linear-gradient(to bottom, #761ec8, #0056b3);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background: linear-gradient(to bottom, #0056b3, #003f7f);
+  }
+}
+
+.btn-reject {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background: linear-gradient(to bottom, #ec3636, #8f0114);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background: linear-gradient(to bottom, #f14b4b, #dd001e);
+  }
+}

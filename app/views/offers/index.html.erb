@@ -4,7 +4,7 @@
       <h1><%= @listing.game.name %></h1>
       <% if @offers.any? %>
         <% @offers.each do |offer| %>
-          <div class="card-product mt-3">
+          <div class="card shadow-sm mt-3 p-3">
             <p>Start Date: <%= offer.start_date %></p>
             <p>End Date: <%= offer.start_date + @listing.max %></p>
             <p>Offer: <%= offer.price %></p>
@@ -14,11 +14,11 @@
               <div class="d-flex">
                 <%= simple_form_for offer do |f| %>
                   <%= f.input :status, as: :hidden, input_html: { value: "accepted" } %>
-                  <%= f.submit "Accept", class: "btn btn-primary" %>
+                  <%= f.submit "Accept", class: "btn-accept" %>
                 <% end %>
                 <%= simple_form_for offer do |f| %>
                   <%= f.input :status, as: :hidden, input_html: { value: "rejected" } %>
-                  <%= f.submit "Reject", class: "btn btn-danger mx-3" %>
+                  <%= f.submit "Reject", class: "btn-reject mx-3" %>
                 <% end %>
               <% else %>
                   <p>Offer status: <strong><%= offer.status.capitalize %></strong></p>
