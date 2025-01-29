@@ -1,11 +1,12 @@
 <div class="dashboard-body d-flex flex-column align-items-center w-100" data-dashboard-target="listings">
   <div class="d-flex justify-content-between align-items-center w-100 mb-4">
     <h2 class="mb-0">My Games</h2>
-    <div class="create-listings-container d-flex flex-column position-relative" data-controller="create-listing">
-      <button class="create-listing-button btn btn-primary" data-create-listing-target="create-listing-button" data-action="click->create-listing#renderForm">Create a Listing</button>
-      <%= render "create_listing" %>
-    </div>
   </div>
+  <div class="create-listings-container d-flex flex-column position-relative" data-controller="create-listing">
+    <button class="create-listing-button btn btn-primary" data-create-listing-target="create-listing-button" data-action="click->create-listing#renderForm">Create a Listing</button>
+    <%= render "create_listing" %>
+  </div>
+
   <div class="dashboard-listings-container row d-flex justify-content-center w-100">
     <% @listings.each do |listing| %>
       <%= link_to offers_path(listing), class: "dashboard-listing card text-decoration-none col-2 m-2 p-1" do %>

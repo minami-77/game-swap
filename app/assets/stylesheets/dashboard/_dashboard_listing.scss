@@ -37,31 +37,26 @@
     background-color: #f7eafe;
   }
 
-  .card-img-top {
+  img {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     width: 100%;
     height: 200px;
     object-fit: cover;
   }
+  h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    color: #111;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    margin-top: 10px;
+  }
 
-  .card-body {
-    padding: 10px;
-
-    .card-title {
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-      color: #111;
-      text-transform: uppercase;
-      font-size: 1.25rem;
-      margin-top: 10px;
-    }
-
-    .card-text {
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 400;
-      color: #555;
-      margin-top: 5px;
-    }
+  p {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+    color: #555;
+    margin-top: 5px;
   }
 }
