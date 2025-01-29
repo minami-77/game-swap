@@ -1,11 +1,17 @@
-.sidebar-container {
+.chats-container {
+  flex-grow: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.chats-sidebar-container {
   display: flex;
   width: 250px;
-  flex-grow: 1;
+  flex-grow: 0 !important;
   overflow: hidden;
 }
 
-.sidebar {
+.chats-sidebar {
   width: 250px;
   background-color: #343a40;
   padding: 20px;
@@ -16,7 +22,7 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar-btn {
+.chats-sidebar-btn {
   width: 100%;
   background: none;
   color: #fff;

@@ -315,7 +315,7 @@ def seed_db_details
     first_name: "asdf",
     last_name: "asdf",
     email: "asdf@asdf.com",
-    username: "asdf",
+    username: "asdf1",
     password: "asdfasdf",
     password_confirmation: "asdfasdf",
     location_id: Location.all.sample.id
@@ -324,7 +324,7 @@ def seed_db_details
     first_name: "asdf",
     last_name: "asdf",
     email: "asdf1@asdf.com",
-    username: "asdf",
+    username: "asdf2",
     password: "asdfasdf",
     password_confirmation: "asdfasdf",
     location_id: Location.all.sample.id
@@ -371,33 +371,33 @@ def seed_db_details
 end
 
 # seed_dev
-# seed_db_details
+seed_db_details
 
 
 def seed_messages_and_chats
-  Chat.destroy_all
   Message.destroy_all
+  Chat.destroy_all
+  users = [User.last, User.second_to_last]
+  5.times do
+    chat = Chat.create!(
+      first_user_id: User.last.id,
+      second_user_id: User.second_to_last.id
+    )
+  end
 
-  chat = Chat.create!(
-    first_user_id: User.last.id,
-    second_user_id: User.second_to_last.id
-  )
-  m1 = Message.create!(
-    message: "Hi",
-    chat: Chat.first,
-    user: User.last,
-  )
-  m2 = Message.create!(
-    message: "Hi",
-    chat: Chat.first,
-    user: User.last,
-  )
-  m3 = Message.create!(
-    message: "Hi",
-    chat: Chat.first,
-    user: User.last,
-  )
-  chat.update(last_message: m3.created_at)
+  Chat.all.each do |chat|
+    10.times do
+      Message.create!(
+        message: "Hi",
+        chat: chat,
+        user: users.sample
+      )
+    end
+  end
+
+  Chat.all.each do |chat|
+    chat.update(last_message: chat.messages.last.created_at)
+  end
 end
 
 seed_messages_and_chats

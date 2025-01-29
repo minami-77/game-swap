@@ -4,6 +4,10 @@ class ChatsController < ApplicationController
       Chat.where(second_user_id: current_user.id)
     )
     puts @chats
-    puts 
+    puts
+  end
+
+  def get_messages
+
   end
 end

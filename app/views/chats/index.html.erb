@@ -1,9 +1,18 @@
-<div class="sidebar-container d-flex" data-controller="chats">
-  <div class="sidebar">
-    <% @chats.each do |chat| %>
-      <button class="sidebar-btn">
-        <p><%= chat.first_user_id == current_user.id ? User.find(current_user.id).username : User.find(chat.second_user_id).username %></p>
-      </button>
-    <% end %>
+<div class="chats-container d-flex" data-controller="chats">
+  <div class="chats-sidebar-container d-flex">
+    <div class="chats-sidebar">
+      <% @chats.each do |chat| %>
+        <button class="chats-sidebar-btn" data-id="<%= chat.id %>" data-action="click->chats#selectChat">
+          <p>
+            Chatting with:
+            <span class="other-user-name"><%= chat.first_user_id == current_user.id ? User.find(chat.second_user_id).username : User.find(chat.first_user_id).username %></span>
+          </p>
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="messages-container d-flex flex-column" data-chats-target="messagesSection">
+
   </div>
 </div>

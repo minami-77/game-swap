@@ -26,4 +26,5 @@ Rails.application.routes.draw do
   get "get_platforms", to: "platforms#get_platforms"
 
   get "messages", to: "chats#index", as: :chats
+  get "get_messages", to: "chats#get_messages"
 end
