@@ -9,7 +9,7 @@
     <button class="sidebar-btn" data-dashboard-target="dashboardTabs" data-action="click->dashboard#tab">
       <i class="fas fa-cog"></i> Settings
     </button>
-    <%= link_to destroy_user_session_path, method: :delete, class: "sidebar-btn" do %>
+    <%= link_to destroy_user_session_path, method: :delete, class: "sidebar-btn text-decoration-none" do %>
       <i class="fas fa-sign-out-alt"></i> Log out
     <% end %>
   </div>
