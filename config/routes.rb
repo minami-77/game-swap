@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :offers, only: [:create]
   end
 
+  resources :reviews, only: [:create]
+
   post "/listings", to: "listings#create"
 
   get 'games/search', to: 'games#search'
@@ -29,4 +31,5 @@ Rails.application.routes.draw do
   get "get_messages", to: "chats#get_messages"
   get "get_chats", to: "chats#get_chats"
   post "new_message", to: "chats#new_message"
+
 end

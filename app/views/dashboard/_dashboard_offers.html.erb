@@ -2,11 +2,24 @@
   <h2>My offers</h2>
   <div class="dashboard-offers-container row d-flex justify-content-center w-100">
     <% @offers.each do |offer| %>
-      <%= link_to listing_path(offer.listing), class: "dashboard-listing card text-decoration-none col-3 m-2 p-1" do %>
+      <div class="dashboard-listing card text-decoration-none col-3 m-2 p-1">
         <img src="<%= offer.listing.game.cover.url %>" alt="<%= offer.listing.game.name %> cover art">
         <h4><%= offer.listing.game.name %></h4>
-        <p><strong>Offers: </strong><%= offer.listing.offers.count %></p>
-      <% end %>
+        <p><strong>Status: </strong><%= offer.status %></p>
+        <div>
+          <%= link_to "See game detail", listing_path(offer.listing), class:"create-offer-button btn btn-primary btn-gradient-oval"%>
+          <button class="create-offer-button btn btn-primary btn-gradient-oval">Cancel this offer</button>
+            <%= simple_form_for [@review], html: { class: "p-0 row" } do |f| %>
+            <div class="col-md-6">
+              <%= f.input :rating,
+                          label: "Rating:",
+                          label_html: { class:"card-text"} %>
+              <%= f.input :offer_id, as: :hidden, input_html: { value: offer.id } %>
+            </div>
+            <%= f.submit "Rate this owner", class:"btn btn-primary btn-gradient-oval"%>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
