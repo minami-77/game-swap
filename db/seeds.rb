@@ -370,8 +370,8 @@ def seed_db_details
   puts "Offers import complete"
 end
 
-# seed_dev
-# seed_db_details
+seed_dev
+seed_db_details
 
 
 def seed_messages_and_chats
