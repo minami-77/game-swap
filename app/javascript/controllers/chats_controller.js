@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="chats"
 export default class extends Controller {
-  static targets = ["messageText", "messageForm", "messagesSection", "messages", "chatsSidebar"]
+  static targets = ["messageInput", "messageForm", "messagesSection", "messages", "chatsSidebar", "chats"]
 
   connect() {
   }
@@ -16,7 +16,7 @@ export default class extends Controller {
 
   async newMessage(event, chatId) {
     event.preventDefault();
-    const params = { id: chatId, message: this.messageTextTarget.value }
+    const params = { id: chatId, message: this.messageInputTarget.value }
     const response = await fetch(`/new_message`, {
       method: "POST",
       headers: {
@@ -36,13 +36,12 @@ export default class extends Controller {
     this.scrollToLastMessage();
   }
 
-  async renderChatsPartial(data, chatId) {
+  async renderChatsPartial(data) {
     this.chatsSidebarTarget.innerHTML = data;
   }
 
   scrollToLastMessage() {
     const lastMessage = this.messagesTarget.lastElementChild;
-    console.log(lastMessage);
     if (lastMessage) {
       lastMessage.scrollIntoView();
     }

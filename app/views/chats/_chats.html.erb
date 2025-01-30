@@ -1,6 +1,6 @@
 <div class="chats-sidebar">
   <% @chats.each do |chat| %>
-    <button class="chats-sidebar-btn d-flex flex-column align-items-start" data-id="<%= chat.id %>" data-action="click->chats#selectChat">
+    <button class="chats-sidebar-btn d-flex flex-column align-items-start" data-id="<%= chat.id %>" data-action="click->chats#selectChat" data-chats-target="chats">
       <p>
         Chatting with:
         <span class="other-user-name"><%= chat.first_user_id == current_user.id ? User.find(chat.second_user_id).username : User.find(chat.first_user_id).username %></span>

@@ -20,6 +20,7 @@ class ChatsController < ApplicationController
       message: params[:message],
       user: current_user
     )
+
     @chat.update(last_message: new_message.created_at)
     @messages = @chat.messages.order(created_at: :asc)
 

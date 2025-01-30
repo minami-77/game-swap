@@ -54,6 +54,10 @@
   overflow: auto;
 }
 
+.messages-container {
+  flex-grow: 1;
+}
+
 .messages-section {
   height: 80vh;
 }
@@ -64,4 +68,17 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.message-body {
+  max-width: 60%;
+}
+
+.message-form {
+  width: 100%;
+  display: flex;
+}
+
+.message-input {
+  flex-grow: 1;
 }
