@@ -33,7 +33,7 @@
 <div class="platform-checkboxes-container">
   <% @platform_checkboxes.each do |checkbox| %>
   <div class="d-flex">
-    <input type="checkbox" id=<%= checkbox[:id] %> name=<%= checkbox[:name] %> class="platform-checkboxes me-2" data-platform-id=<%= checkbox[:name] %> <%= "checked" if @params["platforms"].split(",").include?(checkbox[:name]) %>>
+    <input type="checkbox" id=<%= checkbox[:id] %> name=<%= checkbox[:name] %> class="platform-checkboxes me-2" data-platform-id=<%= checkbox[:name] %> <%= "checked" if @params["platforms"] && @params["platforms"].split(",").include?(checkbox[:name]) %>>
     <label for=<%= checkbox[:id] %>><%= checkbox[:platform] %></label>
   </div>
   <% end %>

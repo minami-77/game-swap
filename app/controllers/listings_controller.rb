@@ -12,7 +12,10 @@ class ListingsController < ApplicationController
       @listings = Listing.all
         .where.not(user_id: current_user.id)
     end
-    @listings = filter_checks(params, @listings)
+    # This check is needed for when you do a search on the home page, it shouldn't do any filter checks. Platforms is the arbitrary params to look at, any of the other filter checks can be used
+    if params["platforms"]
+      @listings = filter_checks(params, @listings)
+    end
     @listings = @listings.limit(30)
 
     # params instance variable is needed to render the view with the selected filters in place
@@ -44,8 +47,8 @@ class ListingsController < ApplicationController
   end
 
   def duration_check(params, listings)
-    min_duration = params["minDuration"].empty? ? 0 : params["minDuration"]
-    max_duration = params["maxDuration"].empty? ? 10000000 : params["maxDuration"]
+    min_duration = params["minDuration"] == "" ? 0 : params["minDuration"]
+    max_duration = params["maxDuration"] == "" ? 10000000 : params["maxDuration"]
     listings = listings.where("max >= ? AND max <= ?", min_duration, max_duration)
     return listings
   end
