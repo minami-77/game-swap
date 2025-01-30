@@ -34,6 +34,7 @@ export default class extends Controller {
     this.messagesSectionTarget.innerHTML = data;
     this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId))
     this.scrollToLastMessage();
+    this.messageInputTarget.select();
   }
 
   async renderChatsPartial(data) {
