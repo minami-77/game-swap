@@ -371,26 +371,28 @@ def seed_db_details
 end
 
 # seed_dev
-seed_db_details
+# seed_db_details
 
 
 def seed_messages_and_chats
+  users = User.where.not(username: "asdf").sample(10)
+
   Message.destroy_all
   Chat.destroy_all
-  users = [User.last, User.second_to_last]
-  5.times do
+  10.times do |index|
+    random_user = users[index]
+    user = User.find_by(username: "asdf1")
+    chat_users = [user, random_user]
     chat = Chat.create!(
-      first_user_id: User.last.id,
-      second_user_id: User.second_to_last.id
+      first_user_id: user.id,
+      second_user_id: random_user.id
     )
-  end
 
-  Chat.all.each do |chat|
-    random(3..10).times do
-      Message.create!(
+    rand(5..10).times do
+      message = chat.messages.create!(
         message: "Hi",
         chat: chat,
-        user: users.sample
+        user: chat_users.sample
       )
     end
   end

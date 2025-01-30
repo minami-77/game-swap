@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="chats"
 export default class extends Controller {
-  static targets = ["messageText", "messageForm", "messagesSection", "messages"]
+  static targets = ["messageText", "messageForm", "messagesSection", "messages", "chatsSidebar"]
 
   connect() {
   }
@@ -10,7 +10,8 @@ export default class extends Controller {
   async selectChat(event) {
     const chatId = event.currentTarget.dataset.id;
     const response = await fetch(`/get_messages?id=${chatId}`);
-    this.renderPartial(response);
+    const data = await response.json();
+    this.renderMessagesPartial(data.messages, chatId);
   }
 
   async newMessage(event, chatId) {
@@ -24,15 +25,19 @@ export default class extends Controller {
       },
       body: JSON.stringify(params)
     });
-    this.renderPartial(response);
+    const data = await response.json();
+    this.renderMessagesPartial(data.messages, chatId);
+    this.renderChatsPartial(data.chats, chatId);
   }
 
-  async renderPartial(response) {
-    const partial = await response.text();
-    this.messagesSectionTarget.innerHTML = "";
-    this.messagesSectionTarget.innerHTML = partial;
+  async renderMessagesPartial(data, chatId) {
+    this.messagesSectionTarget.innerHTML = data;
     this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId))
     this.scrollToLastMessage();
+  }
+
+  async renderChatsPartial(data, chatId) {
+    this.chatsSidebarTarget.innerHTML = data;
   }
 
   scrollToLastMessage() {

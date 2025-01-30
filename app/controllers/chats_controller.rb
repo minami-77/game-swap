@@ -3,14 +3,14 @@ class ChatsController < ApplicationController
     @chats = Chat.where(first_user_id: current_user.id).or(
       Chat.where(second_user_id: current_user.id)
     )
-    puts @chats
-    puts
+      .order(last_message: :desc)
   end
 
   def get_messages
     id = params[:id]
     @messages = Chat.find(id).messages.order(created_at: :asc)
-    render partial: "chats/messages", locals: { chat: @messages }
+    message_partial = render_to_string(partial: "chats/messages", locals: { messages: @messages })
+    render json: { messages: message_partial }
   end
 
   def new_message
@@ -20,8 +20,26 @@ class ChatsController < ApplicationController
       message: params[:message],
       user: current_user
     )
-    @chat.last_message = new_message.created_at
+    @chat.update(last_message: new_message.created_at)
     @messages = @chat.messages.order(created_at: :asc)
-    render partial: "chats/messages", locals: { chat: @messages }
+
+    @chats = Chat.where(first_user_id: current_user.id).or(
+      Chat.where(second_user_id: current_user.id)
+    )
+      .order(last_message: :desc)
+
+    message_partial = render_to_string(partial: "chats/messages", locals: { messages: @messages })
+    chats_partial = render_to_string(partial: "chats/chats", locals: { chats: @chats })
+
+    render json: { chats: chats_partial, messages: message_partial }
+    # render partial: "chats/messages", locals: { chat: @messages }
+  end
+
+  def get_chats
+    @chats = Chat.where(first_user_id: current_user.id).or(
+      Chat.where(second_user_id: current_user.id)
+    )
+      .order(last_message: :desc)
+    render partial: "chats/chats", locals: { chat: @chats }
   end
 end
