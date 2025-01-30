@@ -15,6 +15,9 @@ class ListingsController < ApplicationController
     @listings = filter_checks(params, @listings)
     @listings = @listings.limit(30)
 
+    # params instance variable is needed to render the view with the selected filters in place
+    @params = params
+
     @platform_checkboxes = get_platform_checkboxes
     @sort_methods = [
       "Price (low to high)",
@@ -23,8 +26,8 @@ class ListingsController < ApplicationController
       "Maximum rental period",
       # "Owner reviews",
       # "Date posted (newest to oldest)",
-      "Rating",
-      "Most popular"
+      # "Rating",
+      # "Most popular"
     ]
 
     @filter_methods = [
@@ -34,7 +37,22 @@ class ListingsController < ApplicationController
 
   def filter_checks(params, listings)
     listings = platform_check(params, listings)
+    listings = duration_check(params, listings)
     listings = distance_check(params, listings)
+    listings = price_check(params, listings)
+    return listings
+  end
+
+  def duration_check(params, listings)
+    min_duration = params["minDuration"].empty? ? 0 : params["minDuration"]
+    max_duration = params["maxDuration"].empty? ? 10000000 : params["maxDuration"]
+    listings = listings.where("max >= ? AND max <= ?", min_duration, max_duration)
+    return listings
+  end
+
+  def price_check(params, listings)
+    listings = listings.where("price <= ?", params["price"].to_i * 100)
+    puts params["price"]
     return listings
   end
 

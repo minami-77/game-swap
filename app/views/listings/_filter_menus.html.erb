@@ -1,17 +1,39 @@
-<div class="slidecontainer d-flex align-items-center justify-content-evenly">
-  <label class="" for="price-range">Price range</label>
-  <input type="range" min="1" max="100" value="50" class="price-range-slider" id="price-range" name="price-range">
+<div class="sliders-container d-flex flex-column" data-controller="slider-filters">
+  <div class="slider-container d-flex align-items-center justify-content-between">
+    <label class="" for="price-range">Max price (¥)</label>
+    <div class="position-relative">
+      <input type="range" min="1" max="25" value="<%= @params["price"] ? @params["price"] : 5 %>" class="price-slider" id="price-range" name="price-range" data-slider-filters-target="priceSlider">
+      <span class="position-absolute slider-min" data-slider-filters-target="priceMin">100</span>
+      <span class="position-absolute slider-value" data-slider-filters-target="price"><%= @params["price"].to_i * 100 %></span>
+      <span class="position-absolute slider-max" data-slider-filters-target="priceMax">2500</span>
+    </div>
+
+
+  </div>
+
+  <div class="slider-container d-flex align-items-center justify-content-between">
+    <label class="" for="distance">Max distance (kms)</label>
+    <div class="position-relative">
+      <input type="range" min="1" max="100" value="<%= @params["distance"] ? @params["distance"] : 30 %>" class="distance-slider" id="distance" name="distance" data-slider-filters-target="distanceSlider">
+      <span class="position-absolute slider-min" data-slider-filters-target="distanceMin">1</span>
+      <span class="position-absolute slider-value" data-slider-filters-target="distance"><%= @params["distance"] %></span>
+      <span class="position-absolute slider-max" data-slider-filters-target="priceMax">100</span>
+    </div>
+  </div>
 </div>
 
-<div class="slidecontainer d-flex align-items-center justify-content-evenly">
-  <label class="" for="distance">Distance</label>
-  <input type="range" min="1" max="100" value="30" class="distance-slider" id="distance" name="distance">
+<div class="duration-container">
+  From
+  <input type="text" class="duration-input" data-filter-listings-target="minDuration" value="<%= @params["minDuration"] %>">
+  to
+  <input type="text" class="duration-input" data-filter-listings-target="maxDuration" value="<%= @params["maxDuration"] %>">
+  days
 </div>
 
 <div class="platform-checkboxes-container">
   <% @platform_checkboxes.each do |checkbox| %>
   <div class="d-flex">
-    <input type="checkbox" id=<%= checkbox[:id] %> name=<%= checkbox[:name] %> class="platform-checkboxes me-2" data-platform-id=<%= checkbox[:name] %>>
+    <input type="checkbox" id=<%= checkbox[:id] %> name=<%= checkbox[:name] %> class="platform-checkboxes me-2" data-platform-id=<%= checkbox[:name] %> <%= "checked" if @params["platforms"].split(",").include?(checkbox[:name]) %>>
     <label for=<%= checkbox[:id] %>><%= checkbox[:platform] %></label>
   </div>
   <% end %>
