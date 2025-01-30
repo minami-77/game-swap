@@ -14,11 +14,17 @@
   </head>
 
   <body>
-    <%= render "shared/navbar" %>
-    <%= render "shared/flashes" %>
-    <div class="content">
+    <% unless controller.controller_name == "chats" %>
+      <%= render "shared/navbar" %>
+      <%= render "shared/flashes" %>
+    <% end %>
+
+    <div class="content d-flex flex-column">
       <%= yield %>
     </div>
-    <%= render 'shared/footer' %>
+
+    <% unless controller.controller_name == "chats" %>
+      <%= render 'shared/footer' %>
+    <% end %>
   </body>
 </html>
