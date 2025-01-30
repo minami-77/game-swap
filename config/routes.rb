@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  # get 'users/edit'
+  # get 'users/update'
   devise_for :users
+  resources :users, only: [:edit, :update]
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
