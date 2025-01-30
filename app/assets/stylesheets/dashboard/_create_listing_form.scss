@@ -1,0 +1,39 @@
+
+.create-listing-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: $primary-color;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, $primary-color, $secondary-color);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 50px;
+  transition: background 0.3s ease-in-out;
+
+  &:hover {
+    background: linear-gradient(360deg, $hover-color, $hover-color);
+  }
+}

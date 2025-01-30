@@ -1,11 +1,31 @@
-<div class="dashboard-full-body-container" data-controller="dashboard">
-  <div class="dashboard-tabs-container w-100 d-flex">
-    <button class="dashboard-tabs w-100 text-center" data-dashboard-target="dashboard-tabs" data-action="click->dashboard#tab">Listings</button>
-    <button class="dashboard-tabs w-100 text-center" data-dashboard-target="dashboard-tabs" data-action="click->dashboard#tab">Offers</button>
+<div class="dashboard-container d-flex" data-controller="dashboard">
+  <div class="sidebar-container d-flex">
+    <div class="sidebar">
+      <button class="sidebar-btn active" data-dashboard-target="dashboardTabs" data-action="click->dashboard#tab">
+        <i class="fas fa-list"></i> Listings
+      </button>
+      <button class="sidebar-btn" data-dashboard-target="dashboardTabs" data-action="click->dashboard#tab">
+        <i class="fas fa-tags"></i> Offers
+      </button>
+      <button class="sidebar-btn" data-dashboard-target="dashboardTabs" data-action="click->dashboard#tab">
+        <i class="fas fa-cog"></i> Settings
+      </button>
+      <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "sidebar-btn text-decoration-none" do %>
+        <i class="fas fa-sign-out-alt"></i> Log out
+      <% end %>
+    </div>
   </div>
 
+
   <div class="dashboard-body-container w-100">
-    <%= render "dashboard_listings" %>
-    <%= render "dashboard_offers" %>
+    <div data-dashboard-target="listings">
+      <%= render "dashboard_listings" %>
+    </div>
+    <div data-dashboard-target="offers" class="d-none">
+      <%= render "dashboard_offers" %>
+    </div>
+    <div data-dashboard-target="settings" class="d-none">
+      <%= render "users/user_form" %>
+    </div>
   </div>
 </div>
