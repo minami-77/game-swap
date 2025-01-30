@@ -15,19 +15,50 @@ export default class extends Controller {
     if (activeChat) {
       activeChat.classList.remove("active");
     }
-    event.target.classList.add("active");
+    event.currentTarget.classList.add("active");
     const chatId = event.currentTarget.dataset.id;
     const response = await fetch(`/get_messages?id=${chatId}`);
     const data = await response.json();
     this.renderMessagesPartial(data.messages, chatId);
+    this.updateUnreadMessagesCount();
+  }
+
+  async updateUnreadMessagesCount() {
+    const response = await fetch(`/update_unread_messages_in_frontend`);
+    const data = await response.json();
+    const unreadCounterElement = document.querySelector(".unread-counter");
+    unreadCounterElement.innerText = data.unread;
   }
 
   async refreshMessages() {
-    const chatId = document.querySelector(".active").dataset.id;
-    if (chatId) {
-      const response = await fetch(`/get_messages?id=${chatId}`);
+    if (document.querySelector(".active").dataset.id) {
+      const chatId = document.querySelector(".active").dataset.id;
+      const response = await fetch(`/refresh_messages?id=${chatId}`);
       const data = await response.json();
-      this.renderMessagesPartial(data.messages, chatId);
+      this.renderRefresh(data.messages, chatId);
+      this.renderChatsRefresh(data.chats, chatId);
+    }
+  }
+
+  renderChatsRefresh(data, chatId) {
+    const chats = document.querySelectorAll(".chats-sidebar-btn")[0];
+    const newChatSection = document.createElement("div");
+    newChatSection.innerHTML = data;
+    if (chats.querySelector(".last-message-time").innerText.trim() !== newChatSection.querySelector(".last-message-time").innerText.trim()) {
+      const activeChatId = document.querySelector(".active").dataset.id;
+      this.chatsSidebarTarget.innerHTML = data;
+      document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
+    }
+  }
+
+  renderRefresh(data, chatId) {
+    // Comparisons to see if a new message has been received
+    const messages = document.querySelectorAll(".message-container");
+    const newMessage = document.createElement("div");
+    newMessage.innerHTML = data;
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage.querySelector(".created-at-text").innerText !== newMessage.querySelector(".created-at-text").innerText) {
+      this.messagesTarget.insertAdjacentHTML("beforeend", newMessage.innerHTML);
     }
   }
 
@@ -55,7 +86,9 @@ export default class extends Controller {
   }
 
   async renderChatsPartial(data) {
+    const activeChatId = document.querySelector(".active").dataset.id;
     this.chatsSidebarTarget.innerHTML = data;
+    document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
   }
 
   scrollToLastMessage() {
