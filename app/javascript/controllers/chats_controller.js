@@ -21,6 +21,11 @@ export default class extends Controller {
     const data = await response.json();
     this.renderMessagesPartial(data.messages, chatId);
     this.updateUnreadMessagesCount();
+    this.updateSidebarUnreadMessagesCount(event, chatId);
+  }
+
+  async updateSidebarUnreadMessagesCount(event, chatId) {
+    event.target.querySelector(".sidebar-unread-counter").remove();
   }
 
   async updateUnreadMessagesCount() {

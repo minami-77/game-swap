@@ -1,1 +1,5 @@
-<span class="unread-counter text-danger"><%= @unread_messages_count %></span>
+<% if @unread_messages_count > 0 %>
+  <div class="unread-counter-container text-light border border-1 rounded-circle bg-danger d-flex justify-content-center align-items-center">
+    <p class="unread-counter"><%= @unread_messages_count %></p>
+  </div>
+<% end %>

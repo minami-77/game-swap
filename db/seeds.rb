@@ -400,6 +400,7 @@ def seed_messages_and_chats
   Chat.all.each do |chat|
     chat.update(last_message: chat.messages.last.created_at)
   end
+  puts "Chats and messages seeding complete"
 end
 
 seed_messages_and_chats
