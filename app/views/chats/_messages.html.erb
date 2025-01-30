@@ -2,7 +2,7 @@
   <% @messages.each do |message| %>
     <div class="message-container d-flex w-100 <%= message.user == current_user ? "justify-content-end" : "justify-content-start" %>">
       <div class="message-body card d-flex flex-column">
-        <p><%= message.user.username %> said:</p>
+        <p><%= message.user == current_user ? "You" : message.user.username %> said:</p>
         <p><%= message.message %></p>
         <p><%= message.created_at %></p>
       </div>
