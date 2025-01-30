@@ -3,8 +3,8 @@
   <div class="row">
     <% if @offers.any? %>
       <% @offers.each do |offer| %>
-        <div class="col-md-6 col-lg-4"> <!-- Ensures 2 cards per row on medium screens, 3 on large -->
-          <div class="card shadow-sm mt-3 p-3">
+        <div class="col-md-6 col-lg-4 d-flex"> <!-- Ensures 2 cards per row on medium screens, 3 on large -->
+          <div class="card shadow-sm mt-3 p-3 h-100 w-100 d-flex flex-column">
             <div class="d-flex justify-content-between">
               <div>
                 <p>Start Date: <%= offer.start_date %></p>
@@ -17,7 +17,7 @@
             </div>
             <p>Comments: <%= offer.comments %></p>
             <% if offer.pending? %>
-              <div class="d-flex">
+              <div class="mt-auto d-flex">
                 <%= simple_form_for offer do |f| %>
                   <%= f.input :status, as: :hidden, input_html: { value: "accepted" } %>
                   <%= f.submit "Accept", class: "btn-accept" %>
@@ -28,7 +28,7 @@
                 <% end %>
               </div>
             <% else %>
-              <p>Offer status: <strong><%= offer.status.capitalize %></strong></p>
+              <p class="mt-auto">Offer status: <strong><%= offer.status.capitalize %></strong></p>
             <% end %>
           </div>
         </div>

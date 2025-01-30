@@ -1,31 +1,24 @@
-.btn-accept {
+@mixin button-gradient($color1, $color2, $hover1, $hover2) {
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 50px;
   border: none;
-  background: linear-gradient(to bottom, #761ec8, #0056b3);
+  background: linear-gradient(to bottom, $color1, $color2);
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
 
   &:hover {
-    background: linear-gradient(to bottom, #0056b3, #003f7f);
+    background: linear-gradient(to bottom, $hover1, $hover2);
   }
 }
 
-.btn-reject {
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  background: linear-gradient(to bottom, #ec3636, #69000e);
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.btn-accept {
+  @include button-gradient(#761ec8, #0056b3, #0056b3, #003f7f);
+}
 
-  &:hover {
-    background: linear-gradient(to bottom, #ff0000, #8d0013);
-  }
+.btn-reject {
+  @include button-gradient(#dc3545, #dc3545, #c82333, #bd2130);
 }
 
 h1 {
@@ -34,6 +27,7 @@ h1 {
   color: #111;
   text-transform: uppercase;
   font-size: 3.2rem;
+  text-shadow: 2px 2px 5px;
 }
 
 .card {
