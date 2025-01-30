@@ -16,7 +16,6 @@ export default class extends Controller {
 
     const tabName = event.currentTarget.innerText.trim();
     this.hideAllTabs();
-
     if (tabName === "Listings") {
       this.showTab(this.listingsTarget);
     } else if (tabName === "Offers") {
@@ -27,6 +26,8 @@ export default class extends Controller {
   }
 
   showTab(target) {
+    console.log(target);
+
     target.classList.remove("d-none");
   }
 
