@@ -19,13 +19,44 @@ class PagesController < ApplicationController
       @listings = Listing.all
     end
 
-    # Fetch two random genres to display on the home page
-    genres = Game.pluck(:name).sample(2)
+    # Get only genres from games that are actually listed
+    listed_games = Game.joins(:listings).distinct
+    genres_from_listings = listed_games.pluck(:genres).map { |genre| genre.gsub(/\[|\]/, '').split(',').map(&:to_i) }.flatten.uniq
 
-    @genre1 = genres[0]
-    @genre2 = genres[1]
+    # Select two random genres from listed games
+    if genres_from_listings.any?
+      selected_genres = genres_from_listings.sample(2)
+      @genre1, @genre2 = selected_genres
+    else
+      @genre1, @genre2 = nil, nil
+    end
 
-    @listings_genre1 = Listing.joins(:game).where('games.genres LIKE ?', "%#{@genre1}%").sample(10)
-    @listings_genre2 = Listing.joins(:game).where('games.genres LIKE ?', "%#{@genre2}%").sample(10)
+    # Debugging output
+    puts "Selected genres: #{@genre1}, #{@genre2}"
+
+    # Fetch listings for selected genres based on genre_id from Genre table
+    if @genre1
+      @genre1_id = Genre.find_by(search_name: @genre1)&.genre_id
+      puts "Genre 1 ID: #{@genre1_id}"  # Debugging output
+      if @genre1_id
+        @listings_genre1 = Listing.joins(:game).where("CAST(games.genres AS TEXT) LIKE ?", "%#{@genre1_id}%").limit(10)
+      else
+        @listings_genre1 = []
+      end
+    else
+      @listings_genre1 = []
+    end
+
+    if @genre2
+      @genre2_id = Genre.find_by(search_name: @genre2)&.genre_id
+      puts "Genre 2 ID: #{@genre2_id}"  # Debugging output
+      if @genre2_id
+        @listings_genre2 = Listing.joins(:game).where("CAST(games.genres AS TEXT) LIKE ?", "%#{@genre2_id}%").limit(10)
+      else
+        @listings_genre2 = []
+      end
+    else
+      @listings_genre2 = []
+    end
   end
 end

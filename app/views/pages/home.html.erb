@@ -52,61 +52,50 @@
 
 <!-- LATEST LISTINGS -->
 
-<h2>Featured <%= @genre1 %> Games</h2>
-<div id="carouselGenre1" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <% @listings_genre1.each_with_index do |listing, index| %>
-      <div class="carousel-item <%= 'active' if index == 0 %>">
-        <div class="card mb-4 shadow-sm">
-          <% if listing.game.cover.present? %>
-            <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
-          <% end %>
-          <div class="card-body">
-            <h5 class="card-title"><%= listing.game.name %></h5>
-            <p class="card-text">Price: <%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
-            <%= link_to 'View Listing', listing_path(listing), class: 'btn btn-primary' %>
-          </div>
-        </div>
+<% if @genre1.present? %>
+  <h2>Genre: <%= Genre.find_by(id: @genre1)&.name%></h2>
+  <div class="genre-listings">
+    <% @listings_genre1.each do |listing| %>
+      <div class="listing">
+        <h3><%= listing.game.name %></h3>
+        <p><%= listing.description %></p>
+        <p>Price: <%= number_to_currency(listing.price) %></p>
       </div>
     <% end %>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselGenre1" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselGenre1" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+<% else %>
+  <p>No listings for selected Genre 1.</p>
+<% end %>
 
-<h2>Featured <%= @genre2 %> Games</h2>
-<div id="carouselGenre2" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <% @listings_genre2.each_with_index do |listing, index| %>
-      <div class="carousel-item <%= 'active' if index == 0 %>">
-        <div class="card mb-4 shadow-sm">
-          <% if listing.game.cover.present? %>
-            <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
-          <% end %>
-          <div class="card-body">
-            <h5 class="card-title"><%= listing.game.name %></h5>
-            <p class="card-text">Price: <%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
-            <%= link_to 'View Listing', listing_path(listing), class: 'btn btn-primary' %>
-          </div>
-        </div>
+<% if @genre2.present? %>
+  <h2>Genre: <%= Genre.find_by(id: @genre2)&.name %></h2>
+  <div class="genre-listings">
+    <% @listings_genre2.each do |listing| %>
+      <div class="listing">
+        <h3><%= listing.game.name %></h3>
+        <p><%= listing.description %></p>
+        <p>Price: <%= number_to_currency(listing.price) %></p>
       </div>
     <% end %>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselGenre2" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselGenre2" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+<% else %>
+  <p>No listings for selected Genre 2.</p>
+<% end %>
+
+<!-- Carousel display -->
+<h2>Featured Listings</h2>
+<% @carousel_groups.each do |group| %>
+  <div class="carousel-group">
+    <% group.each do |listing| %>
+      <div class="listing">
+        <h3><%= listing.game.name %></h3>
+        <p><%= listing.description %></p>
+        <p>Price: <%= number_to_currency(listing.price) %></p>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
 
 <div class="container mt-5">
   <div class="row mt-5">
