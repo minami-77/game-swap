@@ -27,4 +27,5 @@ Rails.application.routes.draw do
 
   get "messages", to: "chats#index", as: :chats
   get "get_messages", to: "chats#get_messages"
+  post "new_message", to: "chats#new_message"
 end

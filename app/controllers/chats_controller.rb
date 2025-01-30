@@ -8,6 +8,20 @@ class ChatsController < ApplicationController
   end
 
   def get_messages
+    id = params[:id]
+    @messages = Chat.find(id).messages.order(created_at: :asc)
+    render partial: "chats/messages", locals: { chat: @messages }
+  end
 
+  def new_message
+    chat_id = params[:id]
+    @chat = Chat.find(chat_id)
+    new_message = @chat.messages.create!(
+      message: params[:message],
+      user: current_user
+    )
+    @chat.last_message = new_message.created_at
+    @messages = @chat.messages.order(created_at: :asc)
+    render partial: "chats/messages", locals: { chat: @messages }
   end
 end

@@ -1,5 +1,13 @@
-<div class="messages-section">
-  
+<div class="messages-section d-flex flex-column" data-chats-target="messages">
+  <% @messages.each do |message| %>
+    <div class="message-container d-flex w-100 <%= message.user == current_user ? "justify-content-end" : "justify-content-start" %>">
+      <div class="message-body card d-flex flex-column">
+        <p><%= message.user.username %> said:</p>
+        <p><%= message.message %></p>
+        <p><%= message.created_at %></p>
+      </div>
+    </div>
+  <% end %>
 </div>
 <form action="" data-chats-target="messageForm">
   <input type="text" data-chats-target="messageText">

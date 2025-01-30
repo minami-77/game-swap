@@ -8,7 +8,7 @@
   display: flex;
   width: 250px;
   flex-grow: 0 !important;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .chats-sidebar {
@@ -42,4 +42,12 @@
     background: #495057;
     color: #f8f9fa;
   }
+}
+
+.messages-container, .messages-section {
+  overflow: auto;
+}
+
+.messages-section {
+  height: 80vh;
 }

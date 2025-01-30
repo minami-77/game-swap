@@ -386,7 +386,7 @@ def seed_messages_and_chats
   end
 
   Chat.all.each do |chat|
-    10.times do
+    random(3..10).times do
       Message.create!(
         message: "Hi",
         chat: chat,
