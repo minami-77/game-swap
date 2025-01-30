@@ -1,3 +1,7 @@
+:root {
+  --chats-sidebar-width: 350px;
+}
+
 .chats-view-container {
   max-height: 100vh;
 }
@@ -11,7 +15,7 @@
 
 .chats-sidebar-container {
   display: flex;
-  width: 350px;
+  width: var(--chats-sidebar-width);
   flex-grow: 0 !important;
   overflow: auto;
 }
@@ -71,7 +75,7 @@
 }
 
 .message-body {
-  max-width: 60%;
+  max-width: calc((100vw - var(--chats-sidebar-width)) * 0.6);
 }
 
 .message-form {
