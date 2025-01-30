@@ -1,0 +1,16 @@
+<div class="chats-view-container d-flex flex-column">
+  <%= render "shared/navbar" %>
+  <%= render "shared/flashes" %>
+
+  <div class="chats-container d-flex" data-controller="chats">
+    <div class="chats-sidebar-container d-flex" data-chats-target="chatsSidebar">
+      <%= render "chats" %>
+    </div>
+
+    <div class="messages-container d-flex flex-column" data-chats-target="messagesSection">
+
+    </div>
+  </div>
+
+  <%= render 'shared/footer' %>
+</div>

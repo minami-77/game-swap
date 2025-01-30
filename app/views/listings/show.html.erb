@@ -1,34 +1,110 @@
-<h1 class="text-center m-5"><%= @listing.game.name %></h1>
-<div class="d-flex justify-content-center">
-  <div class="card m-1" style="max-width: 1000px;">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="<%=@listing.game.cover.url %>" class="img-fluid" alt="game-cover-img">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body d-flex flex-column">
-          <div class="m-3">
-            <p class="card-text">Game Title: <%= @listing.game.name %></p>
-            <p class="card-text">Description: <%= @listing.description %></p>
-            <p class="card-text">Rental Price: $ <%= @listing.price %></p>
-            <p class="card-text">Maximum Rental Period: <%= @listing.max %> days</p>
+<div class="d-flex justify-content-center align-items-center min-vh-100 my-2">
+<div class ="container">
+  <h1 class="text-center my-4"><%= @listing.game.name %></h1>
+  <div class="d-flex justify-content-center">
+    <div class="card-container m-1" style="max-width: 1000px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <%# carousel cover image %>
+              <img src="<%=@listing.game.cover.url %>" class="img-fluid" alt="game-cover-img">
+            </div>
+            <div class="carousel-item">
+              <%# carousel user uploaded image : photos column is not exist yet...%>
+              <%# <% if @listing.photos.any? %>
+                <%# <% @listing.photos.each do |photo| %>
+                  <%# <%= cl_image_tag photo.key, height: 300,width: 400, crop: :fill %>
+                <%# <% end %>
+              <%# <% else %>
+                <img src="<%=@listing.game.cover.url %>" class="img-fluid" alt="game-cover-img">
+              <%# <% end %>
+            </div>
           </div>
-          <hr>
-          <div class = "m-3">
-            <p class="card-text">Game Owner: <%= @listing.user.username %></p>
-          </div>
-          <div data-controller="create-offer">
-            <button class="create-offer-button btn btn-primary m-3"
-                    data-action="click->create-offer#renderForm">
-                    Rent this game
-            </button>
-            <%= render "create_offer" %>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body d-flex flex-column">
+            <div class="row m-3">
+              <div class="col-5 col-sm-4">
+                <p class="card-text bold">Game Title</p>
+              </div>
+              <div class="col-7 col-sm-8">
+                <p class="card-text"><%= @listing.game.name %></p>
+              </div>
+            </div>
+            <div class="row m-3">
+              <div class="col-5 col-sm-4">
+                <p class="card-text bold">Description</p>
+              </div>
+              <div class="col-7 col-sm-8">
+                <p class="card-text"><%= @listing.description %></p>
+              </div>
+            </div>
+            <div class="row m-3">
+              <div class="col-5 col-sm-4">
+                <p class="card-text bold">Rental Price</p>
+              </div>
+              <div class="col-7 col-sm-8">
+                <p class="card-text bold"> ¥<%= @listing.price %></p>
+              </div>
+            </div>
+            <div class="row m-3">
+              <div class="col-5 col-sm-4">
+                <p class="card-text bold">Maximum Rental Period</p>
+              </div>
+              <div class="col-7 col-sm-8">
+                <p class="card-text"> <%= @listing.max %> days</p>
+              </div>
+            </div>
+            <div class="row m-3">
+              <div class="col-5 col-sm-4">
+                <p class="card-text bold">Platform</p>
+              </div>
+              <div class="col-7 col-sm-8">
+                <p class="card-text"><%= @listing&.platform&.name %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row m-3">
+              <div class="col-5 col-sm-4">
+                <p class="card-text bold">Game Owner</p>
+              </div>
+              <div class="col-7 col-sm-8">
+                <p class="card-text"><%= @listing.user.username %></p>
+              </div>
+            </div>
+            <div class="row m-3">
+              <div class="col-5 col-sm-4">
+                <p class="card-text bold">Location</p>
+              </div>
+              <div class="col-7 col-sm-8">
+                <p class="card-text"><%= @listing&.user.location.address %></p>
+              </div>
+            </div>
+            <div class="row m-3" data-controller="create-offer">
+              <button class="create-offer-button btn btn-primary btn-gradient-oval m-3 flex-grow-1"
+                      data-action="click->create-offer#renderForm">
+                      Rent this game
+              </button>
+              <%= render "create_offer" %>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="m-5">
+    <%= link_to "Back", :back || "/", class:"btn btn-gradient-rectangle my-1" %>
+  </div>
 </div>
-<div class="m-5">
-  <%= link_to "Back", "/", class:"btn btn-primary" %>
 </div>

@@ -289,6 +289,7 @@ def seed_db_details
       email: Faker::Internet.email,
       username: Faker::Name.name,
       password: "123456",
+      password_confirmation: "123456",
       location_id: Location.all.sample.id
     )
   end
@@ -298,6 +299,7 @@ def seed_db_details
     email: "bob@email.com",
     username: "Bob",
     password: "123456",
+    password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   second_user = User.create!(
@@ -306,14 +308,25 @@ def seed_db_details
     email: "hana@email.com",
     username: "Hana",
     password: "123456",
+    password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   third_user = User.create!(
     first_name: "asdf",
     last_name: "asdf",
     email: "asdf@asdf.com",
-    username: "asdf",
+    username: "asdf1",
     password: "asdfasdf",
+    password_confirmation: "asdfasdf",
+    location_id: Location.all.sample.id
+  )
+  fourth_user = User.create!(
+    first_name: "asdf",
+    last_name: "asdf",
+    email: "asdf1@asdf.com",
+    username: "asdf2",
+    password: "asdfasdf",
+    password_confirmation: "asdfasdf",
     location_id: Location.all.sample.id
   )
   puts "User import complete"
@@ -360,4 +373,33 @@ end
 seed_dev
 seed_db_details
 
-# test_seed_methods
+
+def seed_messages_and_chats
+  users = User.where.not(username: "asdf").sample(10)
+
+  Message.destroy_all
+  Chat.destroy_all
+  10.times do |index|
+    random_user = users[index]
+    user = User.find_by(username: "asdf1")
+    chat_users = [user, random_user]
+    chat = Chat.create!(
+      first_user_id: user.id,
+      second_user_id: random_user.id
+    )
+
+    rand(5..10).times do
+      message = chat.messages.create!(
+        message: "Hi",
+        chat: chat,
+        user: chat_users.sample
+      )
+    end
+  end
+
+  Chat.all.each do |chat|
+    chat.update(last_message: chat.messages.last.created_at)
+  end
+end
+
+seed_messages_and_chats
