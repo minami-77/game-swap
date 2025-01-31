@@ -9,6 +9,7 @@
   class="carousel-wrapper"
   data-controller="home"
   data-action="mouseenter->home#show mouseleave->home#hide">
+  <h2 class="carousel-title">Top Picks</h2>
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <% @carousel_groups.each_with_index do |group, index| %>
@@ -50,10 +51,16 @@
   </div>
 </div>
 
-<!-- LATEST LISTINGS -->
+
+<!-- CAROUSEL FOR GENRES -->
 <% @valid_carousels.each_with_index do |carousel, index| %>
-  <div class="genre-carousel">
-    <h2 class="genre-title"><%= carousel[:genre].name %></h2>
+  <div id="carouselWrapper"
+    class="carousel-wrapper"
+    data-controller="home"
+    data-action="mouseenter->home#show mouseleave->home#hide">
+
+    <!-- Genre Title -->
+    <h2 class="genre-title text-center mb-4"><%= carousel[:genre].name %></h2>
 
     <div id="carouselGenre<%= index %>" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -87,23 +94,18 @@
         <% end %>
       </div>
 
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselGenre<%= index %>" data-bs-slide="prev">
+      <!-- Carousel Controls -->
+      <button class="carousel-control-prev carousel-control" type="button" data-bs-target="#carouselGenre<%= index %>" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselGenre<%= index %>" data-bs-slide="next">
+      <button class="carousel-control-next carousel-control" type="button" data-bs-target="#carouselGenre<%= index %>" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>
   </div>
 <% end %>
-
-
-
-
-
-
 
 <div class="container mt-5">
   <div class="row mt-5">
