@@ -8,6 +8,8 @@ export default class extends Controller {
     this.interval = setInterval(() => {
       this.refreshMessages();
     }, 1000);
+    const selected_chat = this.chatsSidebarTarget.querySelector(".active");
+    if (selected_chat) selected_chat.scrollIntoView({ behaviour: "smooth", block: "start" });
   }
 
   async selectChat(event) {
@@ -93,7 +95,11 @@ export default class extends Controller {
   async renderChatsPartial(data) {
     const activeChatId = document.querySelector(".active").dataset.id;
     this.chatsSidebarTarget.innerHTML = data;
+
     document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
+
+    // const selected_chat = this.chatsSidebarTarget.querySelector(".chats-sidebar-btn");
+    // selected_chat.classList.add("active");
   }
 
   scrollToLastMessage() {

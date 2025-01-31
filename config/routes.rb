@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :offers, only: [:create]
   end
 
+  get "new_chat/:id", to: "chats#new_chat", as: :new_chat
+
   post "/listings", to: "listings#create"
 
   get 'games/search', to: 'games#search'

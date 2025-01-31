@@ -92,6 +92,11 @@ class ListingsController < ApplicationController
     platform = Platform.find_by(name: param["platform"])
     listing.platform_id = platform.id
 
+    if listing.photos.count > 4
+      flash[:alert] = "You can only upload a maximum of 4 photos"
+      return redirect_to dashboard_path
+    end
+
     if listing.save
       redirect_to dashboard_path
     else
