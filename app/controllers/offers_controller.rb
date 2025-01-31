@@ -23,6 +23,13 @@ class OffersController < ApplicationController
   end
 
   def destroy
+    @offer = Offer.find(params[:id])
+    if @offer.destroy
+      flash.now[:notice] = 'Offer deleted.'
+      # redirect_to dashboard_path, notice: 'Offer deleted.'
+    else
+      puts @offer.errors.full_messages
+    end
   end
 
   def update
