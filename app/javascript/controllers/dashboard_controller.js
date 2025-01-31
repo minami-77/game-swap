@@ -26,8 +26,6 @@ export default class extends Controller {
   }
 
   showTab(target) {
-    console.log(target);
-
     target.classList.remove("d-none");
   }
 
