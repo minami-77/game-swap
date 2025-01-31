@@ -357,7 +357,7 @@ def seed_db_details
   # Clear existing data
   Offer.destroy_all
   # Seed offers
-  150.times do |i|
+  250.times do |i|
     Offer.create!(
       comments: 'This is a sample offer comment.',
       start_date: Date.today + i,
@@ -375,11 +375,12 @@ seed_db_details
 
 
 def seed_messages_and_chats
-  users = User.where.not(username: "asdf").sample(10)
+  seed_amount = 20
+  users = User.where.not(username: "asdf").sample(seed_amount)
 
   Message.destroy_all
   Chat.destroy_all
-  10.times do |index|
+  seed_amount.times do |index|
     random_user = users[index]
     user = User.find_by(username: "asdf1")
     chat_users = [user, random_user]
@@ -388,7 +389,7 @@ def seed_messages_and_chats
       second_user_id: random_user.id
     )
 
-    rand(5..10).times do
+    rand(3..20).times do
       message = chat.messages.create!(
         message: "Hi",
         chat: chat,

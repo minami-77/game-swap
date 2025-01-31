@@ -13,28 +13,41 @@ export default class extends Controller {
   }
 
   async selectChat(event) {
-    const activeChat = document.querySelector(".active");
+    const activeChat = document.querySelector(".chats-sidebar-btn.active");
     if (activeChat) {
       activeChat.classList.remove("active");
     }
     event.currentTarget.classList.add("active");
-    const chatId = event.currentTarget.dataset.id;
+    const chatId = event.target.closest(".chats-sidebar-btn").dataset.id;
+
     const response = await fetch(`/get_messages?id=${chatId}`);
     const data = await response.json();
     this.renderMessagesPartial(data.messages, chatId);
     this.updateUnreadMessagesCount();
-    this.updateSidebarUnreadMessagesCount(event, chatId);
+    this.updateSidebarUnreadMessagesCount(event);
   }
 
-  async updateSidebarUnreadMessagesCount(event, chatId) {
-    event.target.querySelector(".sidebar-unread-counter").remove();
+  async updateSidebarUnreadMessagesCount(event) {
+    // The conditional is for the edge case where the person clicks on the unread messages counter element instead of the main chats sidebar button element
+    const closestUnreadCounter = event.target.closest(".chats-sidebar-btn").querySelector(".sidebar-unread-counter") || event.target.closest(".sidebar-unread-counter");
+    if (closestUnreadCounter) {
+      if (event.target.classList.contains("unread-counter")) {
+        event.target.closest(".sidebar-unread-counter").remove();
+      } else {
+        event.target.closest(".chats-sidebar-btn").querySelector(".unread-counter").parentElement.remove();
+      }
+    }
   }
 
   async updateUnreadMessagesCount() {
     const response = await fetch(`/update_unread_messages_in_frontend`);
     const data = await response.json();
     const unreadCounterElement = document.querySelector(".unread-counter");
-    unreadCounterElement.innerText = data.unread;
+    if (data.unread) {
+      unreadCounterElement.innerText = data.unread > 9 ? "9+" : data.unread;
+    } else {
+      unreadCounterElement.closest(".unread-counter-container").remove();
+    }
   }
 
   async refreshMessages() {

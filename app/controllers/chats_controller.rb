@@ -96,8 +96,10 @@ class ChatsController < ApplicationController
       new_chat.update(last_message: new_chat.created_at)
       session[:selected_chat] = new_chat.id
       redirect_to chats_path
+    else
+      @existing_chat[0].messages.where.not(user: current_user).update_all(read: true)
+      session[:selected_chat] = @existing_chat[0].id
+      redirect_to chats_path
     end
-    session[:selected_chat] = @existing_chat[0].id
-    redirect_to chats_path
   end
 end
