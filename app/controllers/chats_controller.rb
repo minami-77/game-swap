@@ -3,7 +3,16 @@ class ChatsController < ApplicationController
     @chats = Chat.where(first_user_id: current_user.id).or(
       Chat.where(second_user_id: current_user.id)
     )
-      .order(last_message: :desc)
+    .order(last_message: :desc)
+
+    # The below is for when someone clicks on the "chat with person" button on the offers acceptance page and gets redirected to the chats page
+    # This will allow for the chat messages to be immediately shown and the chat selected on the sidebar
+    @selected_chat_id = session[:selected_chat]
+    session.delete(:selected_chat)
+    @messages
+    if @selected_chat_id
+      @messages = Chat.find(@selected_chat_id).messages
+    end
   end
 
   def get_messages
@@ -42,5 +51,19 @@ class ChatsController < ApplicationController
     )
       .order(last_message: :desc)
     render partial: "chats/chats", locals: { chat: @chats }
+  end
+
+  def new_chat
+    second_user_id = params[:id]
+    @existing_chat = Chat.where(first_user_id: current_user.id, second_user_id: second_user_id)
+      .or(Chat.where(second_user_id: current_user.id, first_user_id: second_user_id))
+    if !@existing_chat.exists?
+      new_chat = Chat.create(first_user_id: current_user.id, second_user_id:)
+      new_chat.update(last_message: new_chat.created_at)
+      session[:selected_chat] = new_chat.id
+      redirect_to chats_path
+    end
+    session[:selected_chat] = @existing_chat[0].id
+    redirect_to chats_path
   end
 end

@@ -5,6 +5,8 @@ export default class extends Controller {
   static targets = ["messageInput", "messageForm", "messagesSection", "messages", "chatsSidebar", "chats"]
 
   connect() {
+    const selected_chat = this.chatsSidebarTarget.querySelector(".active");
+    if (selected_chat) selected_chat.scrollIntoView({ behaviour: "smooth", block: "start" });
   }
 
   async selectChat(event) {
@@ -39,6 +41,8 @@ export default class extends Controller {
 
   async renderChatsPartial(data) {
     this.chatsSidebarTarget.innerHTML = data;
+    const selected_chat = this.chatsSidebarTarget.querySelector(".chats-sidebar-btn");
+    selected_chat.classList.add("active");
   }
 
   scrollToLastMessage() {
