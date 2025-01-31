@@ -8,7 +8,9 @@
     </div>
 
     <div class="messages-container d-flex flex-column" data-chats-target="messagesSection">
-
+      <% if @selected_chat_id %>
+        <%= render "redirect_from_offers" %>
+      <% end %>
     </div>
   </div>
 
