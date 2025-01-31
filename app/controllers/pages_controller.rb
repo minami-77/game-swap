@@ -19,44 +19,35 @@ class PagesController < ApplicationController
       @listings = Listing.all
     end
 
-    # Get only genres from games that are actually listed
-    listed_games = Game.joins(:listings).distinct
-    genres_from_listings = listed_games.pluck(:genres).map { |genre| genre.gsub(/\[|\]/, '').split(',').map(&:to_i) }.flatten.uniq
+  # Step 1: Randomly select two genres
+  @selected_genres = Genre.order("RANDOM()").limit(2)
+  @selected_genre1, @selected_genre2 = @selected_genres
 
-    # Select two random genres from listed games
-    if genres_from_listings.any?
-      selected_genres = genres_from_listings.sample(2)
-      @genre1, @genre2 = selected_genres
-    else
-      @genre1, @genre2 = nil, nil
-    end
+  # Step 2: Retrieve games that contain the genre_id in the string format
+  @games_genre1 = Game.where("genres LIKE ?", "%#{@selected_genre1.genre_id}%")
+  @games_genre2 = Game.where("genres LIKE ?", "%#{@selected_genre2.genre_id}%")
 
-    # Debugging output
-    puts "Selected genres: #{@genre1}, #{@genre2}"
+  # Step 3: Filter only the games that are in listings
+  @listings_genre1 = Listing.includes(:game).where(game_id: @games_genre1.pluck(:id))
+  @listings_genre2 = Listing.includes(:game).where(game_id: @games_genre2.pluck(:id))
 
-    # Fetch listings for selected genres based on genre_id from Genre table
-    if @genre1
-      @genre1_id = Genre.find_by(search_name: @genre1)&.genre_id
-      puts "Genre 1 ID: #{@genre1_id}"  # Debugging output
-      if @genre1_id
-        @listings_genre1 = Listing.joins(:game).where("CAST(games.genres AS TEXT) LIKE ?", "%#{@genre1_id}%").limit(10)
-      else
-        @listings_genre1 = []
+  def prepare_carousel(listings)
+    groups = listings.in_groups_of(6, false)
+
+    groups.each do |group|
+      while group.size < 6
+        group << listings[group.size % listings.size] if listings.any?
       end
-    else
-      @listings_genre1 = []
     end
+  end
 
-    if @genre2
-      @genre2_id = Genre.find_by(search_name: @genre2)&.genre_id
-      puts "Genre 2 ID: #{@genre2_id}"  # Debugging output
-      if @genre2_id
-        @listings_genre2 = Listing.joins(:game).where("CAST(games.genres AS TEXT) LIKE ?", "%#{@genre2_id}%").limit(10)
-      else
-        @listings_genre2 = []
-      end
-    else
-      @listings_genre2 = []
-    end
+  # Step 4: Organize listings into groups of 6 for the carousel
+  @carousel_groups_genre1 = prepare_carousel(@listings_genre1)
+  @carousel_groups_genre2 = prepare_carousel(@listings_genre2)
+
+  # Step 5: Filter out genres with no listings
+  @valid_carousels = []
+  @valid_carousels << { genre: @selected_genres.first, groups: @carousel_groups_genre1 } unless @carousel_groups_genre1.empty?
+  @valid_carousels << { genre: @selected_genres.last, groups: @carousel_groups_genre2 } unless @carousel_groups_genre2.empty?
   end
 end
