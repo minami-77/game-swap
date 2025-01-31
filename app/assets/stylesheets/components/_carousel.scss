@@ -147,3 +147,34 @@
     height: 100px;
   }
 }
+
+.genre-carousel {
+  margin-bottom: 40px;
+  position: relative;
+  padding: 10px 20px;
+}
+
+.genre-title {
+  font-size: 2rem; /* Large title */
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: inline-block;
+  position: relative;
+}
+
+.genre-title::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: red; /* Netflix red */
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .genre-title {
+    font-size: 1.5rem;
+  }
+}

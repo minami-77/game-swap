@@ -30,7 +30,7 @@
                       <h5 class="card-title mb-0"><%= listing.game.name %></h5>
                       <p class="card-text mb-0"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
                     </div>
-                    <%= link_to 'View the Game', listing_path(listing), class: 'btn btn-primary' %>
+                    <%= link_to 'Details', listing_path(listing), class: 'btn btn-primary' %>
                   </div>
                 </div>
               </div>
@@ -53,7 +53,7 @@
 <!-- LATEST LISTINGS -->
 <% @valid_carousels.each_with_index do |carousel, index| %>
   <div class="genre-carousel">
-    <h2 class="text-center my-4"><%= carousel[:genre].name %> Games</h2>
+    <h2 class="genre-title"><%= carousel[:genre].name %></h2>
 
     <div id="carouselGenre<%= index %>" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -75,9 +75,9 @@
                       <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
                     <% end %>
                     <div class="card-body d-flex flex-column">
-                      <h5 class="card-title mb-0"><%= listing.game.name %></h5>
-                      <p class="card-text mb-0"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
-                      <%= link_to 'View Game', listing_path(listing), class: 'btn btn-primary mt-2' %>
+                      <h5 class="card-title"><%= listing.game.name %></h5>
+                      <p class="card-text"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
+                      <%= link_to 'Details', listing_path(listing), class: 'btn btn-primary mt-2' %>
                     </div>
                   </div>
                 </div>
@@ -98,6 +98,7 @@
     </div>
   </div>
 <% end %>
+
 
 
 
