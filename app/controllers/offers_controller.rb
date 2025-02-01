@@ -25,8 +25,10 @@ class OffersController < ApplicationController
   def destroy
     @offer = Offer.find(params[:id])
     if @offer.destroy
-      flash.now[:notice] = 'Offer deleted.'
-      # redirect_to dashboard_path, notice: 'Offer deleted.'
+      # hide the default tab value inside the params
+
+      redirect_to dashboard_path(tab: "Offers"), notice: 'Offer deleted.'
+      # flash.now[:notice] = 'Offer deleted.'
     else
       puts @offer.errors.full_messages
     end

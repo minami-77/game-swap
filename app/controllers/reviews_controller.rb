@@ -9,8 +9,8 @@ class ReviewsController < ApplicationController
     @review.user = @offer.listing.user
     if @review.save
       render turbo_stream: turbo_stream.update('flash', partial: 'shared/flashes')
-      # flash.now[:notice] = 'Thank you for Rating.'
       # redirect_to dashboard_path, notice: 'Thank you for Rating.'
+      # flash.now[:notice] = 'Thank you for Rating.'
     else
       puts @review.errors.full_messages
     end
@@ -19,7 +19,7 @@ class ReviewsController < ApplicationController
   private
 
   def review_params
-    params.require(:review).permit(:rating)
+    params.require(:review).permit(:rating, :offer_id)
   end
 
 end

@@ -1,6 +1,7 @@
 class Offer < ApplicationRecord
   belongs_to :listing
   belongs_to :user
+  has_many :reviews, dependent: :destroy
 
   validates :listing, presence: true
   validates :user, presence: true

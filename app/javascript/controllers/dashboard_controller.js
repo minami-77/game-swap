@@ -2,10 +2,33 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["dashboardTabs", "listings", "offers", "settings"];
+  static values ={
+    tab: String
+  }
 
   connect() {
     // Initialize the first tab as active
-    this.showTab(this.dashboardTabsTargets[0]);
+    // if the default tab is set we make the default tab as active
+    // if not we run code below
+
+    if (this.tabValue == "Offers"){
+      this.hideAllTabs();
+      this.showTab(this.offersTarget);
+      //put a highlight to offers tab
+      //get the offers tab element and apply active class
+      //remove active from other tabs
+      this.dashboardTabsTargets.forEach(tab => {
+        tab.classList.remove("active")
+      })
+      const offersTab = this.dashboardTabsTargets.find(tab => tab.innerText.trim() === "Offers");
+      if (offersTab) {
+        offersTab.classList.add("active");
+      }
+
+    }else{
+      this.showTab(this.dashboardTabsTargets[0]);
+    }
+
   }
 
   tab(event) {
