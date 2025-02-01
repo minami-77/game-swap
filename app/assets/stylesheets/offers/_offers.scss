@@ -47,24 +47,33 @@ h1 {
 h3 {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 700;
-  color: #ff5722;
   text-transform: uppercase;
   font-size: 1.5rem;
 }
 
-.card {
+.price {
+  color: #ff5722;
+}
+
+
+
+.big-card {
   border-radius: 15px;
   font-family: 'Rajdhani', sans-serif;
   font-weight: 700;
   color: #111;
   text-transform: uppercase;
   font-size: 1rem;
+
+  &:hover {
+    background-color: #f7eafe;
+  }
 }
 
 .card-category {
   background-size: cover;
   background-position: center;
-  height: 600px;
+  height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,5 +86,9 @@ h3 {
 }
 
 .status-rejected {
-  color: #ff5722;
+  color: #c82333;
+}
+
+.status-accepted {
+  color: #059212;
 }
