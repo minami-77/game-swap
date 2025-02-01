@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :offers, only: [:create]
   end
 
+  get "new_chat/:id", to: "chats#new_chat", as: :new_chat
+
   post "/listings", to: "listings#create"
 
   get 'games/search', to: 'games#search'
@@ -28,5 +30,7 @@ Rails.application.routes.draw do
   get "messages", to: "chats#index", as: :chats
   get "get_messages", to: "chats#get_messages"
   get "get_chats", to: "chats#get_chats"
+  get "refresh_messages", to: "chats#refresh_messages"
+  get "update_unread_messages_in_frontend", to: "chats#update_unread_messages_in_frontend"
   post "new_message", to: "chats#new_message"
 end

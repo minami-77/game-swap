@@ -1,6 +1,6 @@
 <!-- BANNER -->
-<div class="banner">
-  <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-responsive' %>
+<div class="banner position-relative">
+  <%= image_tag 'banner.png', alt: 'Banner Image', class: 'img-fluid w-100' %>
   <%= render "shared/search_input" %>
 </div>
 
@@ -9,6 +9,7 @@
   class="carousel-wrapper"
   data-controller="home"
   data-action="mouseenter->home#show mouseleave->home#hide">
+  <h2 class="carousel-title">Top Picks</h2>
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <% @carousel_groups.each_with_index do |group, index| %>
@@ -30,7 +31,7 @@
                       <h5 class="card-title mb-0"><%= listing.game.name %></h5>
                       <p class="card-text mb-0"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
                     </div>
-                    <%= link_to 'View the Game', listing_path(listing), class: 'btn btn-primary' %>
+                    <%= link_to 'Details', listing_path(listing), class: 'btn btn-primary' %>
                   </div>
                 </div>
               </div>
@@ -49,6 +50,62 @@
     </button>
   </div>
 </div>
+
+
+<!-- CAROUSEL FOR GENRES -->
+<% @valid_carousels.each_with_index do |carousel, index| %>
+  <div id="carouselWrapper"
+    class="carousel-wrapper"
+    data-controller="home"
+    data-action="mouseenter->home#show mouseleave->home#hide">
+
+    <!-- Genre Title -->
+    <h2 class="genre-title text-center mb-4"><%= carousel[:genre].name %></h2>
+
+    <div id="carouselGenre<%= index %>" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <% carousel[:groups].each_with_index do |group, group_index| %>
+          <button type="button" data-bs-target="#carouselGenre<%= index %>" data-bs-slide-to="<%= group_index %>"
+            class="<%= 'active' if group_index == 0 %>" aria-current="<%= 'true' if group_index == 0 %>"
+            aria-label="Slide <%= group_index + 1 %>"></button>
+        <% end %>
+      </div>
+
+      <div class="carousel-inner">
+        <% carousel[:groups].each_with_index do |group, group_index| %>
+          <div class="carousel-item <%= 'active' if group_index == 0 %>">
+            <div class="row">
+              <% group.each do |listing| %>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-2">
+                  <div class="card mb-4 shadow-sm">
+                    <% if listing.game.cover.present? %>
+                      <%= image_tag listing.game.cover.url, class: 'card-img-top', alt: listing.game.name %>
+                    <% end %>
+                    <div class="card-body d-flex flex-column">
+                      <h5 class="card-title"><%= listing.game.name %></h5>
+                      <p class="card-text"><%= number_to_currency(listing.price, unit: "¥", format: "%u%n") %></p>
+                      <%= link_to 'Details', listing_path(listing), class: 'btn btn-primary mt-2' %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Carousel Controls -->
+      <button class="carousel-control-prev carousel-control" type="button" data-bs-target="#carouselGenre<%= index %>" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next carousel-control" type="button" data-bs-target="#carouselGenre<%= index %>" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+<% end %>
 
 <div class="container mt-5">
   <div class="row mt-5">
