@@ -30,7 +30,7 @@ response = http.request(request)
 token_json = JSON.parse(response.body)
 BEARER_TOKEN = token_json["access_token"]
 
-puts BEARER_TOKEN
+# puts BEARER_TOKEN
 
 ### Gets the list of games
 
@@ -59,7 +59,7 @@ def seed_dev
   def get_games
     request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/games'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
-    3.times do |i|
+    5.times do |i|
       offset = i * LIMIT
       request.body = get_query(offset, ["name", "platforms", "summary", "url", "cover", "id", "total_rating", "total_rating_count", "genres"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
       games_data = JSON.parse(HTTP_REQUEST.request(request).body)
@@ -294,39 +294,39 @@ def seed_db_details
     )
   end
   first_user = User.create!(
-    first_name: "Bob",
-    last_name: "Tanaka",
-    email: "bob@email.com",
-    username: "Bob",
+    first_name: "Alex",
+    last_name: "Wong",
+    email: "alex@email.com",
+    username: "Munkleson",
     password: "123456",
     password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   second_user = User.create!(
-    first_name: "Hana",
-    last_name: "Smith",
-    email: "hana@email.com",
-    username: "Hana",
+    first_name: "Cindy",
+    last_name: "idk",
+    email: "cindy@email.com",
+    username: "iLiveInTheMiddleOfNowhere",
     password: "123456",
     password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   third_user = User.create!(
-    first_name: "asdf",
-    last_name: "asdf",
-    email: "asdf@asdf.com",
-    username: "asdf1",
-    password: "asdfasdf",
-    password_confirmation: "asdfasdf",
+    first_name: "Minami",
+    last_name: "Takayama",
+    email: "minami@email.com",
+    username: "Minami",
+    password: "123456",
+    password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   fourth_user = User.create!(
-    first_name: "asdf",
-    last_name: "asdf",
-    email: "asdf1@asdf.com",
-    username: "asdf2",
-    password: "asdfasdf",
-    password_confirmation: "asdfasdf",
+    first_name: "Allan",
+    last_name: "Sechrist",
+    email: "allan@email.com",
+    username: "Mr Allan",
+    password: "123456",
+    password_confirmation: "123456",
     location_id: Location.all.sample.id
   )
   puts "User import complete"
@@ -370,34 +370,33 @@ def seed_db_details
   puts "Offers import complete"
 end
 
-seed_dev
-seed_db_details
-
-
 def seed_messages_and_chats
-  seed_amount = 20
-
+  seed_amount = 10
 
   Message.destroy_all
   Chat.destroy_all
 
-  users = User.where.not(username: "asdf1").sample(seed_amount)
-  seed_amount.times do |index|
-    random_user = users[index]
-    user = User.find_by(username: "asdf1")
-    chat_users = [user, random_user]
-    chat = Chat.create!(
-      first_user_id: user.id,
-      second_user_id: random_user.id
-    )
-
-    rand(3..20).times do
-      message = chat.messages.create!(
-        message: "Hi",
-        chat: chat,
-        user: chat_users.sample
+  users = User.where.not(username: ["Mr Allan", "Munkleson", "Minami", "iLiveInTheMiddleOfNowhere"]).sample(seed_amount)
+  test_users = User.where(username: ["Mr Allan", "Munkleson", "Minami", "iLiveInTheMiddleOfNowhere"])
+  test_users.each do |test_user|
+    seed_amount.times do |index|
+      random_user = users[rand(users.length)]
+      # user = User.find_by(username: "asdf1")
+      chat_users = [test_user, random_user]
+      chat = Chat.create!(
+        first_user_id: test_user.id,
+        second_user_id: random_user.id
       )
-    end
+
+      rand(3..20).times do
+        message = chat.messages.create!(
+          message: Faker::Lorem.paragraph(sentence_count: rand(1..10)),
+          chat: chat,
+          user: chat_users.sample
+        )
+      end
+  end
+
   end
 
   Chat.all.each do |chat|
@@ -406,4 +405,6 @@ def seed_messages_and_chats
   puts "Chats and messages seeding complete"
 end
 
+seed_dev
+seed_db_details
 seed_messages_and_chats
