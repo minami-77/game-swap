@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get "messages", to: "chats#index", as: :chats
   get "get_messages", to: "chats#get_messages"
   get "get_chats", to: "chats#get_chats"
+  get "get_chats_refresh", to: "chats#get_chats_refresh"
   get "refresh_messages", to: "chats#refresh_messages"
   get "update_unread_messages_in_frontend", to: "chats#update_unread_messages_in_frontend"
   post "update_read_on_observe", to: "chats#update_read_on_observe"

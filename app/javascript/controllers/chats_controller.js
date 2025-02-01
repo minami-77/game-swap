@@ -5,8 +5,6 @@ export default class extends Controller {
   static targets = ["messageInput", "messageForm", "messagesSection", "messages", "chatsSidebar", "chats"]
 
   connect() {
-    console.log("Chats controller connected");
-
     this.interval = setInterval(() => {
       this.refreshMessages();
     }, 1000);
@@ -19,16 +17,33 @@ export default class extends Controller {
     let activeTarget = this.chatsSidebarTarget.querySelector(".active")
     if (activeTarget) {
       let chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
-
       let response = await fetch(`/refresh_messages?id=${chatId}`);
       let data = await response.json();
       this.renderRefresh(data.messages, chatId);
-      this.renderChatsRefresh(data.chats);
-    } else {
-      let response = await fetch(`/get_chats`);
-      let data = await response.json();
-      this.chatsSidebarTarget.innerHTML = data.chats;
     }
+    let response = await fetch(`/get_chats_refresh`);
+    let data = await response.json();
+    this.refreshChats(data);
+  }
+
+  refreshChats(data) {
+    console.log(data);
+
+    data.chats.forEach((chat) => {
+      const sidebarChat = document.querySelector(`[data-id="${chat.id}"]`);
+      sidebarChat.querySelector(".last-message-text-i").innerText = chat.message;
+      sidebarChat.querySelector(".last-message-time").innerText = chat.last_message
+    })
+    const sortedChats = this.sortChats(document.querySelectorAll(".chats-sidebar-btn"));
+    sortedChats.forEach(chat => document.querySelector(".chats-sidebar").append(chat));
+  }
+
+  sortChats(chats) {
+    return [...chats].sort((a, b) => {
+      const aTime = a.querySelector(".last-message-time").innerText;
+      const bTime = b.querySelector(".last-message-time").innerText;
+      return new Date(bTime) - new Date(aTime);
+    })
   }
 
   renderRefresh(data, chatId) {
