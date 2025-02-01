@@ -92,3 +92,13 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+.message-container {
+  margin-top: 5px;
+}
+
+.new-message-indicator {
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+}
