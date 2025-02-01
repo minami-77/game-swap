@@ -10,4 +10,39 @@
 
 .search-results-section {
   width: 83%;
+  padding-left: 2%;
+}
+
+.slider-container {
+  margin-bottom: 18px;
+}
+
+.slider-min, .slider-max, .slider-value {
+  top: 18px;
+  transform: translateX(-50%);
+}
+
+.slider-min {
+  left: 0;
+  color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.slider-max {
+  left: 100;
+  color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.slider-value {
+  left: 50%;
+  z-index: 2;
+  background-color: var(--bs-body-bg);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.duration-input {
+  width: 35px;
+  height: 35px;
 }

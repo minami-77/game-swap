@@ -12,8 +12,14 @@ class ListingsController < ApplicationController
       @listings = Listing.all
         .where.not(user_id: current_user.id)
     end
-    @listings = filter_checks(params, @listings)
+    # This check is needed for when you do a search on the home page, it shouldn't do any filter checks. Platforms is the arbitrary params to look at, any of the other filter checks can be used
+    if params["platforms"]
+      @listings = filter_checks(params, @listings)
+    end
     @listings = @listings.limit(30)
+
+    # params instance variable is needed to render the view with the selected filters in place
+    @params = params
 
     @platform_checkboxes = get_platform_checkboxes
     @sort_methods = [
@@ -23,8 +29,8 @@ class ListingsController < ApplicationController
       "Maximum rental period",
       # "Owner reviews",
       # "Date posted (newest to oldest)",
-      "Rating",
-      "Most popular"
+      # "Rating",
+      # "Most popular"
     ]
 
     @filter_methods = [
@@ -34,7 +40,22 @@ class ListingsController < ApplicationController
 
   def filter_checks(params, listings)
     listings = platform_check(params, listings)
+    listings = duration_check(params, listings)
     listings = distance_check(params, listings)
+    listings = price_check(params, listings)
+    return listings
+  end
+
+  def duration_check(params, listings)
+    min_duration = params["minDuration"] == "" ? 0 : params["minDuration"]
+    max_duration = params["maxDuration"] == "" ? 10000000 : params["maxDuration"]
+    listings = listings.where("max >= ? AND max <= ?", min_duration, max_duration)
+    return listings
+  end
+
+  def price_check(params, listings)
+    listings = listings.where("price <= ?", params["price"].to_i * 100)
+    puts params["price"]
     return listings
   end
 
@@ -70,6 +91,11 @@ class ListingsController < ApplicationController
 
     platform = Platform.find_by(name: param["platform"])
     listing.platform_id = platform.id
+
+    if listing.photos.count > 4
+      flash[:alert] = "You can only upload a maximum of 4 photos"
+      return redirect_to dashboard_path
+    end
 
     if listing.save
       redirect_to dashboard_path

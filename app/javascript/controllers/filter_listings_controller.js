@@ -2,13 +2,15 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="filter-listings"
 export default class extends Controller {
-  static targets = ["submitForm"]
+  static targets = ["submitForm", "minDuration", "maxDuration"]
 
   connect() {
     // Selects the input field upon page load
     // Has to be a query selector not a target because of the partial being rendered on 2 different pages and not the same controller
     document.querySelector(".search-input").select();
     this.submitFormTarget.addEventListener("submit", (event) => this.#submitForm(event));
+    console.log(this.minDurationTarget);
+
   }
 
   #submitForm(event) {
@@ -24,6 +26,9 @@ export default class extends Controller {
   #getFilterParams() {
     const filterObject = {};
     filterObject.distance = document.querySelector(".distance-slider").value;
+    filterObject.price = document.querySelector(".price-slider").value;
+    filterObject.minDuration = this.minDurationTarget.value;
+    filterObject.maxDuration = this.maxDurationTarget.value;
     this.#platformCheckboxes(filterObject);
     return filterObject;
   }

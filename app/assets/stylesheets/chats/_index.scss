@@ -86,3 +86,9 @@
 .message-input {
   flex-grow: 1;
 }
+
+.sidebar-unread-counter {
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+}

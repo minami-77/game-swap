@@ -37,7 +37,7 @@ class OffersController < ApplicationController
   def update
     @offer = Offer.find(params[:id])
     if @offer.update(offer_params)
-      redirect_to dashboard_listing_offers_path(@offer.listing)
+      redirect_to offers_path(@offer.listing)
     else
       render :for_listing
     end

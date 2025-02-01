@@ -1,16 +1,21 @@
 <div class="chats-sidebar">
   <% @chats.each do |chat| %>
-    <button class="chats-sidebar-btn d-flex flex-column align-items-start" data-id="<%= chat.id %>" data-action="click->chats#selectChat" data-chats-target="chats">
-      <p>
+    <button class="chats-sidebar-btn d-flex flex-column align-items-start position-relative <%= "active" if @selected_chat_id.to_i == chat.id %>" data-id="<%= chat.id %>" data-action="click->chats#selectChat" data-chats-target="chats">
+      <p data-action="click->chats#selectChat">
         Chatting with:
-        <span class="other-user-name"><%= chat.first_user_id == current_user.id ? User.find(chat.second_user_id).username : User.find(chat.first_user_id).username %></span>
+        <span class="other-user-name" data-action="click->chats#selectChat"><%= chat.first_user_id == current_user.id ? User.find(chat.second_user_id).username : User.find(chat.first_user_id).username %></span>
       </p>
-      <p class="last-message-text">
-        <i><%= chat.messages.last.message %></i>
+      <p class="last-message-text" data-action="click->chats#selectChat">
+        <i data-action="click->chats#selectChat"><%= chat&.messages&.last&.message %></i>
       </p>
-      <p class="last-message-time">
-        <%= chat.last_message %>
+      <p class="last-message-time" data-action="click->chats#selectChat">
+        <%= chat&.last_message %>
       </p>
+      <% if chat.messages.where.not(user: current_user).where(read: false).count > 0 && @selected_chat_id.to_i != chat.id %>
+        <div class="sidebar-unread-counter unread-counter-container text-light border border-1 rounded-circle bg-danger d-flex justify-content-center align-items-center position-absolute" data-action="click->chats#selectChat">
+          <p class="unread-counter"><%= chat.messages.where.not(user: current_user).where(read: false).count > 9 ? "9+" : chat.messages.where.not(user: current_user).where(read: false).count %></p>
+        </div>
+      <% end %>
     </button>
   <% end %>
 </div>
