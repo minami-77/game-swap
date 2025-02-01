@@ -39,9 +39,9 @@ export default class extends Controller {
 
     const tabName = event.currentTarget.innerText.trim();
     this.hideAllTabs();
-    if (tabName === "Listings") {
+    if (tabName === "My Games") {
       this.showTab(this.listingsTarget);
-    } else if (tabName === "Offers") {
+    } else if (tabName === "My Rentals") {
       this.showTab(this.offersTarget);
     } else if (tabName === "Settings") {
       this.showTab(this.settingsTarget);
