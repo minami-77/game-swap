@@ -390,7 +390,7 @@ def seed_messages_and_chats
 
       rand(3..20).times do
         message = chat.messages.create!(
-          message: "Hi",
+          message: Faker::Lorem.paragraph(sentence_count: rand(1..10)),
           chat: chat,
           user: chat_users.sample
         )
@@ -406,5 +406,5 @@ def seed_messages_and_chats
 end
 
 # seed_dev
-seed_db_details
+# seed_db_details
 seed_messages_and_chats
