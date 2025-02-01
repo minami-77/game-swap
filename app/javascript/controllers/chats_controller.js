@@ -5,14 +5,13 @@ export default class extends Controller {
   static targets = ["messageInput", "messageForm", "messagesSection", "messages", "chatsSidebar", "chats"]
 
   connect() {
+    console.log("Chats controller connected");
+
     this.interval = setInterval(() => {
       this.refreshMessages();
     }, 1000);
     const selected_chat = this.chatsSidebarTarget.querySelector(".active");
     if (selected_chat) selected_chat.scrollIntoView({ behaviour: "smooth", block: "start" });
-    // if (this.messageFormTarget) {
-    //   this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId));
-    // }
   }
 
   async refreshMessages() {
@@ -41,7 +40,7 @@ export default class extends Controller {
     const newChatSection = document.createElement("div");
     newChatSection.innerHTML = data;
     if (chats.querySelector(".last-message-time").innerText.trim() !== newChatSection.querySelector(".last-message-time").innerText.trim()) {
-      const activeChatId = document.querySelector(".active").dataset.id;
+      const activeChatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
       this.chatsSidebarTarget.innerHTML = data;
       document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
     }
@@ -91,7 +90,6 @@ export default class extends Controller {
     event.preventDefault();
     const chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
     const params = { id: chatId, message: this.messageInputTarget.value }
-    console.log(params);
 
     const response = await fetch(`/new_message`, {
       method: "POST",
@@ -108,7 +106,6 @@ export default class extends Controller {
 
   async renderMessagesPartial(data, chatId) {
     this.messagesSectionTarget.innerHTML = data;
-    // this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId))
     this.scrollToLastMessage();
     this.messageInputTarget.select();
   }
@@ -118,9 +115,6 @@ export default class extends Controller {
     this.chatsSidebarTarget.innerHTML = data;
 
     document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
-
-    // const selected_chat = this.chatsSidebarTarget.querySelector(".chats-sidebar-btn");
-    // selected_chat.classList.add("active");
   }
 
   scrollToLastMessage() {
