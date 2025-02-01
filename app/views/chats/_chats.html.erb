@@ -6,7 +6,7 @@
         <span class="other-user-name" data-action="click->chats#selectChat"><%= chat.first_user_id == current_user.id ? User.find(chat.second_user_id).username : User.find(chat.first_user_id).username %></span>
       </p>
       <p class="last-message-text" data-action="click->chats#selectChat">
-        <i data-action="click->chats#selectChat"><%= chat&.messages&.last&.message %></i>
+        <i data-action="click->chats#selectChat" class="last-message-text-i"><%= chat&.messages&.last&.message %></i>
       </p>
       <p class="last-message-time" data-action="click->chats#selectChat">
         <%= chat&.last_message %>

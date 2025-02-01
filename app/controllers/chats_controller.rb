@@ -15,6 +15,16 @@ class ChatsController < ApplicationController
     end
   end
 
+  def get_chats_refresh
+    @chats = Chat.where(first_user_id: current_user.id)
+    .or(Chat.where(second_user_id: current_user.id))
+    chats = []
+    @chats.each do |chat|
+      chats << { id: chat.id, message: chat.messages.last.message, last_message: chat.last_message.to_s }
+    end
+    render json: { chats: chats }
+  end
+
   def update_read_on_observe
     id = params[:id]
     chat = Chat.find(id)
