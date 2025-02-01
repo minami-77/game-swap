@@ -15,12 +15,18 @@ export default class extends Controller {
   }
 
   async refreshMessages() {
-    if (this.chatsSidebarTarget.querySelector(".active").dataset.id) {
-      const chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
-      const response = await fetch(`/refresh_messages?id=${chatId}`);
-      const data = await response.json();
+    // These have to all be let otherwise it breaks
+    let activeTarget = this.chatsSidebarTarget.querySelector(".active")
+    if (activeTarget) {
+      let chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
+      let response = await fetch(`/refresh_messages?id=${chatId}`);
+      let data = await response.json();
       this.renderRefresh(data.messages, chatId);
-      this.renderChatsRefresh(data.chats, chatId);
+      this.renderChatsRefresh(data.chats);
+    } else {
+      let response = await fetch(`/get_chats`);
+      let data = await response.json();
+      this.chatsSidebarTarget.innerHTML = data.chats;
     }
   }
 
@@ -32,10 +38,50 @@ export default class extends Controller {
     const lastMessage = messages[messages.length - 1];
     if (lastMessage.querySelector(".created-at-text").innerText !== newMessage.querySelector(".created-at-text").innerText) {
       this.messagesTarget.insertAdjacentHTML("beforeend", newMessage.innerHTML);
+      // this.insertUnreadArrow();
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+      // const target = document.querySelector('.messages-section');
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // const unreadArrow = document.querySelector(".unread-arrow");
+            // if (unreadArrow) unreadArrow.remove();
+            this.updateSidebarUnreadMessagesCountOnObserve();
+          }
+        });
+      }, { threshold: 0 })
+      const messages = document.querySelectorAll(".message-container");
+      this.observer.observe(messages[messages.length - 1]);
     }
   }
 
-  renderChatsRefresh(data, chatId) {
+  // insertUnreadArrow() {
+  //   const unreadArrow = document.createElement("div");
+  //   unreadArrow.classList.add("new-message-indicator", "position-absolute")
+  //   unreadArrow.innerHTML = `
+  //     <button class="" type="button">
+  //       <span class="material-symbols-outlined">arrow_downward</span>
+  //     </button>
+  //   `
+  //   this.messagesSectionTarget.append(unreadArrow);
+  // }
+
+  async updateSidebarUnreadMessagesCountOnObserve() {
+    const active = this.chatsSidebarTarget.querySelector('.active');
+    active.querySelector(".sidebar-unread-counter").remove();
+    await fetch(`/update_read_on_observe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+      },
+      body: JSON.stringify({id: active.dataset.id}),  // Convert data to JSON string
+    });
+  }
+
+  renderChatsRefresh(data) {
     const chats = document.querySelectorAll(".chats-sidebar-btn")[0];
     const newChatSection = document.createElement("div");
     newChatSection.innerHTML = data;
@@ -61,6 +107,16 @@ export default class extends Controller {
     this.updateSidebarUnreadMessagesCount(event);
   }
 
+  handleIntersect(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        console.log("Element is in view");
+        // You can trigger other actions here, like adding a class
+        this.element.classList.add("in-view");
+      }
+    });
+  }
+
   async updateSidebarUnreadMessagesCount(event) {
     // The conditional is for the edge case where the person clicks on the unread messages counter element instead of the main chats sidebar button element
     const closestUnreadCounter = event.target.closest(".chats-sidebar-btn").querySelector(".sidebar-unread-counter") || event.target.closest(".sidebar-unread-counter");
@@ -77,7 +133,7 @@ export default class extends Controller {
     const response = await fetch(`/update_unread_messages_in_frontend`);
     const data = await response.json();
     const unreadCounterElement = document.querySelector(".unread-counter");
-    if (data.unread) {
+    if (data.unread && unreadCounterElement) {
       unreadCounterElement.innerText = data.unread > 9 ? "9+" : data.unread;
     } else {
       if (unreadCounterElement) {

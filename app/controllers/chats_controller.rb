@@ -15,6 +15,12 @@ class ChatsController < ApplicationController
     end
   end
 
+  def update_read_on_observe
+    id = params[:id]
+    chat = Chat.find(id)
+    chat.messages.where.not(user: current_user).update_all(read: true)
+  end
+
   def update_unread_messages_in_frontend
     @chats = Chat.where(first_user_id: current_user.id)
     .or(Chat.where(second_user_id: current_user.id))
@@ -79,7 +85,8 @@ class ChatsController < ApplicationController
       Chat.where(second_user_id: current_user.id)
     )
       .order(last_message: :desc)
-    render partial: "chats/chats", locals: { chat: @chats }
+    chats_partial = render_to_string(partial: "chats/chats", locals: { chats: @chats })
+    render json: { chats: chats_partial }
   end
 
   def update_read(messages)

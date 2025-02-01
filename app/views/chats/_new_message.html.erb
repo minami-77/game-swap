@@ -1,7 +1,7 @@
 <div class="message-container d-flex w-100 <%= @message.user == current_user ? "justify-content-end" : "justify-content-start" %>">
   <div class="message-body card d-flex flex-column">
     <p><%= @message.user == current_user ? "You" : @message.user.username %> said:</p>
-    <p><%= @message.message %></p>
+    <p class="message-content"><%= @message.message %></p>
     <p class="created-at-text"><%= @message.created_at %></p>
   </div>
 </div>

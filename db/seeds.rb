@@ -376,10 +376,12 @@ seed_db_details
 
 def seed_messages_and_chats
   seed_amount = 20
-  users = User.where.not(username: "asdf").sample(seed_amount)
+
 
   Message.destroy_all
   Chat.destroy_all
+
+  users = User.where.not(username: "asdf1").sample(seed_amount)
   seed_amount.times do |index|
     random_user = users[index]
     user = User.find_by(username: "asdf1")
