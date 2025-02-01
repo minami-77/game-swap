@@ -8,9 +8,8 @@ class ReviewsController < ApplicationController
     # Associate the review with the owner
     @review.user = @offer.listing.user
     if @review.save
-      render turbo_stream: turbo_stream.update('flash', partial: 'shared/flashes')
-      # redirect_to dashboard_path, notice: 'Thank you for Rating.'
-      # flash.now[:notice] = 'Thank you for Rating.'
+      redirect_to dashboard_path(tab: "Offers"), notice: 'Thank you for Rating.', disable_form: true
+      # disable the form
     else
       puts @review.errors.full_messages
     end
