@@ -10,6 +10,41 @@ export default class extends Controller {
     }, 1000);
     const selected_chat = this.chatsSidebarTarget.querySelector(".active");
     if (selected_chat) selected_chat.scrollIntoView({ behaviour: "smooth", block: "start" });
+    // if (this.messageFormTarget) {
+    //   this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId));
+    // }
+  }
+
+  async refreshMessages() {
+    if (this.chatsSidebarTarget.querySelector(".active").dataset.id) {
+      const chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
+      const response = await fetch(`/refresh_messages?id=${chatId}`);
+      const data = await response.json();
+      this.renderRefresh(data.messages, chatId);
+      this.renderChatsRefresh(data.chats, chatId);
+    }
+  }
+
+  renderRefresh(data, chatId) {
+    // Comparisons to see if a new message has been received
+    const messages = document.querySelectorAll(".message-container");
+    const newMessage = document.createElement("div");
+    newMessage.innerHTML = data;
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage.querySelector(".created-at-text").innerText !== newMessage.querySelector(".created-at-text").innerText) {
+      this.messagesTarget.insertAdjacentHTML("beforeend", newMessage.innerHTML);
+    }
+  }
+
+  renderChatsRefresh(data, chatId) {
+    const chats = document.querySelectorAll(".chats-sidebar-btn")[0];
+    const newChatSection = document.createElement("div");
+    newChatSection.innerHTML = data;
+    if (chats.querySelector(".last-message-time").innerText.trim() !== newChatSection.querySelector(".last-message-time").innerText.trim()) {
+      const activeChatId = document.querySelector(".active").dataset.id;
+      this.chatsSidebarTarget.innerHTML = data;
+      document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
+    }
   }
 
   async selectChat(event) {
@@ -46,45 +81,18 @@ export default class extends Controller {
     if (data.unread) {
       unreadCounterElement.innerText = data.unread > 9 ? "9+" : data.unread;
     } else {
-      unreadCounterElement.closest(".unread-counter-container").remove();
+      if (unreadCounterElement) {
+        unreadCounterElement.closest(".unread-counter-container").remove();
+      }
     }
   }
 
-  async refreshMessages() {
-    if (document.querySelector(".active").dataset.id) {
-      const chatId = document.querySelector(".active").dataset.id;
-      const response = await fetch(`/refresh_messages?id=${chatId}`);
-      const data = await response.json();
-      this.renderRefresh(data.messages, chatId);
-      this.renderChatsRefresh(data.chats, chatId);
-    }
-  }
-
-  renderChatsRefresh(data, chatId) {
-    const chats = document.querySelectorAll(".chats-sidebar-btn")[0];
-    const newChatSection = document.createElement("div");
-    newChatSection.innerHTML = data;
-    if (chats.querySelector(".last-message-time").innerText.trim() !== newChatSection.querySelector(".last-message-time").innerText.trim()) {
-      const activeChatId = document.querySelector(".active").dataset.id;
-      this.chatsSidebarTarget.innerHTML = data;
-      document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
-    }
-  }
-
-  renderRefresh(data, chatId) {
-    // Comparisons to see if a new message has been received
-    const messages = document.querySelectorAll(".message-container");
-    const newMessage = document.createElement("div");
-    newMessage.innerHTML = data;
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage.querySelector(".created-at-text").innerText !== newMessage.querySelector(".created-at-text").innerText) {
-      this.messagesTarget.insertAdjacentHTML("beforeend", newMessage.innerHTML);
-    }
-  }
-
-  async newMessage(event, chatId) {
+  async newMessage(event) {
     event.preventDefault();
+    const chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
     const params = { id: chatId, message: this.messageInputTarget.value }
+    console.log(params);
+
     const response = await fetch(`/new_message`, {
       method: "POST",
       headers: {
@@ -100,13 +108,13 @@ export default class extends Controller {
 
   async renderMessagesPartial(data, chatId) {
     this.messagesSectionTarget.innerHTML = data;
-    this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId))
+    // this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId))
     this.scrollToLastMessage();
     this.messageInputTarget.select();
   }
 
   async renderChatsPartial(data) {
-    const activeChatId = document.querySelector(".active").dataset.id;
+    const activeChatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
     this.chatsSidebarTarget.innerHTML = data;
 
     document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
