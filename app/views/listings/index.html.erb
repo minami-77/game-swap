@@ -1,15 +1,19 @@
-<div data-controller="filter-listings">
-  <div class="w-100 d-flex">
-    <form class="filter-section d-flex flex-column p-2">
-      <%= render "filter_menus" %>
-    </form>
-
-    <div class="search-results-section" data-controller="sort-listings">
-      <div class="w-100 d-flex justify-content-evenly">
-        <%= render "shared/search_input" %>
-        <%= render "sort_menus" %>
-      </div>
-      <%= render "search_results" %>
+<div class="container my-4" data-controller="filter-listings">
+  <div class="row">
+    <div class="col-md-3">
+      <form class="filter-section d-flex flex-column p-2">
+        <%= render "filter_menus" %>
+      </form>
     </div>
+
+    <div class="col-md-9">
+      <div class="search-results-section" data-controller="sort-listings">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <%= render "shared/search_input" %>
+          <%= render "sort_menus" %>
+        </div>
+        <%= render "search_results" %>
+      </div>
+  </div>
   </div>
 </div>

@@ -23,6 +23,7 @@ export default class extends Controller {
   }
 
   sort(event) {
+    event.preventDefault();
     const selectedSortMethod = event.target.innerText.toLowerCase();
     const listings = this.searchCardTargets;
     switch (selectedSortMethod) {
