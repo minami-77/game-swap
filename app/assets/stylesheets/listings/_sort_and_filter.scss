@@ -4,9 +4,9 @@
   background-color: white;
 }
 
-.filter-section {
-  width: 17%;
-}
+// .filter-section {
+//   width: 17%;
+// }
 
 .search-results-section {
   width: 83%;
@@ -40,9 +40,16 @@
   background-color: var(--bs-body-bg);
   padding-left: 10px;
   padding-right: 10px;
+  width: 100%;
+  font-weight: bold;
+  margin-left: 10px;
 }
 
 .duration-input {
   width: 35px;
   height: 35px;
+}
+
+.form-range {
+  width: 100%;
 }
