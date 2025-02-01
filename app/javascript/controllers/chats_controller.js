@@ -19,6 +19,7 @@ export default class extends Controller {
     let activeTarget = this.chatsSidebarTarget.querySelector(".active")
     if (activeTarget) {
       let chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
+
       let response = await fetch(`/refresh_messages?id=${chatId}`);
       let data = await response.json();
       this.renderRefresh(data.messages, chatId);
@@ -97,7 +98,7 @@ export default class extends Controller {
     if (activeChat) {
       activeChat.classList.remove("active");
     }
-    event.currentTarget.classList.add("active");
+    event.target.closest(".chats-sidebar-btn").classList.add("active");
     const chatId = event.target.closest(".chats-sidebar-btn").dataset.id;
 
     const response = await fetch(`/get_messages?id=${chatId}`);

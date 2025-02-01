@@ -72,6 +72,8 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 95%;
+  text-wrap: wrap;
 }
 
 .message-body {
