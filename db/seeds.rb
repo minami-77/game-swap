@@ -59,7 +59,7 @@ def seed_dev
   def get_games
     request = Net::HTTP::Post.new(URI('https://api.igdb.com/v4/games'), {'Client-ID' => "#{ENV['CLIENT_ID']}", 'Authorization' => "Bearer #{BEARER_TOKEN}"})
 
-    1.times do |i|
+    3.times do |i|
       offset = i * LIMIT
       request.body = get_query(offset, ["name", "platforms", "summary", "url", "cover", "id", "total_rating", "total_rating_count", "genres"], "where category = 0 & platforms = [167];", "sort total_rating_count desc;")
       games_data = JSON.parse(HTTP_REQUEST.request(request).body)
