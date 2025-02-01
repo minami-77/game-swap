@@ -11,7 +11,7 @@ class ChatsController < ApplicationController
     session.delete(:selected_chat)
     @messages
     if @selected_chat_id
-      @messages = Chat.find(@selected_chat_id).messages
+      @messages = Chat.find(@selected_chat_id).messages.order(created_at: :asc)
     end
   end
 

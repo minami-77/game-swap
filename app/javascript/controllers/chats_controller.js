@@ -6,10 +6,13 @@ export default class extends Controller {
 
   connect() {
     this.interval = setInterval(() => {
-      this.refreshMessages();
+      // this.refreshMessages();
     }, 1000);
     const selected_chat = this.chatsSidebarTarget.querySelector(".active");
     if (selected_chat) selected_chat.scrollIntoView({ behaviour: "smooth", block: "start" });
+    // if (this.messageFormTarget) {
+    //   this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId));
+    // }
   }
 
   async selectChat(event) {
@@ -46,7 +49,9 @@ export default class extends Controller {
     if (data.unread) {
       unreadCounterElement.innerText = data.unread > 9 ? "9+" : data.unread;
     } else {
-      unreadCounterElement.closest(".unread-counter-container").remove();
+      if (unreadCounterElement) {
+        unreadCounterElement.closest(".unread-counter-container").remove();
+      }
     }
   }
 
@@ -82,9 +87,12 @@ export default class extends Controller {
     }
   }
 
-  async newMessage(event, chatId) {
+  async newMessage(event) {
     event.preventDefault();
+    const chatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
     const params = { id: chatId, message: this.messageInputTarget.value }
+    console.log(params);
+
     const response = await fetch(`/new_message`, {
       method: "POST",
       headers: {
@@ -100,13 +108,13 @@ export default class extends Controller {
 
   async renderMessagesPartial(data, chatId) {
     this.messagesSectionTarget.innerHTML = data;
-    this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId))
+    // this.messageFormTarget.addEventListener("submit", (event) => this.newMessage(event, chatId))
     this.scrollToLastMessage();
     this.messageInputTarget.select();
   }
 
   async renderChatsPartial(data) {
-    const activeChatId = document.querySelector(".active").dataset.id;
+    const activeChatId = this.chatsSidebarTarget.querySelector(".active").dataset.id;
     this.chatsSidebarTarget.innerHTML = data;
 
     document.querySelector(`[data-id="${activeChatId}"]`).classList.add("active");
