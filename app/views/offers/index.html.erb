@@ -1,21 +1,27 @@
-<div class="container mt-3">
-  <h1 class="text-center title"><%= @listing.game.name %></h1>
+<div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= @listing.game.cover.url %>')">
+  <h1>
+    <%= @listing.game.name %>
+  </h1>
+</div>
+<div class="container my-5">
   <div class="row">
     <% if @offers.any? %>
       <% @offers.each do |offer| %>
-        <div class="col-md-6 col-lg-4 d-flex"> <!-- Ensures 2 cards per row on medium screens, 3 on large -->
+        <div class="col-md-6 d-flex mt-3">
           <div class="card shadow-sm mt-3 p-3 h-100 w-100 d-flex flex-column">
             <div class="d-flex justify-content-between">
-              <div>
-                <p>Start Date: <%= offer.start_date %></p>
-                <p>End Date: <%= offer.start_date + @listing.max %></p>
+              <div class="text-start">
+                <p>Start: <%= offer.start_date %></p>
+                <p>End: <%= offer.start_date + @listing.max %></p>
               </div>
-              <div>
-                <p>Offer: <%= offer.price %></p>
+              <div class="text-end">
+                <h3>Offer: <%= number_to_currency(offer.price, unit: "¥", format: "%u%n") %></h3>
                 <p>From <%= offer.user.email %></p>
               </div>
             </div>
-            <p>Comments: <%= offer.comments %></p>
+            <div class="card card-body shadow-sm">
+              <p><%= offer.comments %></p>
+            </div>
             <% if offer.pending? %>
               <div class="mt-auto d-flex">
                 <%= simple_form_for offer do |f| %>
@@ -28,7 +34,7 @@
                 <% end %>
               </div>
             <% else %>
-              <p class="mt-auto">Offer status: <strong><%= offer.status.capitalize %></strong></p>
+              <p class="mt-3">Offer status: <strong class="status"><%= offer.status.capitalize %></strong></p>
             <% end %>
           </div>
         </div>
