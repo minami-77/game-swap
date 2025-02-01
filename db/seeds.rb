@@ -405,6 +405,6 @@ def seed_messages_and_chats
   puts "Chats and messages seeding complete"
 end
 
-# seed_dev
-# seed_db_details
+seed_dev
+seed_db_details
 seed_messages_and_chats
