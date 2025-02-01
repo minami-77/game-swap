@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
     @offers = current_user.offers
 
     @listing = Listing.new
+    @review = Review.new
   end
 
 end

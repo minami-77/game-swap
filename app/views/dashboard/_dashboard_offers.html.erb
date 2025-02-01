@@ -2,11 +2,32 @@
   <h2>My offers</h2>
   <div class="dashboard-offers-container row d-flex justify-content-center w-100">
     <% @offers.each do |offer| %>
-      <%= link_to listing_path(offer.listing), class: "dashboard-listing card text-decoration-none col-3 m-2 p-1" do %>
+      <div class="dashboard-listing card text-decoration-none col-3 m-2 p-1">
         <img src="<%= offer.listing.game.cover.url %>" alt="<%= offer.listing.game.name %> cover art">
         <h4><%= offer.listing.game.name %></h4>
-        <p><strong>Offers: </strong><%= offer.listing.offers.count %></p>
-      <% end %>
+        <p><strong>Status: <%= offer.status %></strong></p>
+        <div>
+          <%= link_to listing_path(offer.listing) do %>
+            <i class="fa-solid fa-circle-info fa-2xl"></i>
+          <% end %>
+          <%= link_to offer_path(offer), data: {turbo_method: :delete, turbo_confirm: "Delete this offer?"} do %>
+            <i class="fa-solid fa-trash-can fa-xl"></i>
+          <% end %>
+        </div>
+        <p><strong>Share your experience </strong><i class="fa-regular fa-thumbs-up fa-lg"></i>
+        </p>
+        <div class="form-container p-3">
+          <%= simple_form_for [@review], html: { class: "p-0 row" } do |f| %>
+            <div class="col-6">
+              <%= f.input :rating, label: false, collection:[1, 2, 3, 4, 5]%>
+              <%= f.input :offer_id, :as => :hidden, :input_html => { :value => offer.id } %>
+            </div>
+            <div class="col-6">
+              <%= f.submit "Send", class: "btn btn-primary btn-gradient-oval"%>
+            </div>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
