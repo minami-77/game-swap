@@ -1,15 +1,17 @@
 <div class="messages-section d-flex flex-column position-relative" data-chats-target="messages">
   <% @messages.each do |message| %>
-    <div class="message-container d-flex w-100 <%= message.user == current_user ? "justify-content-end" : "justify-content-start" %>">
+    <div class="message-container d-flex w-100 vh-100 <%= message.user == current_user ? "justify-content-end" : "justify-content-start" %>">
       <div class="message-body card d-flex flex-column">
-        <p><%= message.user == current_user ? "You" : message.user.username %> said:</p>
+        <p class="message-user"><%= message.user == current_user ? "You" : message.user.username %> said:</p>
         <p class="message-content"><%= message.message %></p>
         <p class="created-at-text"><%= message.created_at %></p>
       </div>
     </div>
   <% end %>
 </div>
+<div class="chat-form-container">
 <form action="" data-chats-target="messageForm" class="message-form mt-2" data-action="submit->chats#newMessage">
   <input type="text" data-chats-target="messageInput" class="message-input">
-  <input type="submit" class="btn btn-primary">
+  <input type="submit" value="Send" class="btn btn-primary mx-2">
 </form>
+</div>
